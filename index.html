@@ -837,13 +837,22 @@ function showOverlay(m){document.getElementById('overlay-msg').textContent=m;doc
 function hideOverlay(){document.getElementById('overlay').classList.remove('show');}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
 function exportCSV(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  const filtered=contacts.filter(c=>{
+    const mq=!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q);
+    const mf=currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent);
+    const me=!currentExpoFilter||c.expo===currentExpoFilter;
+    return mq&&mf&&me;
+  });
   const h=['姓名','職稱','公司','Email','電話','國家','產品','展覽','狀態','已發EDM','備註'];
-  const rows=contacts.map(c=>[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(v=>'"'+(v||'').replace(/"/g,'""')+'"'));
+  const rows=filtered.map(c=>[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(v=>'"'+(v||'').replace(/"/g,'""')+'"'));
   const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
-  a.download='昇揚CRM_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';
-  a.click();toast('CSV 匯出完成');
+  const label=currentExpoFilter?currentExpoFilter:(currentFilter!=='all'?currentFilter:'全部');
+  a.download='昇揚CRM_'+label+'_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';
+  a.click();
+  toast('匯出 '+filtered.length+' 筆資料');
 }
 
 document.querySelector('.filter-row').addEventListener('click',e=>{
