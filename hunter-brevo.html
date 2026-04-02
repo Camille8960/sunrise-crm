@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hunter × Brevo · 昇揚展覽</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f2eef8; --bg2:#e8e0f2; --surface:#fff; --surface2:#f8f4fc;
+  --forest:#4a1a6b; --forest2:#5b2280; --forest3:#7b3fa8;
+  --gold:#f0c040; --gold-dim:rgba(240,192,64,0.13);
+  --text:#16001e; --text-mid:#2e0a45; --text-muted:#5a3870; --text-dim:#9070a8;
+  --border:#d0c0e4; --border2:#bca8d4;
+  --red:#c0392b; --blue:#2471a3; --green:#1e8449;
+  --shadow:0 2px 12px rgba(74,26,107,0.10);
+  --shadow-md:0 4px 24px rgba(74,26,107,0.16);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.2);}
+.logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#f0e8ff;display:flex;align-items:center;gap:10px;}
+.logo-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;}
+.logo-sub{font-family:'Noto Sans TC',sans-serif;font-size:12px;color:rgba(240,232,255,0.7);font-weight:400;}
+.hbadge{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#e8d8ff;font-family:'DM Mono',monospace;font-size:12px;padding:4px 12px;border-radius:20px;}
+
+.back-link{color:rgba(240,232,255,0.7);font-size:13px;text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;}
+.back-link:hover{color:#fff;}
+
+.container{max-width:860px;margin:0 auto;padding:28px 20px;}
+
+/* Steps nav */
+.steps{display:flex;gap:0;margin-bottom:28px;background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);}
+.step{flex:1;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;border-right:1px solid var(--border);position:relative;}
+.step:last-child{border-right:none;}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--bg2);color:var(--text-dim);font-size:12px;font-family:'DM Mono',monospace;font-weight:500;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;}
+.step-label{font-size:12px;color:var(--text-muted);font-weight:500;}
+.step.active{background:var(--surface2);}
+.step.active .step-num{background:var(--forest);color:#fff;}
+.step.active .step-label{color:var(--forest2);}
+.step.done .step-num{background:var(--green);color:#fff;}
+.step.done .step-label{color:var(--green);}
+
+/* Panels */
+.panel{display:none;}
+.panel.show{display:block;}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow);}
+.card-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--forest);margin-bottom:4px;}
+.card-sub{font-size:13px;color:var(--text-muted);margin-bottom:18px;}
+
+/* Form elements */
+.form-row{margin-bottom:14px;}
+.form-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;margin-bottom:7px;display:flex;align-items:center;gap:8px;}
+.form-label a{color:var(--blue);font-size:10px;text-transform:none;letter-spacing:0;text-decoration:none;}
+.form-label a:hover{text-decoration:underline;}
+.form-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;font-weight:500;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--forest3);}
+.form-input::placeholder{color:var(--text-dim);font-family:'Noto Sans TC',sans-serif;}
+
+.key-status{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 10px;border-radius:20px;margin-left:8px;}
+.key-status.ok{background:rgba(30,132,73,.1);color:var(--green);border:1px solid rgba(30,132,73,.2);}
+.key-status.missing{background:rgba(192,57,43,.08);color:var(--red);border:1px solid rgba(192,57,43,.15);}
+
+/* Buttons */
+.btn{font-family:'Noto Sans TC',sans-serif;font-weight:600;font-size:14px;padding:10px 20px;border-radius:9px;border:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px;}
+.btn-primary{background:linear-gradient(135deg,#c0392b,#4a1a6b);color:#fff;}
+.btn-primary:hover{opacity:.88;}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+.btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--text-muted);}
+.btn-outline:hover{border-color:var(--forest3);color:var(--forest);}
+.btn-green{background:linear-gradient(135deg,#1e8449,#145a32);color:#fff;}
+.btn-green:hover{opacity:.88;}
+.btn-green:disabled{opacity:.4;cursor:not-allowed;}
+.btn-sm{font-size:12px;padding:6px 13px;border-radius:7px;}
+
+/* Upload zone */
+.upload-zone{border:2px dashed var(--border2);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--surface2);}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--forest3);background:#f0e8ff;}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:32px;margin-bottom:8px;}
+.upload-label{font-size:14px;color:var(--text-mid);font-weight:500;}
+.upload-label span{font-size:12px;color:var(--text-dim);display:block;margin-top:3px;}
+
+/* Table */
+.table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead{background:var(--surface2);}
+th{padding:10px 13px;text-align:left;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;border-bottom:1px solid var(--border);}
+td{padding:10px 13px;border-bottom:1px solid var(--bg2);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--surface2);}
+.td-check{width:36px;}
+.check-all,.row-check{width:16px;height:16px;cursor:pointer;accent-color:var(--forest);}
+
+/* Tags */
+.tag{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;display:inline-block;}
+.tag-industry{background:rgba(74,26,107,.1);color:var(--forest2);border:1px solid rgba(74,26,107,.2);}
+.tag-expo{background:var(--gold-dim);color:#7a5000;border:1px solid rgba(240,192,64,.3);}
+.tag-country{background:rgba(36,113,163,.1);color:var(--blue);border:1px solid rgba(36,113,163,.2);}
+.tag-new{background:rgba(30,132,73,.08);color:var(--green);border:1px solid rgba(30,132,73,.2);}
+
+/* Hunter result rows */
+.hunter-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:var(--shadow);}
+.hc-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.hc-domain{font-family:'DM Mono',monospace;font-size:13px;color:var(--blue);font-weight:500;}
+.hc-company{font-size:15px;font-weight:700;color:var(--text);}
+.hc-count{font-size:12px;color:var(--text-muted);margin-left:auto;}
+.hc-status{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:6px;padding:8px 0;}
+.dot-spin{width:12px;height:12px;border:2px solid var(--border2);border-top-color:var(--forest3);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.contact-row{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.cr-avatar{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#c0392b,#4a1a6b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;color:#f5e6ff;flex-shrink:0;}
+.cr-info{flex:1;min-width:0;}
+.cr-name{font-size:13px;font-weight:600;}
+.cr-title{font-size:11px;color:var(--text-muted);}
+.cr-email{font-size:11px;color:var(--blue);font-family:'DM Mono',monospace;margin-top:2px;}
+.cr-conf{font-size:10px;color:var(--green);font-family:'DM Mono',monospace;}
+.cr-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+
+/* Progress */
+.progress-wrap{margin:14px 0;}
+.progress-label{font-size:12px;color:var(--text-muted);margin-bottom:5px;display:flex;justify-content:space-between;}
+.progress-bar{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#c0392b,#7b3fa8);border-radius:3px;transition:width .4s;}
+
+/* Result summary */
+.result-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.rs-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;box-shadow:var(--shadow);}
+.rs-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--forest);}
+.rs-label{font-size:12px;color:var(--text-muted);margin-top:3px;}
+
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--forest);color:#e8d8ff;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:500;z-index:300;transform:translateY(70px);opacity:0;transition:all .3s;box-shadow:var(--shadow-md);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--red);}
+
+/* Brevo log */
+.brevo-log{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text-mid);max-height:200px;overflow-y:auto;margin-top:12px;}
+.log-line{padding:2px 0;border-bottom:1px solid var(--bg2);}
+.log-line:last-child{border-bottom:none;}
+.log-ok{color:var(--green);}
+.log-err{color:var(--red);}
+.log-info{color:var(--blue);}
+
+/* Industry tag mapping UI */
+.tag-map{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.tag-map-row{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;}
+.tag-map-label{font-size:12px;color:var(--text-muted);flex:1;}
+.tag-map-input{background:transparent;border:none;border-bottom:1.5px solid var(--border);color:var(--text);font-size:12px;font-family:'DM Mono',monospace;outline:none;width:120px;padding:2px 0;}
+.tag-map-input:focus{border-bottom-color:var(--forest3);}
+
+.action-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.sel-count{font-size:13px;color:var(--text-muted);}
+
+.empty-state{padding:32px;text-align:center;color:var(--text-dim);}
+.empty-icon{font-size:36px;margin-bottom:8px;}
+
+.info-box{background:rgba(36,113,163,.07);border:1px solid rgba(36,113,163,.2);border-radius:9px;padding:12px 15px;font-size:13px;color:var(--blue);margin-bottom:16px;line-height:1.8;}
+.warn-box{background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.3);border-radius:9px;padding:12px 15px;font-size:13px;color:#7a5000;margin-bottom:16px;line-height:1.8;}
+
+@media(max-width:600px){
+  .steps{flex-direction:column;}
+  .step{border-right:none;border-bottom:1px solid var(--border);}
+  .result-summary{grid-template-columns:1fr 1fr;}
+  .tag-map{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="logo-dot"></div>昇揚展覽<span class="logo-sub">Hunter × Brevo 整合</span></div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="https://camille8960.github.io/sunrise-crm/" class="back-link">← 回 CRM</a>
+    <div class="hbadge" id="badge-count">0 筆待推送</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Steps -->
+  <div class="steps">
+    <div class="step active" id="step-1" onclick="goStep(1)">
+      <div class="step-num">1</div>
+      <div class="step-label">API 設定</div>
+    </div>
+    <div class="step" id="step-2" onclick="goStep(2)">
+      <div class="step-num">2</div>
+      <div class="step-label">匯入名單</div>
+    </div>
+    <div class="step" id="step-3" onclick="goStep(3)">
+      <div class="step-num">3</div>
+      <div class="step-label">Hunter 查詢</div>
+    </div>
+    <div class="step" id="step-4" onclick="goStep(4)">
+      <div class="step-num">4</div>
+      <div class="step-label">推送 Brevo</div>
+    </div>
+  </div>
+
+  <!-- Panel 1: API Keys -->
+  <div class="panel show" id="panel-1">
+    <div class="card">
+      <div class="card-title">API 金鑰設定</div>
+      <div class="card-sub">金鑰只存在你的瀏覽器（localStorage），不會上傳到任何伺服器。</div>
+
+      <div class="form-row">
+        <div class="form-label">
+          Hunter.io API Key
+          <a href="https://hunter.io/api-keys" target="_blank">↗ 取得</a>
+          <span class="key-status" id="hunter-status">未設定</span>
+        </div>
+        <input class="form-input" id="hunter-key" type="password" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" oninput="checkKeys()">
+      </div>
+
+      <div class="form-row">
+        <div class="form-label">
+          Brevo API Key (v3)
+          <a href="https://app.brevo.com/settings/keys/api" target="_blank">↗ 取得</a>
+          <span class="key-status" id="brevo-status">未設定</span>
+        </div>
+        <input class="form-input" id="brevo-key" type="password" placeholder="xkeysib-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" oninput="checkKeys()">
+      </div>
+
+      <div class="form-row" style="margin-top:20px;">
+        <div class="form-label">產業分類 → Brevo 標籤對應</div>
+        <div class="card-sub" style="margin-bottom:12px;">Hunter 回傳的 industry 欄位會自動比對，找不到時用原始值。</div>
+        <div class="tag-map" id="tag-map"></div>
+      </div>
+
+      <div class="form-row" style="margin-top:20px;">
+        <div class="form-label">Brevo 清單 ID（可選）<a href="https://app.brevo.com/contact/list" target="_blank">↗ 查看</a></div>
+        <input class="form-input" id="brevo-list-id" type="text" placeholder="例：12（留空則只建立聯絡人不加入清單）" oninput="saveSettings()">
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <button class="btn btn-primary" onclick="saveAndNext()">儲存並繼續 →</button>
+        <button class="btn btn-outline" onclick="testHunter()">測試 Hunter</button>
+        <button class="btn btn-outline" onclick="testBrevo()">測試 Brevo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel 2: Import CSV -->
+  <div class="panel" id="panel-2">
+    <div class="card">
+      <div class="card-title">匯入 CRM 名單</div>
+      <div class="card-sub">從昇揚 CRM 匯出的 CSV，或任何包含公司名稱 / 網域的名單。</div>
+
+      <div class="info-box">
+        💡 在 CRM 頁面點「↓ CSV」匯出，再上傳到這裡。<br>
+        支援欄位：姓名、Email、公司、展覽來源、國家、產品類別、備註。
+      </div>
+
+      <div class="upload-zone" id="csv-zone">
+        <input type="file" id="csv-input" accept=".csv" onchange="loadCSV(event)">
+        <div class="upload-icon">📂</div>
+        <div class="upload-label">點擊或拖曳 CSV 檔案<span>從 CRM 匯出的 CSV，或自訂格式</span></div>
+      </div>
+
+      <div id="csv-preview" style="margin-top:16px;display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-size:13px;font-weight:600;color:var(--forest2)" id="csv-count"></div>
+          <button class="btn btn-outline btn-sm" onclick="clearCSV()">清除</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="td-check"><input type="checkbox" class="check-all" id="check-all-csv" onchange="toggleAllCSV(this)"></th>
+                <th>公司</th><th>Email</th><th>展覽來源</th><th>國家</th>
+              </tr>
+            </thead>
+            <tbody id="csv-table-body"></tbody>
+          </table>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px;">
+          <button class="btn btn-primary" onclick="goStep(3);startHunter()">Hunter 查詢選取項目 →</button>
+          <span class="sel-count" id="csv-sel-count"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual input -->
+    <div class="card">
+      <div class="card-title" style="font-size:15px;">或手動輸入網域</div>
+      <div class="card-sub">每行一個，格式：公司名稱,網域（例：CyberTech,cybertech.com）</div>
+      <textarea class="form-input" id="manual-domains" rows="5" placeholder="Acme Corp,acme.com&#10;TechStar,techstar.io&#10;GlobalExpo,globalexpo.com" style="resize:vertical;font-family:'DM Mono',monospace;font-size:13px;"></textarea>
+      <div style="margin-top:10px;display:flex;gap:10px;">
+        <button class="btn btn-primary" onclick="loadManual()">載入並查詢 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel 3: Hunter Results -->
+  <div class="panel" id="panel-3">
+    <div class="card">
+      <div class="card-title">Hunter 查詢結果</div>
+      <div class="card-sub">自動查詢每間公司的聯絡人，勾選要推送到 Brevo 的名單。</div>
+
+      <div id="hunter-progress" style="display:none;">
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span id="progress-text">查詢中…</span>
+            <span id="progress-pct">0%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div id="hunter-results"></div>
+
+      <div id="hunter-action" style="display:none;margin-top:16px;">
+        <div class="result-summary" id="result-summary"></div>
+        <div class="action-row">
+          <button class="btn btn-green" onclick="goStep(4);prepareBrevo()">推送選取項目到 Brevo →</button>
+          <span class="sel-count" id="hunter-sel-count"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel 4: Brevo Push -->
+  <div class="panel" id="panel-4">
+    <div class="card">
+      <div class="card-title">推送到 Brevo</div>
+      <div class="card-sub">確認聯絡人清單與標籤後，開始推送。</div>
+
+      <div id="brevo-preview" style="margin-bottom:16px;"></div>
+
+      <div id="brevo-push-btn-wrap">
+        <button class="btn btn-green" id="btn-push" onclick="pushToBrevo()">▶ 開始推送</button>
+      </div>
+
+      <div class="progress-wrap" id="brevo-progress" style="display:none;">
+        <div class="progress-label">
+          <span id="brevo-progress-text">推送中…</span>
+          <span id="brevo-progress-pct">0%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="brevo-progress-fill" style="width:0%"></div></div>
+      </div>
+
+      <div class="brevo-log" id="brevo-log" style="display:none;"></div>
+
+      <div id="brevo-done" style="display:none;margin-top:16px;">
+        <div class="result-summary" id="brevo-result-summary"></div>
+        <div style="margin-top:12px;display:flex;gap:10px;">
+          <button class="btn btn-outline" onclick="goStep(1)">← 重新開始</button>
+          <a href="https://app.brevo.com/contact/list" target="_blank" class="btn btn-outline">↗ 查看 Brevo 清單</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Constants ──────────────────────────────────────────
+const PROXY = 'https://sunrise-proxy.twcchen.workers.dev';
+
+const INDUSTRY_MAP = {
+  'information technology': 'IT/科技',
+  'cybersecurity': '資安',
+  'computer software': '軟體',
+  'internet': '網路/電商',
+  'telecommunications': '電信',
+  'artificial intelligence': 'AI',
+  'financial services': '金融',
+  'banking': '金融',
+  'healthcare': '醫療',
+  'manufacturing': '製造業',
+  'retail': '零售',
+  'logistics': '物流/冷鏈',
+  'transportation': '交通/物流',
+  'education': '教育',
+  'government': '政府/公部門',
+  'real estate': '房地產',
+  'food': '食品',
+  'hospitality': '餐旅',
+  'media': '媒體',
+  'marketing': '行銷',
+  'consulting': '顧問',
+  'energy': '能源',
+};
+
+// ── State ──────────────────────────────────────────────
+let currentStep = 1;
+let csvContacts = [];       // from CSV upload
+let hunterQueue = [];       // companies to query
+let hunterResults = [];     // {company, domain, contacts:[]}
+let selectedForBrevo = [];  // final list to push
+
+// ── Init ──────────────────────────────────────────────
+window.onload = () => {
+  loadSettings();
+  renderTagMap();
+};
+
+function loadSettings() {
+  const hk = localStorage.getItem('hb_hunter_key') || '';
+  const bk = localStorage.getItem('hb_brevo_key') || '';
+  const lid = localStorage.getItem('hb_brevo_list_id') || '';
+  document.getElementById('hunter-key').value = hk;
+  document.getElementById('brevo-key').value = bk;
+  document.getElementById('brevo-list-id').value = lid;
+  checkKeys();
+}
+
+function saveSettings() {
+  localStorage.setItem('hb_hunter_key', document.getElementById('hunter-key').value.trim());
+  localStorage.setItem('hb_brevo_key', document.getElementById('brevo-key').value.trim());
+  localStorage.setItem('hb_brevo_list_id', document.getElementById('brevo-list-id').value.trim());
+}
+
+function checkKeys() {
+  saveSettings();
+  const hk = document.getElementById('hunter-key').value.trim();
+  const bk = document.getElementById('brevo-key').value.trim();
+  const hs = document.getElementById('hunter-status');
+  const bs = document.getElementById('brevo-status');
+  hs.textContent = hk ? '✓ 已設定' : '未設定';
+  hs.className = 'key-status ' + (hk ? 'ok' : 'missing');
+  bs.textContent = bk ? '✓ 已設定' : '未設定';
+  bs.className = 'key-status ' + (bk ? 'ok' : 'missing');
+}
+
+function renderTagMap() {
+  const saved = JSON.parse(localStorage.getItem('hb_tag_map') || '{}');
+  const entries = Object.entries(INDUSTRY_MAP);
+  document.getElementById('tag-map').innerHTML = entries.map(([en, zh]) => `
+    <div class="tag-map-row">
+      <div class="tag-map-label">${en}</div>
+      <input class="tag-map-input" data-key="${en}" value="${saved[en] || zh}" onblur="saveTagMap()">
+    </div>
+  `).join('');
+}
+
+function saveTagMap() {
+  const map = {};
+  document.querySelectorAll('.tag-map-input').forEach(el => {
+    map[el.dataset.key] = el.value.trim();
+  });
+  localStorage.setItem('hb_tag_map', JSON.stringify(map));
+}
+
+function getTagMap() {
+  const saved = JSON.parse(localStorage.getItem('hb_tag_map') || '{}');
+  return { ...INDUSTRY_MAP, ...saved };
+}
+
+function mapIndustry(raw) {
+  if (!raw) return null;
+  const map = getTagMap();
+  const lower = raw.toLowerCase();
+  for (const [k, v] of Object.entries(map)) {
+    if (lower.includes(k)) return v;
+  }
+  return raw; // return as-is if no match
+}
+
+// ── Navigation ────────────────────────────────────────
+function goStep(n) {
+  currentStep = n;
+  document.querySelectorAll('.step').forEach((el, i) => {
+    el.classList.remove('active', 'done');
+    if (i + 1 < n) el.classList.add('done');
+    if (i + 1 === n) el.classList.add('active');
+  });
+  document.querySelectorAll('.panel').forEach((el, i) => {
+    el.classList.toggle('show', i + 1 === n);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function saveAndNext() {
+  const hk = document.getElementById('hunter-key').value.trim();
+  const bk = document.getElementById('brevo-key').value.trim();
+  if (!hk || !bk) { showToast('請填寫 Hunter 和 Brevo API Key', 'error'); return; }
+  saveSettings();
+  saveTagMap();
+  showToast('設定已儲存', 'success');
+  goStep(2);
+}
+
+// ── Test API ──────────────────────────────────────────
+async function testHunter() {
+  const key = document.getElementById('hunter-key').value.trim();
+  if (!key) { showToast('請先填寫 Hunter API Key', 'error'); return; }
+  showToast('測試中…');
+  try {
+    const res = await fetch(`${PROXY}/hunter?path=account&api_key=${key}`);
+    const data = await res.json();
+    if (data.data && data.data.email) {
+      showToast(`Hunter OK：${data.data.email}`, 'success');
+    } else {
+      showToast('Hunter 回應異常，請確認 Key', 'error');
+    }
+  } catch (e) {
+    showToast('Hunter 連線失敗：' + e.message, 'error');
+  }
+}
+
+async function testBrevo() {
+  const key = document.getElementById('brevo-key').value.trim();
+  if (!key) { showToast('請先填寫 Brevo API Key', 'error'); return; }
+  showToast('測試中…');
+  try {
+    const res = await fetch(`${PROXY}/brevo?path=account`, {
+      headers: { 'api-key': key }
+    });
+    const data = await res.json();
+    if (data.email) {
+      showToast(`Brevo OK：${data.email}`, 'success');
+    } else {
+      showToast('Brevo 回應異常，請確認 Key', 'error');
+    }
+  } catch (e) {
+    showToast('Brevo 連線失敗：' + e.message, 'error');
+  }
+}
+
+// ── CSV ───────────────────────────────────────────────
+function loadCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const text = e.target.result;
+    csvContacts = parseCSV(text);
+    renderCSVTable();
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+  const map = {
+    name: ['姓名', 'name'],
+    email: ['email', 'e-mail', '郵件'],
+    company: ['公司', 'company', '公司名稱'],
+    expo: ['展覽來源', 'expo', '展覽', 'source'],
+    country: ['國家', 'country', '地區'],
+    product: ['產品類別', 'product', '產品'],
+    title: ['職稱', 'title', 'position'],
+  };
+  const idx = {};
+  for (const [field, aliases] of Object.entries(map)) {
+    for (const alias of aliases) {
+      const i = headers.indexOf(alias);
+      if (i !== -1) { idx[field] = i; break; }
+    }
+  }
+  return lines.slice(1).map((line, i) => {
+    const cols = line.split(',').map(c => c.trim().replace(/"/g, ''));
+    return {
+      id: 'csv_' + i,
+      name: cols[idx.name] || '',
+      email: cols[idx.email] || '',
+      company: cols[idx.company] || '',
+      expo: cols[idx.expo] || '',
+      country: cols[idx.country] || '',
+      product: cols[idx.product] || '',
+      title: cols[idx.title] || '',
+      selected: true,
+    };
+  }).filter(c => c.company || c.email);
+}
+
+function renderCSVTable() {
+  const el = document.getElementById('csv-preview');
+  const tbody = document.getElementById('csv-table-body');
+  document.getElementById('csv-count').textContent = `載入 ${csvContacts.length} 筆`;
+  tbody.innerHTML = csvContacts.map((c, i) => `
+    <tr>
+      <td class="td-check"><input type="checkbox" class="row-check" data-idx="${i}" ${c.selected ? 'checked' : ''} onchange="updateCSVSel(${i}, this.checked)"></td>
+      <td><strong>${c.company || '—'}</strong>${c.name ? '<br><span style="font-size:11px;color:var(--text-dim)">' + c.name + '</span>' : ''}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--blue)">${c.email || '—'}</td>
+      <td>${c.expo ? `<span class="tag tag-expo">${c.expo}</span>` : '—'}</td>
+      <td>${c.country ? `<span class="tag tag-country">${c.country}</span>` : '—'}</td>
+    </tr>
+  `).join('');
+  el.style.display = 'block';
+  updateCSVCount();
+}
+
+function updateCSVSel(idx, val) {
+  csvContacts[idx].selected = val;
+  updateCSVCount();
+}
+
+function toggleAllCSV(el) {
+  csvContacts.forEach((c, i) => {
+    c.selected = el.checked;
+    document.querySelectorAll('.row-check')[i].checked = el.checked;
+  });
+  updateCSVCount();
+}
+
+function updateCSVCount() {
+  const n = csvContacts.filter(c => c.selected).length;
+  document.getElementById('csv-sel-count').textContent = `已選 ${n} 筆`;
+  document.getElementById('badge-count').textContent = `${n} 筆待推送`;
+}
+
+function clearCSV() {
+  csvContacts = [];
+  document.getElementById('csv-preview').style.display = 'none';
+  document.getElementById('csv-input').value = '';
+}
+
+function loadManual() {
+  const text = document.getElementById('manual-domains').value.trim();
+  if (!text) { showToast('請輸入公司名稱和網域', 'error'); return; }
+  const lines = text.split('\n').filter(l => l.trim());
+  hunterQueue = lines.map(line => {
+    const parts = line.split(',');
+    return { company: (parts[0] || '').trim(), domain: (parts[1] || '').trim(), expo: '', country: '' };
+  }).filter(q => q.domain);
+  if (!hunterQueue.length) { showToast('格式錯誤，請用「公司名,網域」格式', 'error'); return; }
+  goStep(3);
+  startHunter();
+}
+
+// ── Hunter ────────────────────────────────────────────
+function extractDomain(company, email) {
+  if (email && email.includes('@')) return email.split('@')[1];
+  // try to guess domain from company name
+  return null;
+}
+
+async function startHunter() {
+  const key = localStorage.getItem('hb_hunter_key');
+  if (!key) { showToast('請先設定 Hunter API Key', 'error'); goStep(1); return; }
+
+  // Build queue from CSV or manual
+  if (hunterQueue.length === 0 && csvContacts.length > 0) {
+    const selected = csvContacts.filter(c => c.selected);
+    // group by company
+    const companies = {};
+    selected.forEach(c => {
+      const key = c.company || c.email;
+      if (!companies[key]) companies[key] = { company: c.company, domain: extractDomain(c.company, c.email), expo: c.expo, country: c.country, product: c.product };
+    });
+    hunterQueue = Object.values(companies).filter(q => q.company);
+  }
+
+  if (!hunterQueue.length) { showToast('沒有可查詢的公司', 'error'); return; }
+
+  hunterResults = [];
+  document.getElementById('hunter-results').innerHTML = '';
+  document.getElementById('hunter-action').style.display = 'none';
+  document.getElementById('hunter-progress').style.display = 'block';
+
+  let done = 0;
+  for (const item of hunterQueue) {
+    updateProgress(done, hunterQueue.length, `查詢 ${item.company}…`);
+    try {
+      let url;
+      if (item.domain) {
+        url = `${PROXY}/hunter?path=domain-search&domain=${encodeURIComponent(item.domain)}&api_key=${key}&limit=5`;
+      } else {
+        // Search by company name first to get domain
+        const searchRes = await fetch(`${PROXY}/hunter?path=domain-search&company=${encodeURIComponent(item.company)}&api_key=${key}&limit=5`);
+        const searchData = await searchRes.json();
+        if (searchData.data && searchData.data.domain) {
+          item.domain = searchData.data.domain;
+          url = null; // already have result
+          const result = {
+            company: item.company,
+            domain: searchData.data.domain,
+            industry: searchData.data.organization || '',
+            expo: item.expo,
+            country: item.country,
+            contacts: (searchData.data.emails || []).map(e => ({
+              firstName: e.first_name || '',
+              lastName: e.last_name || '',
+              email: e.value,
+              title: e.position || '',
+              confidence: e.confidence || 0,
+              selected: true,
+            }))
+          };
+          hunterResults.push(result);
+          renderHunterResult(result);
+          done++;
+          continue;
+        }
+      }
+      if (url) {
+        const res = await fetch(url);
+        const data = await res.json();
+        const result = {
+          company: item.company,
+          domain: data.data?.domain || item.domain,
+          industry: data.data?.organization || '',
+          expo: item.expo,
+          country: item.country,
+          contacts: (data.data?.emails || []).map(e => ({
+            firstName: e.first_name || '',
+            lastName: e.last_name || '',
+            email: e.value,
+            title: e.position || '',
+            confidence: e.confidence || 0,
+            selected: true,
+          }))
+        };
+        hunterResults.push(result);
+        renderHunterResult(result);
+      }
+    } catch (err) {
+      hunterResults.push({ company: item.company, domain: item.domain, error: err.message, contacts: [], expo: item.expo, country: item.country });
+      renderHunterResult({ company: item.company, domain: item.domain, error: err.message, contacts: [] });
+    }
+    done++;
+    await sleep(400); // rate limit
+  }
+
+  document.getElementById('hunter-progress').style.display = 'none';
+  renderHunterSummary();
+}
+
+function updateProgress(done, total, text) {
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progress-text').textContent = text;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function renderHunterResult(result) {
+  const container = document.getElementById('hunter-results');
+  const id = 'hr_' + result.company.replace(/\W/g, '_');
+  const industryTag = mapIndustry(result.industry);
+
+  const el = document.createElement('div');
+  el.className = 'hunter-card';
+  el.id = id;
+  el.innerHTML = `
+    <div class="hc-header">
+      <div>
+        <div class="hc-company">${result.company}</div>
+        <div class="hc-domain">${result.domain || '—'}</div>
+      </div>
+      ${industryTag ? `<span class="tag tag-industry">${industryTag}</span>` : ''}
+      ${result.expo ? `<span class="tag tag-expo">${result.expo}</span>` : ''}
+      <div class="hc-count">${result.error ? '❌ 錯誤' : result.contacts.length + ' 筆'}</div>
+    </div>
+    ${result.error ? `<div style="color:var(--red);font-size:12px">${result.error}</div>` : ''}
+    ${result.contacts.length === 0 && !result.error ? '<div style="color:var(--text-dim);font-size:12px">找不到聯絡人</div>' : ''}
+    ${result.contacts.map((c, i) => `
+      <div class="contact-row">
+        <input type="checkbox" class="row-check" data-company="${result.company}" data-cidx="${i}" ${c.selected ? 'checked' : ''} onchange="toggleContact('${result.company}', ${i}, this.checked)" style="flex-shrink:0;accent-color:var(--forest);">
+        <div class="cr-avatar">${(c.firstName || c.email || '?')[0].toUpperCase()}</div>
+        <div class="cr-info">
+          <div class="cr-name">${c.firstName} ${c.lastName}</div>
+          <div class="cr-title">${c.title || '—'}</div>
+          <div class="cr-email">${c.email}</div>
+          <div class="cr-conf">信心分數 ${c.confidence}%</div>
+          <div class="cr-tags">
+            ${industryTag ? `<span class="tag tag-industry">${industryTag}</span>` : ''}
+            ${result.expo ? `<span class="tag tag-expo">${result.expo}</span>` : ''}
+            ${result.country ? `<span class="tag tag-country">${result.country}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+  container.appendChild(el);
+}
+
+function toggleContact(company, idx, val) {
+  const r = hunterResults.find(r => r.company === company);
+  if (r && r.contacts[idx]) r.contacts[idx].selected = val;
+  updateHunterSelCount();
+}
+
+function updateHunterSelCount() {
+  let n = 0;
+  hunterResults.forEach(r => r.contacts.forEach(c => { if (c.selected) n++; }));
+  document.getElementById('hunter-sel-count').textContent = `已選 ${n} 筆聯絡人`;
+  document.getElementById('badge-count').textContent = `${n} 筆待推送`;
+}
+
+function renderHunterSummary() {
+  const totalCo = hunterResults.length;
+  const totalContacts = hunterResults.reduce((a, r) => a + r.contacts.length, 0);
+  const errorCo = hunterResults.filter(r => r.error).length;
+
+  document.getElementById('result-summary').innerHTML = `
+    <div class="rs-card"><div class="rs-num">${totalCo}</div><div class="rs-label">公司</div></div>
+    <div class="rs-card"><div class="rs-num" style="color:var(--green)">${totalContacts}</div><div class="rs-label">找到聯絡人</div></div>
+    <div class="rs-card"><div class="rs-num" style="color:var(--red)">${errorCo}</div><div class="rs-label">查詢失敗</div></div>
+  `;
+  document.getElementById('hunter-action').style.display = 'block';
+  updateHunterSelCount();
+}
+
+// ── Brevo ─────────────────────────────────────────────
+function prepareBrevo() {
+  selectedForBrevo = [];
+  hunterResults.forEach(r => {
+    r.contacts.forEach(c => {
+      if (!c.selected) return;
+      const industryTag = mapIndustry(r.industry);
+      const tags = [];
+      if (industryTag) tags.push(industryTag);
+      if (r.expo) tags.push(r.expo);
+      if (r.country) tags.push(r.country);
+      selectedForBrevo.push({
+        email: c.email,
+        firstName: c.firstName,
+        lastName: c.lastName,
+        company: r.company,
+        title: c.title,
+        tags,
+      });
+    });
+  });
+
+  const preview = document.getElementById('brevo-preview');
+  if (!selectedForBrevo.length) {
+    preview.innerHTML = '<div class="warn-box">沒有選取任何聯絡人，請回上一步勾選。</div>';
+    document.getElementById('btn-push').disabled = true;
+    return;
+  }
+
+  preview.innerHTML = `
+    <div class="info-box">準備推送 <strong>${selectedForBrevo.length}</strong> 筆聯絡人到 Brevo。</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Email</th><th>姓名</th><th>公司</th><th>標籤</th></tr></thead>
+        <tbody>
+          ${selectedForBrevo.slice(0, 20).map(c => `
+            <tr>
+              <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--blue)">${c.email}</td>
+              <td>${c.firstName} ${c.lastName}</td>
+              <td>${c.company}</td>
+              <td>${c.tags.map(t => `<span class="tag tag-industry" style="margin:1px">${t}</span>`).join('')}</td>
+            </tr>
+          `).join('')}
+          ${selectedForBrevo.length > 20 ? `<tr><td colspan="4" style="text-align:center;color:var(--text-dim);font-size:12px">…還有 ${selectedForBrevo.length - 20} 筆</td></tr>` : ''}
+        </tbody>
+      </table>
+    </div>
+  `;
+  document.getElementById('btn-push').disabled = false;
+}
+
+async function pushToBrevo() {
+  const key = localStorage.getItem('hb_brevo_key');
+  const listId = localStorage.getItem('hb_brevo_list_id');
+  if (!key) { showToast('請先設定 Brevo API Key', 'error'); goStep(1); return; }
+
+  document.getElementById('brevo-push-btn-wrap').style.display = 'none';
+  document.getElementById('brevo-progress').style.display = 'block';
+  document.getElementById('brevo-log').style.display = 'block';
+
+  let ok = 0, fail = 0;
+
+  for (let i = 0; i < selectedForBrevo.length; i++) {
+    const c = selectedForBrevo[i];
+    const pct = Math.round(((i + 1) / selectedForBrevo.length) * 100);
+    document.getElementById('brevo-progress-text').textContent = `推送 ${c.email}…`;
+    document.getElementById('brevo-progress-pct').textContent = pct + '%';
+    document.getElementById('brevo-progress-fill').style.width = pct + '%';
+
+    try {
+      const body = {
+        email: c.email,
+        attributes: {
+          FIRSTNAME: c.firstName,
+          LASTNAME: c.lastName,
+          COMPANY: c.company,
+          JOB_TITLE: c.title,
+        },
+        listIds: listId ? [parseInt(listId)] : undefined,
+        tags: c.tags,
+        updateEnabled: true,
+      };
+      if (!body.listIds) delete body.listIds;
+
+      const res = await fetch(`${PROXY}/brevo?path=contacts`, {
+        method: 'POST',
+        headers: { 'api-key': key, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      if (res.ok || res.status === 204 || res.status === 201) {
+        ok++;
+        logBrevo(`✓ ${c.email} [${c.tags.join(', ')}]`, 'ok');
+      } else {
+        const err = await res.json();
+        fail++;
+        logBrevo(`✗ ${c.email} → ${err.message || res.status}`, 'err');
+      }
+    } catch (e) {
+      fail++;
+      logBrevo(`✗ ${c.email} → ${e.message}`, 'err');
+    }
+    await sleep(200);
+  }
+
+  document.getElementById('brevo-progress').style.display = 'none';
+  document.getElementById('brevo-done').style.display = 'block';
+  document.getElementById('brevo-result-summary').innerHTML = `
+    <div class="rs-card"><div class="rs-num" style="color:var(--green)">${ok}</div><div class="rs-label">成功推送</div></div>
+    <div class="rs-card"><div class="rs-num" style="color:var(--red)">${fail}</div><div class="rs-label">失敗</div></div>
+    <div class="rs-card"><div class="rs-num">${selectedForBrevo.length}</div><div class="rs-label">總計</div></div>
+  `;
+  showToast(`完成！成功 ${ok} 筆，失敗 ${fail} 筆`, ok > 0 ? 'success' : 'error');
+}
+
+function logBrevo(msg, type) {
+  const el = document.getElementById('brevo-log');
+  const line = document.createElement('div');
+  line.className = 'log-line log-' + type;
+  line.textContent = new Date().toLocaleTimeString() + ' ' + msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+// ── Utils ─────────────────────────────────────────────
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Drag & drop
+['csv-zone'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drag'); });
+  el.addEventListener('dragleave', () => el.classList.remove('drag'));
+  el.addEventListener('drop', e => {
+    e.preventDefault();
+    el.classList.remove('drag');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => { csvContacts = parseCSV(ev.target.result); renderCSVTable(); };
+      reader.readAsText(file, 'UTF-8');
+    }
+  });
+});
+</script>
+</body>
+</html>
