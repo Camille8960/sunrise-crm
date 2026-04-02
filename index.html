@@ -292,13 +292,14 @@ const SENDER_NAME  = 'Camille Chen｜昇揚展覽';
 
 function getKeys() {
   return {
-    hunter: localStorage.getItem('crm_hunter_key') || '',
-    brevo:  localStorage.getItem('crm_brevo_key') || ''
+    hunter:    localStorage.getItem('crm_hunter_key') || '',
+    brevo:     localStorage.getItem('crm_brevo_key') || '',
+    anthropic: localStorage.getItem('crm_anthropic_key') || ''
   };
 }
 function keysOK() {
   const k = getKeys();
-  return k.hunter && k.brevo;
+  return k.anthropic;
 }
 
 let contacts = JSON.parse(localStorage.getItem('crm_v4') || '[]');
@@ -479,15 +480,20 @@ scanZone.addEventListener('drop',e=>{
 });
 
 async function callAI(messages, maxTokens) {
+  const k = getKeys();
+  if(!k.anthropic) { toast('請先在設定輸入 Anthropic API Key'); throw new Error('No API key'); }
   const res = await fetch(API_URL, {
     method:'POST',
     headers:{
       'Content-Type':'application/json',
+      'x-api-key': k.anthropic,
+      'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-access':'true'
     },
     body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages})
   });
   const data = await res.json();
+  if(data.error) throw new Error(data.error.message);
   return data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
 }
 
@@ -969,8 +975,8 @@ async function confirmPushToBrevo(){
 // SETTINGS
 function openSettings(){
   const k=getKeys();
+  document.getElementById('input-anthropic-key').value=k.anthropic||'';
   document.getElementById('input-hunter-key').value=k.hunter||'';
-  document.getElementById('input-brevo-key').value=k.brevo||'';
   document.getElementById('settings-cancel-btn').style.display=keysOK()?'block':'none';
   document.getElementById('modal-settings').classList.add('show');
 }
@@ -979,11 +985,11 @@ function closeSettingsModal(){
   document.getElementById('modal-settings').classList.remove('show');
 }
 function saveKeys(){
+  const a=document.getElementById('input-anthropic-key').value.trim();
   const h=document.getElementById('input-hunter-key').value.trim();
-  const b=document.getElementById('input-brevo-key').value.trim();
-  if(!h||!b){toast('請填寫兩個 API Key');return;}
-  localStorage.setItem('crm_hunter_key',h);
-  localStorage.setItem('crm_brevo_key',b);
+  if(!a){toast('請填寫 Anthropic API Key');return;}
+  localStorage.setItem('crm_anthropic_key',a);
+  if(h) localStorage.setItem('crm_hunter_key',h);
   document.getElementById('modal-settings').classList.remove('show');
   toast('API Key 已儲存 ✓');
 }
