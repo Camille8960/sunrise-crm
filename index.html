@@ -1003,5 +1003,29 @@ renderList();
 updateExpoFilter();
 if(!keysOK()) openSettings();
 </script>
+
+<!-- Settings Modal -->
+<div class="modal-bg" id="modal-settings">
+  <div class="modal" style="width:520px">
+    <div class="modal-title">⚙ API 設定</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:18px;line-height:1.8">
+      請輸入你的 API Key，只儲存在這個瀏覽器，不會上傳到任何地方。
+    </div>
+    <div class="form-row">
+      <label class="form-label">Anthropic API Key（名片辨識 / AI 分析）</label>
+      <input class="form-input" id="input-anthropic-key" placeholder="sk-ant-..." type="password">
+      <div style="font-size:12px;color:var(--text-dim);margin-top:5px">console.anthropic.com → API Keys</div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Hunter.io API Key（查聯絡人，可選）</label>
+      <input class="form-input" id="input-hunter-key" placeholder="輸入 Hunter API Key" type="password">
+      <div style="font-size:12px;color:var(--text-dim);margin-top:5px">hunter.io → 帳號設定 → API</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="settings-cancel-btn" onclick="closeSettingsModal()">取消</button>
+      <button class="btn-confirm" onclick="saveKeys()">儲存</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
