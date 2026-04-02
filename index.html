@@ -201,7 +201,6 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 <div class="tabs">
   <div class="tab active" data-tab="contacts">客戶列表</div>
   <div class="tab" data-tab="scan">掃描展位 / 名片</div>
-  <div class="tab" data-tab="edm">發送 EDM</div>
 </div>
 
 <div class="app">
@@ -255,92 +254,6 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
       </div>
     </div>
 
-    <div id="tab-edm" class="panel-view">
-      <div class="edm-wrap">
-        <div class="panel-title">發送 EDM</div>
-        <div class="panel-sub">選擇收件人、展覽與版本，AI 即時生成，透過 Brevo 發送</div>
-        <div class="form-row">
-          <label class="form-label">收件人</label>
-          <div class="recipient-list" id="recipient-list"><div style="font-size:13px;color:var(--text-dim);padding:6px 0">從客戶詳情點「加入 EDM」，或下方手動輸入</div></div>
-          <div style="display:flex;gap:8px;margin-top:7px">
-            <input class="form-input" id="manual-email" placeholder="手動輸入 Email" style="flex:1">
-            <input class="form-input" id="manual-name" placeholder="姓名" style="width:120px">
-            <button class="btn-act" onclick="addManualRecipient()" style="padding:9px 14px;white-space:nowrap">＋ 加入</button>
-          </div>
-        </div>
-        <div class="form-row">
-          <label class="form-label">展覽</label>
-          <select class="form-select" id="edm-expo">
-            <option value="">請選擇展覽…</option>
-            <option>GISEC Global 2026</option>
-            <option>Cybersec Asia 2026</option>
-            <option>GITEX 2026</option>
-            <option>METALEX 2026</option>
-            <option>INTI Indonesia 2026</option>
-            <option>AI Expo Korea 2026</option>
-            <option>TFBO Thailand 2026</option>
-            <option>Franchise Asia Philippines 2026</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label class="form-label">EDM 版本</label>
-          <select class="form-select" id="edm-version">
-            <option value="A">版本 A　標準招募版</option>
-            <option value="B">版本 B　倒數衝刺版</option>
-            <option value="C">版本 C　第二波接觸版</option>
-            <option value="D">版本 D　產業客製版</option>
-          </select>
-        </div>
-        <div class="form-row" id="industry-row" style="display:none">
-          <label class="form-label">目標產業（版本 D）</label>
-          <input class="form-input" id="edm-industry" placeholder="例：網路安全、AI 解決方案">
-        </div>
-        <div class="form-row">
-          <label class="form-label">郵件主旨</label>
-          <input class="form-input" id="edm-subject" placeholder="例：【昇揚展覽】GISEC 2026 參展招募">
-        </div>
-        <div class="form-row">
-          <label class="form-label">貼入 EDM HTML</label>
-          <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px">從 Claude EDM Project 生成好的 HTML，全選複製後貼在這裡</div>
-          <textarea id="edm-html-input" style="width:100%;height:120px;background:var(--surface);border:1.5px solid var(--border);color:var(--text);padding:11px 13px;border-radius:9px;font-size:13px;font-family:'DM Mono',monospace;outline:none;resize:vertical;line-height:1.6" placeholder="貼上 EDM HTML 內容…" oninput="onEDMPaste()"></textarea>
-        </div>
-        <button class="btn-primary" style="margin-bottom:18px" onclick="loadEDMPreview()">載入預覽</button>
-        <div id="edm-preview-area" style="display:none">
-          <div class="edm-preview-box">
-            <div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:9px;letter-spacing:.05em">EDM PREVIEW</div>
-            <iframe id="edm-iframe"></iframe>
-          </div>
-          <div class="progress-bar" id="send-progress"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-          <div class="send-status" id="send-status"></div>
-          <button class="btn-primary" id="btn-send-edm" onclick="sendEDM()">確認發送至所有收件人</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Settings Modal -->
-<div class="modal-bg" id="modal-settings">
-  <div class="modal" style="width:520px">
-    <div class="modal-title">⚙ API 設定</div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:18px;line-height:1.8">
-      請輸入你的 API Key，只儲存在這個瀏覽器，不會上傳到任何地方。
-    </div>
-    <div class="form-row">
-      <label class="form-label">Hunter.io API Key</label>
-      <input class="form-input" id="input-hunter-key" placeholder="輸入 Hunter API Key" type="password">
-      <div style="font-size:12px;color:var(--text-dim);margin-top:5px">hunter.io → 帳號設定 → API</div>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Brevo API Key</label>
-      <input class="form-input" id="input-brevo-key" placeholder="輸入 Brevo API Key" type="password">
-      <div style="font-size:12px;color:var(--text-dim);margin-top:5px">brevo.com → 帳號 → SMTP & API → API Keys</div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" id="settings-cancel-btn" onclick="closeSettingsModal()">取消</button>
-      <button class="btn-confirm" onclick="saveKeys()">儲存</button>
-    </div>
   </div>
 </div>
 
@@ -392,8 +305,6 @@ let contacts = JSON.parse(localStorage.getItem('crm_v4') || '[]');
 let activeId = null;
 let currentFilter = 'all';
 let currentExpoFilter = '';
-let edmRecipients = [];
-let edmHTML = '';
 let scanImageData = null;
 let importPreviewData = [];
 
@@ -406,9 +317,7 @@ document.querySelectorAll('.tab').forEach(t => {
     document.getElementById('tab-' + t.dataset.tab).classList.add('show');
   });
 });
-document.getElementById('edm-version').addEventListener('change', function() {
-  document.getElementById('industry-row').style.display = this.value === 'D' ? 'block' : 'none';
-});
+// edm-version removed
 
 // RENDER LIST
 function renderList() {
@@ -463,7 +372,6 @@ function renderDetail(c) {
           <div class="action-row">
             ${c.email?`<a href="mailto:${c.email}" class="btn-act primary">✉ 寄信</a>`:''}
             ${c.phone?`<a href="tel:${c.phone}" class="btn-act">📞 致電</a>`:''}
-            <button class="btn-act" onclick="addToEDM('${c.id}')">＋ 加入 EDM</button>
             <button class="btn-act" onclick="analyzeContact('${c.id}')" style="color:var(--blue);border-color:rgba(36,113,163,.3)">◈ AI 分析</button>
             <button class="btn-act danger" onclick="deleteContact('${c.id}')">✕ 刪除</button>
           </div>
@@ -493,7 +401,18 @@ function renderDetail(c) {
         <button class="save-btn" onclick="saveNote('${c.id}')">儲存備註</button>
         <div style="clear:both"></div>
       </div>
-      ${c.edmLog&&c.edmLog.length?`<div class="edm-log-card"><div class="edm-log-title">EDM 發送記錄</div>${c.edmLog.map(e=>'<div class="edm-entry">✉ '+e.expo+' · 版本 '+e.version+' · '+new Date(e.time).toLocaleString('zh-TW')+'</div>').join('')}</div>`:''}
+      ${(c.brevoLog&&c.brevoLog.length)?`
+      <div class="edm-log-card">
+        <div class="edm-log-title">Brevo 發送記錄</div>
+        ${c.brevoLog.map(e=>`<div class="edm-entry" style="display:flex;justify-content:space-between;align-items:center">
+          <span>✉ ${e.campaignName}</span>
+          <span style="display:flex;gap:8px;font-size:11px">
+            ${e.opened?'<span style="color:var(--green)">已開信</span>':'<span style="color:var(--text-dim)">未開信</span>'}
+            ${e.clicked?'<span style="color:var(--blue)">已點擊</span>':''}
+            <span style="color:var(--text-dim);font-family:DM Mono,monospace">${new Date(e.sentAt||'').toLocaleDateString('zh-TW')}</span>
+          </span>
+        </div>`).join('')}
+      </div>`:''}
       <div style="margin-top:13px;font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace">建檔 ${new Date(c.created).toLocaleString('zh-TW')}</div>
     </div>`;
 }
@@ -562,7 +481,10 @@ scanZone.addEventListener('drop',e=>{
 async function callAI(messages, maxTokens) {
   const res = await fetch(API_URL, {
     method:'POST',
-    headers:{'Content-Type':'application/json'},
+    headers:{
+      'Content-Type':'application/json',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
     body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages})
   });
   const data = await res.json();
@@ -616,29 +538,18 @@ function renderCardResult(info){
         ${info.wechat?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">微信</div><div style="font-size:13px">${info.wechat}</div></div>`:''}
         ${info.country?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">國家</div><div style="font-size:13px">${info.country}</div></div>`:''}
       </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn-primary" style="flex:1" onclick="saveCard('${enc}',false)">＋ 建立客戶檔案</button>
-        ${info.email?`<button class="btn-primary" style="flex:1" onclick="saveCard('${enc}',true)">建檔 ＋ 發 EDM</button>`:''}
+      <div>
+        <button class="btn-primary" onclick="saveCard('${enc}')">＋ 建立客戶檔案</button>
       </div>
     </div>`;
 }
 
-function saveCard(enc, goEdm){
+function saveCard(enc){
   const info=JSON.parse(decodeURIComponent(enc));
   const c={id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||info.name_en||'',title:info.title||'',company:info.company||info.company_en||'',email:info.email||'',phone:info.mobile||info.phone||'',country:info.country||'',product:'',expo:'',notes:info.wechat?'微信：'+info.wechat:'',status:'new',edmSent:false,edmLog:[],created:Date.now()};
   contacts.unshift(c);save();renderList();
-  if(goEdm&&c.email){
-    if(!edmRecipients.find(r=>r.email===c.email))edmRecipients.push({email:c.email,name:c.name||'',id:c.id});
-    renderRecipients();
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelector('[data-tab="edm"]').classList.add('active');
-    document.querySelectorAll('.panel-view').forEach(p=>p.classList.remove('show'));
-    document.getElementById('tab-edm').classList.add('show');
-    toast((c.name||'客戶')+' 已建檔，請選擇展覽與版本');
-  } else {
-    toast((c.name||'客戶')+' 已建入 CRM');
-    selectContact(c.id);
-  }
+  toast((c.name||'客戶')+' 已建入 CRM');
+  selectContact(c.id);
 }
 
 function renderCompanyCards(cos){
@@ -675,51 +586,103 @@ function addHunterContact(cIdx,rIdx,enc){
   contacts.unshift(c);save();renderList();
   const btn=document.getElementById('addbtn-'+cIdx+'-'+rIdx);
   btn.textContent='✓ 已建檔';btn.classList.add('added');btn.disabled=true;
-  showModal('✉ 立即發送 EDM？',
-    `<div style="background:var(--surface2);border-radius:9px;padding:13px;border:1px solid var(--border)"><div style="font-size:15px;font-weight:600">${c.name||'（未知）'}</div><div style="font-size:13px;color:var(--text-muted);margin-top:2px">${[c.title,c.company].filter(Boolean).join(' · ')}</div><div style="font-size:13px;color:var(--blue);font-family:'DM Mono',monospace;margin-top:5px">${c.email}</div></div><div style="margin-top:12px;font-size:14px;color:var(--text-mid)">已建檔完成。要現在直接發送 EDM 嗎？</div>`,
-    '✉ 立即發送 EDM',
-    ()=>{
-      if(c.email&&!edmRecipients.find(r=>r.email===c.email))edmRecipients.push({email:c.email,name:c.name||'',id:c.id});
-      renderRecipients();
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-      document.querySelector('[data-tab="edm"]').classList.add('active');
-      document.querySelectorAll('.panel-view').forEach(p=>p.classList.remove('show'));
-      document.getElementById('tab-edm').classList.add('show');
-      toast('已切換到 EDM 分頁');
-    },
-    '稍後再說',
-    ()=>{selectContact(c.id);}
-  );
+  toast((c.name||'客戶')+' 已建入 CRM');
+  selectContact(c.id);
 }
 
-// LOAD EDM FROM PASTE
-function onEDMPaste(){
-  // auto-detect subject from HTML title or h1
-  const raw = document.getElementById('edm-html-input').value;
-  if(!raw) return;
-  const subjectEl = document.getElementById('edm-subject');
-  if(!subjectEl.value){
-    const titleMatch = raw.match(/<title[^>]*>([^<]+)<\/title>/i);
-    const h1Match = raw.match(/<h[12][^>]*>([^<]+)<\/h[12]>/i);
-    if(titleMatch) subjectEl.value = titleMatch[1].trim();
-    else if(h1Match) subjectEl.value = h1Match[1].replace(/<[^>]+>/g,'').trim();
-  }
+// BREVO SYNC
+async function syncAllBrevo(){
+  const k=getKeys();
+  if(!k.brevo){toast('請先設定 Brevo API Key');return;}
+  showOverlay('從 Brevo 同步 Campaign 記錄…');
+  try{
+    const res=await fetch('https://api.brevo.com/v3/emailCampaigns?status=sent&limit=50',{
+      headers:{'api-key':k.brevo,'Content-Type':'application/json'}
+    });
+    const data=await res.json();
+    hideOverlay();
+    const campaigns=data.campaigns||[];
+    if(!campaigns.length){
+      document.getElementById('campaigns-list').innerHTML='<div style="font-size:13px;color:var(--text-dim)">尚無已發送的 Campaign</div>';
+      return;
+    }
+    document.getElementById('campaigns-list').innerHTML=campaigns.map(c=>`
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px">${c.name}</div>
+            <div style="font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:8px">${new Date(c.sentDate||c.scheduledAt||'').toLocaleString('zh-TW')}</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <span style="font-size:12px;color:var(--text-muted)">📤 已送出 <strong style="color:var(--text)">${(c.statistics&&c.statistics.globalStats&&c.statistics.globalStats.delivered)||0}</strong></span>
+              <span style="font-size:12px;color:var(--text-muted)">📬 開信 <strong style="color:var(--green)">${(c.statistics&&c.statistics.globalStats&&c.statistics.globalStats.uniqueOpens)||0}</strong></span>
+              <span style="font-size:12px;color:var(--text-muted)">🖱 點擊 <strong style="color:var(--blue)">${(c.statistics&&c.statistics.globalStats&&c.statistics.globalStats.uniqueClicks)||0}</strong></span>
+              <span style="font-size:12px;color:var(--text-muted)">❌ 退訂 <strong style="color:var(--red)">${(c.statistics&&c.statistics.globalStats&&c.statistics.globalStats.unsubscriptions)||0}</strong></span>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text-dim);background:var(--surface2);padding:3px 9px;border-radius:20px;border:1px solid var(--border);white-space:nowrap">ID: ${c.id}</div>
+        </div>
+      </div>`).join('');
+    toast(`同步完成，共 ${campaigns.length} 個 Campaign`);
+  }catch(e){hideOverlay();console.error(e);toast('同步失敗，請確認 Brevo Key');}
 }
 
-function loadEDMPreview(){
-  const raw = document.getElementById('edm-html-input').value.trim();
-  const expo = document.getElementById('edm-expo').value;
-  const subject = document.getElementById('edm-subject').value;
-  if(!raw){toast('請先貼入 EDM HTML');return;}
-  if(!expo){toast('請選擇展覽');return;}
-  if(!subject){toast('請填寫郵件主旨');return;}
-  if(!edmRecipients.length){toast('請加入至少一位收件人');return;}
-  edmHTML = raw;
-  document.getElementById('edm-iframe').srcdoc = edmHTML;
-  document.getElementById('edm-preview-area').style.display = 'block';
-  document.getElementById('send-status').style.display = 'none';
-  document.getElementById('send-status').className = 'send-status';
-  toast('EDM 載入完成，確認後發送');
+async function syncSingleEmail(){
+  const email=document.getElementById('single-email-input').value.trim();
+  if(!email){toast('請輸入 Email');return;}
+  const k=getKeys();
+  if(!k.brevo){toast('請先設定 Brevo API Key');return;}
+  showOverlay('查詢中…');
+  try{
+    const res=await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`,{
+      headers:{'api-key':k.brevo}
+    });
+    const data=await res.json();
+    hideOverlay();
+    if(data.code==='document_not_found'){
+      document.getElementById('single-result').innerHTML='<div style="font-size:13px;color:var(--text-dim);padding:12px 0">此 Email 在 Brevo 中找不到記錄</div>';
+      return;
+    }
+    const stats=data.statistics&&data.statistics.messagesSent||[];
+    document.getElementById('single-result').innerHTML=`
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow)">
+        <div style="font-size:15px;font-weight:600;margin-bottom:4px">${data.email}</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">${data.firstName||''} ${data.lastName||''}</div>
+        <div style="font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:8px">發送記錄（最近 ${stats.length} 筆）</div>
+        ${stats.length?stats.slice(0,10).map(s=>`
+          <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;justify-content:space-between">
+            <span style="color:var(--text)">${s.campaignName||'Campaign #'+s.campaignId}</span>
+            <span style="color:var(--text-dim);font-family:'DM Mono',monospace;font-size:11px">${new Date(s.sentAt||'').toLocaleDateString('zh-TW')}</span>
+          </div>`).join(''):'<div style="font-size:13px;color:var(--text-dim)">尚無發送記錄</div>'}
+      </div>`;
+  }catch(e){hideOverlay();console.error(e);toast('查詢失敗');}
+}
+
+async function syncBrevoContact(id){
+  const c=contacts.find(x=>x.id===id);
+  if(!c||!c.email){toast('此客戶無 Email');return;}
+  const k=getKeys();
+  if(!k.brevo){toast('請先設定 Brevo API Key');return;}
+  showOverlay('查詢 Brevo 記錄…');
+  try{
+    const res=await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(c.email)}`,{
+      headers:{'api-key':k.brevo}
+    });
+    const data=await res.json();
+    hideOverlay();
+    const stats=data.statistics&&data.statistics.messagesSent||[];
+    if(!c.brevoLog)c.brevoLog=[];
+    c.brevoLog=stats.slice(0,20).map(s=>({
+      campaignName:s.campaignName||'Campaign #'+s.campaignId,
+      campaignId:s.campaignId,
+      sentAt:s.sentAt,
+      opened:s.opened||false,
+      clicked:s.clicked||false
+    }));
+    if(stats.length>0)c.edmSent=true;
+    save();renderList();
+    renderDetail(contacts.find(x=>x.id===id));
+    toast(stats.length?`找到 ${stats.length} 筆發送記錄`:'此客戶在 Brevo 無發送記錄');
+  }catch(e){hideOverlay();console.error(e);toast('查詢失敗，請確認 Brevo Key');}
 }
 
 // SEND EDM
@@ -885,6 +848,123 @@ document.querySelector('.filter-row').addEventListener('click',e=>{
   renderList();
 });
 document.getElementById('search-input').addEventListener('input',renderList);
+
+// PUSH TO BREVO
+function pushToBrevo(){
+  const k=getKeys();
+  if(!k.brevo){toast('請先設定 Brevo API Key');return;}
+  
+  // Populate scope selects
+  const expos=[...new Set(contacts.map(c=>c.expo).filter(Boolean))].sort();
+  const industries=[...new Set(contacts.map(c=>c.product||c.industry).filter(Boolean))].sort();
+  
+  document.getElementById('push-expo-select').innerHTML=expos.map(e=>`<option value="${e}">${e}</option>`).join('');
+  document.getElementById('push-industry-select').innerHTML=industries.map(i=>`<option value="${i}">${i}</option>`).join('');
+  
+  // Update scope options with count
+  document.querySelector('#push-scope option[value="all"]').textContent=`全部客戶（${contacts.length} 位）`;
+  
+  updatePushPreview();
+  document.getElementById('modal-brevo-push').classList.add('show');
+}
+
+function closePushModal(){
+  document.getElementById('modal-brevo-push').classList.remove('show');
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  const scopeSel=document.getElementById('push-scope');
+  if(scopeSel){
+    scopeSel.addEventListener('change', function(){
+      document.getElementById('push-expo-row').style.display=this.value==='expo'?'block':'none';
+      document.getElementById('push-industry-row').style.display=this.value==='industry'?'block':'none';
+      updatePushPreview();
+    });
+    document.getElementById('push-expo-select').addEventListener('change', updatePushPreview);
+    document.getElementById('push-industry-select').addEventListener('change', updatePushPreview);
+  }
+});
+
+function getPushTargets(){
+  const scope=document.getElementById('push-scope').value;
+  if(scope==='expo'){
+    const expo=document.getElementById('push-expo-select').value;
+    return contacts.filter(c=>c.expo===expo&&c.email);
+  } else if(scope==='industry'){
+    const ind=document.getElementById('push-industry-select').value;
+    return contacts.filter(c=>(c.product||c.industry)===ind&&c.email);
+  }
+  return contacts.filter(c=>c.email);
+}
+
+function updatePushPreview(){
+  const targets=getPushTargets();
+  document.getElementById('push-count').textContent=targets.length;
+}
+
+async function confirmPushToBrevo(){
+  const targets=getPushTargets();
+  if(!targets.length){toast('沒有符合條件的客戶（需要有 Email）');return;}
+  closePushModal();
+  showOverlay(`推送 ${targets.length} 位客戶到 Brevo…`);
+  
+  const k=getKeys();
+  let success=0, failed=0;
+  
+  for(let i=0;i<targets.length;i++){
+    const c=targets[i];
+    document.getElementById('overlay-msg').textContent=`推送中 ${i+1}/${targets.length}…`;
+    
+    // Build attributes with classification tags
+    const attributes={
+      FIRSTNAME: c.name||'',
+      LASTNAME: '',
+      COMPANY: c.company||'',
+      SMS: c.phone||''
+    };
+    
+    // Build list of tags
+    const tags=[];
+    if(c.expo) tags.push(c.expo);
+    if(c.product) tags.push(c.product);
+    if(c.country) tags.push(c.country);
+    
+    try{
+      const res=await fetch('https://api.brevo.com/v3/contacts',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','api-key':k.brevo},
+        body:JSON.stringify({
+          email:c.email,
+          attributes,
+          listIds:[],
+          updateEnabled:true // update if exists
+        })
+      });
+      
+      if(res.ok||res.status===204){
+        success++;
+        // Mark as pushed
+        c.brevioPushed=true;
+        c.brevioPushedAt=Date.now();
+      } else {
+        const err=await res.json();
+        // 400 with duplicate is still ok
+        if(err.code==='duplicate_parameter'){
+          success++;
+          c.brevioPushed=true;
+        } else {
+          failed++;
+        }
+      }
+    }catch(e){failed++;}
+    
+    await new Promise(x=>setTimeout(x,200));
+  }
+  
+  save();
+  hideOverlay();
+  toast(`推送完成：${success} 位成功${failed?'，'+failed+' 位失敗':''}`);
+}
 
 // SETTINGS
 function openSettings(){
