@@ -255,7 +255,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 </div>
 
 <script>
-const GOOGLE_CLIENT_ID = '1027596483276-j9ks659vi2ijus777lq04t5tairq0ml7.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID='YOUR_GOOGLE_CLIENT_ID';
 const SHEET_NAME='昇揚CRM';
 const ANTHROPIC_API='https://api.anthropic.com/v1/messages';
 let contacts=JSON.parse(localStorage.getItem('crm_v4')||'[]');
@@ -331,7 +331,7 @@ function closeSyncPanel(){document.getElementById('modal-sync').classList.remove
 
 function googleSignIn(){
   const scope='https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file';
-  const redirect='https://camille8960.github.io/sunrise-crm/';
+  const redirect=window.location.href.split('?')[0].split('#')[0];
   const state=Math.random().toString(36).slice(2);
   localStorage.setItem('oauth_state',state);
   window.location.href=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirect)}&response_type=token&scope=${encodeURIComponent(scope)}&state=${state}`;
