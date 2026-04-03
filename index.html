@@ -123,9 +123,6 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .btn-cancel:hover{border-color:var(--text-muted);color:var(--text);}
 .btn-confirm{background:linear-gradient(135deg,#c0392b,#4a1a6b);color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:600;}
 .btn-confirm:hover{opacity:.88;}
-.google-btn{width:100%;background:#fff;border:1.5px solid var(--border2);color:var(--text);padding:12px 16px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-bottom:12px;}
-.google-btn:hover{border-color:var(--forest3);background:var(--surface2);}
-.sync-info{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:12px;font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:14px;}
 @media(max-width:680px){
 .app{flex-direction:column;}.sidebar{width:100%;min-width:unset;border-right:none;border-bottom:1px solid var(--border);max-height:44vh;}
 .info-grid{grid-template-columns:1fr;}.detail-wrap,.scan-wrap{padding:16px;}
@@ -137,7 +134,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
   <div class="logo"><div class="logo-dot"></div>昇揚展覽<span class="logo-sub">客戶管理系統</span></div>
   <div class="header-right">
     <div class="hbadge" id="total-count">0 位客戶</div>
-    <div class="sync-badge" id="sync-badge" onclick="openSyncPanel()">☁ 未登入</div>
+    <div class="sync-badge" id="sync-badge" onclick="openSyncPanel()">☁ 同步</div>
     <button onclick="openSettings()" style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#e8d8ff;font-size:12px;padding:4px 12px;border-radius:20px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;">⚙ 設定</button>
   </div>
 </header>
@@ -148,10 +145,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 <div class="app">
   <div class="sidebar">
     <div class="sidebar-top">
-      <div class="search-wrap">
-        <span class="search-icon">⌕</span>
-        <input class="search-box" id="search-input" placeholder="搜尋姓名、公司、展覽…">
-      </div>
+      <div class="search-wrap"><span class="search-icon">⌕</span><input class="search-box" id="search-input" placeholder="搜尋姓名、公司、展覽…"></div>
       <div class="filter-row">
         <button class="fbtn active" data-filter="all">全部</button>
         <button class="fbtn" data-filter="new">新客戶</button>
@@ -159,9 +153,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
         <button class="fbtn" data-filter="sent">已發EDM</button>
         <button class="fbtn" data-filter="closed">已成交</button>
       </div>
-      <select class="expo-sel" id="expo-filter" onchange="filterByExpo(this.value)">
-        <option value="">📍 所有展覽來源</option>
-      </select>
+      <select class="expo-sel" id="expo-filter" onchange="filterByExpo(this.value)"><option value="">📍 所有展覽來源</option></select>
     </div>
     <div class="contact-list" id="contact-list"></div>
     <div class="export-bar">
@@ -172,10 +164,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
   </div>
   <div class="main">
     <div id="tab-contacts" class="panel-view show">
-      <div class="empty-state" id="contact-empty">
-        <div class="empty-icon">📋</div>
-        <div style="font-size:14px;color:var(--text-muted)">從左側選擇客戶，或前往「掃描展位 / 名片」新增</div>
-      </div>
+      <div class="empty-state" id="contact-empty"><div class="empty-icon">📋</div><div style="font-size:14px;color:var(--text-muted)">從左側選擇客戶，或前往「掃描展位 / 名片」新增</div></div>
       <div id="contact-detail"></div>
     </div>
     <div id="tab-scan" class="panel-view">
@@ -194,10 +183,8 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
     </div>
   </div>
 </div>
-
 <div class="overlay" id="overlay"><div class="overlay-card"><div class="spin-lg"></div><div class="overlay-msg" id="overlay-msg">處理中…</div></div></div>
 <div class="toast" id="toast"></div>
-
 <div class="modal-bg" id="modal-main">
   <div class="modal">
     <div class="modal-title" id="modal-title">確認</div>
@@ -208,7 +195,6 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
     </div>
   </div>
 </div>
-
 <div class="modal-bg" id="modal-import">
   <div class="modal" style="width:560px">
     <div class="modal-title">↑ 匯入客戶名單</div>
@@ -222,11 +208,9 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
     </div>
   </div>
 </div>
-
 <div class="modal-bg" id="modal-settings">
   <div class="modal">
     <div class="modal-title">⚙ API 設定</div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:18px;line-height:1.8">請輸入你的 API Key，只儲存在這個瀏覽器，不會上傳到任何地方。</div>
     <div style="margin-bottom:16px">
       <label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Anthropic API Key（名片辨識 / AI 分析）</label>
       <input id="input-anthropic-key" type="password" placeholder="sk-ant-..." style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;">
@@ -235,7 +219,6 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
     <div style="margin-bottom:16px">
       <label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Hunter.io API Key（查聯絡人，可選）</label>
       <input id="input-hunter-key" type="password" placeholder="請輸入 Hunter API Key" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;">
-      <div style="font-size:11px;color:var(--text-dim);margin-top:5px">hunter.io → 帳號設定 → API</div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" id="settings-cancel-btn" onclick="closeSettingsModal()">取消</button>
@@ -243,26 +226,21 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
     </div>
   </div>
 </div>
-
 <div class="modal-bg" id="modal-sync">
-  <div class="modal" style="width:480px">
+  <div class="modal" style="width:440px">
     <div class="modal-title">☁ Google Sheets 同步</div>
-    <div id="sync-content"></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeSyncPanel()">關閉</button>
-    </div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.8">資料同步到你的 Google Sheets，手機電腦都能共用。</div>
+    <button class="btn-primary" style="margin-bottom:10px" onclick="syncToSheet()">🔄 上傳到 Google Sheets</button>
+    <button class="btn-primary" style="background:linear-gradient(135deg,#1e8449,#145a32);margin-bottom:16px" onclick="loadFromSheet()">⬇ 從 Google Sheets 載入</button>
+    <div id="sync-status" style="font-size:13px;color:var(--text-muted);text-align:center;min-height:20px"></div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeSyncPanel()">關閉</button></div>
   </div>
 </div>
-
 <script>
-const GOOGLE_CLIENT_ID='YOUR_GOOGLE_CLIENT_ID';
-const SHEET_NAME='昇揚CRM';
+const GAS_URL='https://script.google.com/macros/s/AKfycbw5Qim2jJ1k40I8xBd3X1kXmgW_n8APQuX0ihdS4UUVXDABIYHWSFRjj7shA3Xx88d8sA/exec';
 const ANTHROPIC_API='https://api.anthropic.com/v1/messages';
 let contacts=JSON.parse(localStorage.getItem('crm_v4')||'[]');
-let activeId=null,currentFilter='all',currentExpoFilter='',scanImageData=null,importPreviewData=[],isSyncing=false;
-let gAccessToken=localStorage.getItem('crm_gtoken')||null;
-let gSheetId=localStorage.getItem('crm_sheet_id')||null;
-let gUserName=localStorage.getItem('crm_guser')||null;
+let activeId=null,currentFilter='all',currentExpoFilter='',scanImageData=null,importPreviewData=[],syncTimer=null;
 
 function getExpoList(){const a=contacts.map(c=>c.expo).filter(Boolean);const b=JSON.parse(localStorage.getItem('crm_expo_list')||'[]');const m=[...new Set([...b,...a])].sort();localStorage.setItem('crm_expo_list',JSON.stringify(m));return m;}
 function addExpoToList(e){if(!e)return;const l=getExpoList();if(!l.includes(e)){l.push(e);l.sort();localStorage.setItem('crm_expo_list',JSON.stringify(l));}}
@@ -271,19 +249,13 @@ document.querySelectorAll('.tab').forEach(t=>{t.addEventListener('click',()=>{do
 
 function renderList(){
   const q=document.getElementById('search-input').value.toLowerCase();
-  const filtered=contacts.filter(c=>{
-    const mq=!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q);
-    const mf=currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent);
-    const me=!currentExpoFilter||c.expo===currentExpoFilter;
-    return mq&&mf&&me;
-  });
+  const filtered=contacts.filter(c=>{const mq=!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q);const mf=currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent);const me=!currentExpoFilter||c.expo===currentExpoFilter;return mq&&mf&&me;});
   document.getElementById('contact-list').innerHTML=filtered.map(c=>`<div class="citem ${c.id===activeId?'active':''}" onclick="selectContact('${c.id}')"><div class="avatar">${(c.name||'?')[0]}</div><div class="cmeta"><div class="cname">${c.name||'（未知）'}</div><div class="cco">${c.company||'—'}</div><div class="ctags">${c.expo?`<span class="tag tag-expo">${c.expo}</span>`:''} ${c.edmSent?`<span class="tag tag-sent">已發EDM</span>`:''} ${c.status==='follow'?`<span class="tag tag-follow">跟進中</span>`:''} ${c.status==='closed'?`<span class="tag tag-closed">已成交</span>`:''}</div></div></div>`).join('')||'<div style="padding:22px;text-align:center;color:var(--text-dim);font-size:13px">無符合結果</div>';
   document.getElementById('total-count').textContent=contacts.length+' 位客戶';
   updateExpoFilter();
 }
 
 function selectContact(id){activeId=id;const c=contacts.find(x=>x.id===id);if(!c)return;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelector('[data-tab="contacts"]').classList.add('active');document.querySelectorAll('.panel-view').forEach(p=>p.classList.remove('show'));document.getElementById('tab-contacts').classList.add('show');renderList();renderDetail(c);}
-
 function esc(v){return(v||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
 function renderDetail(c){
@@ -305,117 +277,45 @@ function renderDetail(c){
   <div style="margin-top:13px;font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace">建檔 ${new Date(c.created).toLocaleString('zh-TW')}</div></div>`;
 }
 
-function showExpoDd(id,v){filterExpoDd(id,v);document.getElementById('ed-'+id).classList.add('show');}
+function showExpoDd(id,v){filterExpoDd(id,v);const dd=document.getElementById('ed-'+id);if(dd)dd.classList.add('show');}
 function filterExpoDd(id,v){const dd=document.getElementById('ed-'+id);if(!dd)return;const l=getExpoList();const f=v?l.filter(e=>e.toLowerCase().includes(v.toLowerCase())):l;dd.innerHTML=f.map(e=>`<div class="expo-opt" onmousedown="pickExpo('${id}','${e.replace(/'/g,"\\'")}')">${e}</div>`).join('');dd.classList.toggle('show',f.length>0);}
 function hideExpoDd(id,input){setTimeout(()=>{const dd=document.getElementById('ed-'+id);if(dd)dd.classList.remove('show');upd(id,'expo',input.value);addExpoToList(input.value);},200);}
 function pickExpo(id,v){const c=document.getElementById('ec-'+id);if(c)c.querySelector('input').value=v;const dd=document.getElementById('ed-'+id);if(dd)dd.classList.remove('show');upd(id,'expo',v);addExpoToList(v);}
 
-let syncTimer=null;
-function upd(id,f,v){const c=contacts.find(x=>x.id===id);if(!c)return;c[f]=v;c._dirty=true;save();renderList();debouncedSync();}
-function saveNote(id){const c=contacts.find(x=>x.id===id);if(!c)return;c.notes=document.getElementById('notes-'+id).value;c._dirty=true;save();toast('備註已儲存');debouncedSync();}
+function upd(id,f,v){const c=contacts.find(x=>x.id===id);if(!c)return;c[f]=v;save();renderList();debouncedSync();}
+function saveNote(id){const c=contacts.find(x=>x.id===id);if(!c)return;c.notes=document.getElementById('notes-'+id).value;save();toast('備註已儲存');debouncedSync();}
 function deleteContact(id){if(!confirm('確定刪除？'))return;contacts=contacts.filter(x=>x.id!==id);activeId=null;save();renderList();document.getElementById('contact-empty').style.display='flex';document.getElementById('contact-detail').innerHTML='';debouncedSync();}
-function debouncedSync(){if(!gAccessToken||!gSheetId)return;clearTimeout(syncTimer);syncTimer=setTimeout(()=>syncToSheet(),2000);}
-
-function openSyncPanel(){
-  const el=document.getElementById('sync-content');
-  if(gAccessToken&&gUserName){
-    el.innerHTML=`<div style="text-align:center;margin-bottom:18px"><div style="font-size:22px;margin-bottom:6px">✅</div><div style="font-weight:600;font-size:15px">${gUserName}</div><div style="font-size:12px;color:var(--text-dim);margin-top:3px">已連線 Google 帳號</div>${gSheetId?`<div style="font-size:12px;color:var(--green);margin-top:5px">📊 試算表已建立</div>`:''}</div><button class="btn-primary" style="margin-bottom:10px" onclick="syncToSheet()">🔄 立即同步到 Google Sheets</button><button class="btn-primary" style="background:linear-gradient(135deg,#1e8449,#145a32);margin-bottom:10px" onclick="loadFromSheet()">⬇ 從 Google Sheets 載入</button>${gSheetId?`<div style="text-align:center;margin-bottom:10px"><a href="https://docs.google.com/spreadsheets/d/${gSheetId}" target="_blank" style="font-size:13px;color:var(--blue)">📋 開啟試算表</a></div>`:''}<button onclick="googleSignOut()" style="width:100%;background:transparent;border:1.5px solid var(--border2);color:var(--text-muted);padding:10px;border-radius:9px;cursor:pointer;font-size:13px;font-family:'Noto Sans TC',sans-serif;">登出 Google</button>`;
-  } else if(GOOGLE_CLIENT_ID==='YOUR_GOOGLE_CLIENT_ID'){
-    el.innerHTML=`<div style="background:rgba(192,57,43,.08);border:1.5px solid rgba(192,57,43,.2);border-radius:9px;padding:13px;font-size:13px;color:var(--red);margin-bottom:14px;line-height:1.8">⚠️ 尚未設定 Google Client ID<br><span style="color:var(--text-muted)">請先完成 Google Cloud 設定。</span></div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:13px;font-size:13px;color:var(--text-mid);line-height:2.2"><strong>設定步驟：</strong><br>1. 開啟 <a href="https://console.cloud.google.com" target="_blank" style="color:var(--blue)">Google Cloud Console</a><br>2. 建立專案 → API & Services → 啟用 Google Sheets API 和 Google Drive API<br>3. 憑證 → 建立 OAuth 2.0 用戶端 ID（網頁應用程式）<br>4. 授權來源填入：<code style="background:var(--bg2);padding:1px 6px;border-radius:3px">https://camille8960.github.io</code><br>5. 複製 Client ID 貼入 index.html 第一行</div>`;
-  } else {
-    el.innerHTML=`<div class="sync-info">連結 Google 帳號後，資料自動儲存到你的 Google Sheets。手機、電腦都能即時同步。</div><button class="google-btn" onclick="googleSignIn()"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.34-8.16 2.34-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>用 Google 帳號登入</button>`;
-  }
-  document.getElementById('modal-sync').classList.add('show');
-}
-function closeSyncPanel(){document.getElementById('modal-sync').classList.remove('show');}
-
-function googleSignIn(){
-  const scope='https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file';
-  const redirect=window.location.href.split('?')[0].split('#')[0];
-  const state=Math.random().toString(36).slice(2);
-  localStorage.setItem('oauth_state',state);
-  window.location.href=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirect)}&response_type=token&scope=${encodeURIComponent(scope)}&state=${state}`;
-}
-function googleSignOut(){gAccessToken=null;gSheetId=null;gUserName=null;localStorage.removeItem('crm_gtoken');localStorage.removeItem('crm_sheet_id');localStorage.removeItem('crm_guser');updateSyncBadge();closeSyncPanel();toast('已登出 Google');}
-
-async function handleOAuthCallback(){
-  const hash=window.location.hash;
-  if(!hash.includes('access_token'))return;
-  const params=new URLSearchParams(hash.slice(1));
-  const token=params.get('access_token');
-  if(!token||params.get('state')!==localStorage.getItem('oauth_state'))return;
-  localStorage.removeItem('oauth_state');
-  window.history.replaceState({},document.title,window.location.pathname);
-  gAccessToken=token;localStorage.setItem('crm_gtoken',token);
-  try{const r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{'Authorization':'Bearer '+token}});const u=await r.json();gUserName=u.name||u.email||'Google 使用者';localStorage.setItem('crm_guser',gUserName);}catch(e){}
-  updateSyncBadge();toast('Google 登入成功！');
-  await findOrCreateSheet();
-  setTimeout(()=>openSyncPanel(),500);
-}
-
-async function gFetch(url,opts={}){
-  if(!gAccessToken)throw new Error('no_token');
-  opts.headers={...(opts.headers||{}),'Authorization':'Bearer '+gAccessToken};
-  const res=await fetch(url,opts);
-  if(res.status===401){gAccessToken=null;localStorage.removeItem('crm_gtoken');updateSyncBadge();throw new Error('token_expired');}
-  return res;
-}
-
-async function findOrCreateSheet(){
-  showOverlay('連結 Google Sheets…');
-  try{
-    const sr=await gFetch(`https://www.googleapis.com/drive/v3/files?q=name%3D'${encodeURIComponent(SHEET_NAME)}'%20and%20mimeType%3D'application%2Fvnd.google-apps.spreadsheet'&fields=files(id,name)`);
-    const sd=await sr.json();
-    if(sd.files&&sd.files.length>0){gSheetId=sd.files[0].id;}
-    else{
-      const cr=await gFetch('https://sheets.googleapis.com/v4/spreadsheets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({properties:{title:SHEET_NAME},sheets:[{properties:{title:'客戶資料'}}]})});
-      const cd=await cr.json();gSheetId=cd.spreadsheetId;
-      await gFetch(`https://sheets.googleapis.com/v4/spreadsheets/${gSheetId}/values/%E5%AE%A2%E6%88%B6%E8%B3%87%E6%96%99!A1:N1?valueInputOption=RAW`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({values:[['id','姓名','職稱','公司','Email','電話','國家','產品','展覽來源','狀態','已發EDM','備註','建檔時間','_dirty']]})});
-    }
-    localStorage.setItem('crm_sheet_id',gSheetId);hideOverlay();
-  }catch(e){hideOverlay();toast('連結 Google Sheets 失敗',true);}
-}
+function debouncedSync(){clearTimeout(syncTimer);syncTimer=setTimeout(()=>syncToSheet(),3000);}
 
 async function syncToSheet(){
-  if(!gAccessToken||!gSheetId){toast('請先登入 Google',true);return;}
-  if(isSyncing)return;isSyncing=true;updateSyncBadge('syncing');
+  updateSyncBadge('syncing');
   try{
-    const rows=[['id','姓名','職稱','公司','Email','電話','國家','產品','展覽來源','狀態','已發EDM','備註','建檔時間']];
-    contacts.forEach(c=>rows.push([c.id||'',c.name||'',c.title||'',c.company||'',c.email||'',c.phone||'',c.country||'',c.product||'',c.expo||'',c.status||'new',c.edmSent?'是':'否',c.notes||'',new Date(c.created).toLocaleString('zh-TW')]));
-    await gFetch(`https://sheets.googleapis.com/v4/spreadsheets/${gSheetId}/values/%E5%AE%A2%E6%88%B6%E8%B3%87%E6%96%99!A1?valueInputOption=RAW`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({values:rows})});
-    contacts.forEach(c=>c._dirty=false);save();updateSyncBadge('synced');toast('已同步到 Google Sheets ✓');
-  }catch(e){updateSyncBadge('error');if(e.message==='token_expired')toast('Google 登入已過期，請重新登入',true);else toast('同步失敗，請重試',true);}
-  isSyncing=false;
+    const res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'sync',contacts})});
+    const data=await res.json();
+    if(data.ok){updateSyncBadge('synced');toast('已同步到 Google Sheets ✓');}
+    else throw new Error();
+  }catch(e){updateSyncBadge('error');toast('同步失敗，請重試',true);}
 }
 
 async function loadFromSheet(){
-  if(!gAccessToken||!gSheetId){toast('請先登入 Google',true);return;}
   showOverlay('從 Google Sheets 載入…');
   try{
-    const res=await gFetch(`https://sheets.googleapis.com/v4/spreadsheets/${gSheetId}/values/%E5%AE%A2%E6%88%B6%E8%B3%87%E6%96%99!A1:M`);
-    const data=await res.json();const rows=data.values||[];
-    if(rows.length<2){hideOverlay();toast('試算表無資料');return;}
-    const h=rows[0];const idx=n=>h.indexOf(n);
-    const nc=rows.slice(1).filter(r=>r.length>1).map(r=>({id:r[idx('id')]||Date.now().toString()+Math.random().toString(36).slice(2,5),name:r[idx('姓名')]||'',title:r[idx('職稱')]||'',company:r[idx('公司')]||'',email:r[idx('Email')]||'',phone:r[idx('電話')]||'',country:r[idx('國家')]||'',product:r[idx('產品')]||'',expo:r[idx('展覽來源')]||'',status:r[idx('狀態')]||'new',edmSent:r[idx('已發EDM')]==='是',notes:r[idx('備註')]||'',created:Date.now(),edmLog:[]}));
+    const res=await fetch(GAS_URL);
+    const data=await res.json();
+    if(!data.ok||!data.rows||data.rows.length<2){hideOverlay();toast('試算表無資料');return;}
+    const h=data.rows[0];const idx=n=>h.indexOf(n);
+    const nc=data.rows.slice(1).filter(r=>r.length>1&&r[idx('id')]).map(r=>({id:r[idx('id')]||Date.now().toString()+Math.random().toString(36).slice(2,5),name:r[idx('姓名')]||'',title:r[idx('職稱')]||'',company:r[idx('公司')]||'',email:r[idx('Email')]||'',phone:r[idx('電話')]||'',country:r[idx('國家')]||'',product:r[idx('產品')]||'',expo:r[idx('展覽來源')]||'',status:r[idx('狀態')]||'new',edmSent:r[idx('已發EDM')]==='是',notes:r[idx('備註')]||'',created:Date.now(),edmLog:[]}));
     const sids=new Set(nc.map(c=>c.id));
     contacts=[...nc,...contacts.filter(c=>!sids.has(c.id))];
-    save();renderList();hideOverlay();toast(`載入完成，共 ${contacts.length} 位客戶`);
-  }catch(e){hideOverlay();if(e.message==='token_expired')toast('Google 登入已過期，請重新登入',true);else toast('載入失敗',true);}
+    save();renderList();hideOverlay();toast('載入完成，共 '+contacts.length+' 位客戶');updateSyncBadge('synced');
+  }catch(e){hideOverlay();toast('載入失敗',true);updateSyncBadge('error');}
 }
 
-function updateSyncBadge(state){
-  const b=document.getElementById('sync-badge');b.className='sync-badge';
-  if(!gAccessToken){b.textContent='☁ 未登入';return;}
-  if(state==='syncing'){b.textContent='↻ 同步中…';return;}
-  if(state==='synced'){b.className='sync-badge synced';b.textContent='✓ 已同步';return;}
-  if(state==='error'){b.className='sync-badge error';b.textContent='✕ 同步失敗';return;}
-  b.className='sync-badge synced';b.textContent='☁ '+(gUserName?gUserName.split(' ')[0]:'已登入');
-}
+function updateSyncBadge(state){const b=document.getElementById('sync-badge');b.className='sync-badge';if(state==='syncing'){b.textContent='↻ 同步中…';return;}if(state==='synced'){b.className='sync-badge synced';b.textContent='✓ 已同步';return;}if(state==='error'){b.className='sync-badge error';b.textContent='✕ 失敗';return;}b.textContent='☁ 同步';}
+function openSyncPanel(){document.getElementById('sync-status').textContent='';document.getElementById('modal-sync').classList.add('show');}
+function closeSyncPanel(){document.getElementById('modal-sync').classList.remove('show');}
 
-const scanInput=document.getElementById('scan-input');
-const scanPreview=document.getElementById('scan-preview');
-const scanZone=document.getElementById('scan-zone');
-const btnExtract=document.getElementById('btn-extract');
+const scanInput=document.getElementById('scan-input'),scanPreview=document.getElementById('scan-preview'),scanZone=document.getElementById('scan-zone'),btnExtract=document.getElementById('btn-extract');
 scanInput.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{scanImageData=ev.target.result;scanPreview.src=scanImageData;scanPreview.style.display='block';btnExtract.disabled=false;};r.readAsDataURL(f);});
 scanZone.addEventListener('dragover',e=>{e.preventDefault();scanZone.classList.add('drag');});
 scanZone.addEventListener('dragleave',()=>scanZone.classList.remove('drag'));
@@ -425,146 +325,49 @@ function getKeys(){return{hunter:localStorage.getItem('crm_hunter_key')||'',anth
 function keysOK(){return!!getKeys().anthropic;}
 
 async function callAI(messages,maxTokens,retries=2){
-  const k=getKeys();
-  if(!k.anthropic){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);throw new Error('no_key');}
-  for(let i=0;i<=retries;i++){
-    try{
-      const res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages})});
-      const data=await res.json();
-      if(data.error){if(data.error.type==='authentication_error'){toast('API Key 無效',true);throw new Error('auth_error');}if(data.error.type==='rate_limit_error'||data.error.type==='overloaded_error'){toast('Anthropic 暫時繁忙，請稍後再試',true);throw new Error('rate_limit');}throw new Error(data.error.message);}
-      return data.content.map(x=>x.text||'').join('').replace(/```json|```/g,'').trim();
-    }catch(e){if(['auth_error','rate_limit','no_key'].includes(e.message))throw e;if(i<retries){await new Promise(r=>setTimeout(r,1000*(i+1)));continue;}throw e;}
-  }
+  const k=getKeys();if(!k.anthropic){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);throw new Error('no_key');}
+  for(let i=0;i<=retries;i++){try{const res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages})});const data=await res.json();if(data.error){if(data.error.type==='authentication_error'){toast('API Key 無效',true);throw new Error('auth_error');}if(data.error.type==='rate_limit_error'||data.error.type==='overloaded_error'){toast('Anthropic 暫時繁忙',true);throw new Error('rate_limit');}throw new Error(data.error.message);}return data.content.map(x=>x.text||'').join('').replace(/```json|```/g,'').trim();}catch(e){if(['auth_error','rate_limit','no_key'].includes(e.message))throw e;if(i<retries){await new Promise(r=>setTimeout(r,1000*(i+1)));continue;}throw e;}}
 }
 
 btnExtract.addEventListener('click',async()=>{
-  if(!scanImageData)return;
-  if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}
-  showOverlay('AI 辨識中…');
-  const base64=scanImageData.split(',')[1];const mtype=scanImageData.split(';')[0].split(':')[1];
-  const img=[{type:'image',source:{type:'base64',media_type:mtype,data:base64}}];
-  try{
-    const dt=await callAI([{role:'user',content:[...img,{type:'text',text:'Is this a business card? Reply only: {"type":"business_card"} or {"type":"booth"}'}]}],60);
-    let t='booth';try{t=JSON.parse(dt).type;}catch(e){}
-    if(t==='business_card'){
-      showOverlay('辨識名片資料中…');
-      const ct=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識名片所有資訊，只回傳JSON：{"name":"姓名","name_en":"英文姓名","title":"職稱","company":"公司","company_en":"英文公司","email":"email","phone":"電話","mobile":"手機","country":"國家","wechat":"微信"}，找不到填空字串。'}]}],800);
-      const info=JSON.parse(ct);hideOverlay();renderCardResult(info);
-    }else{
-      showOverlay('辨識展商列表中…');
-      const lt=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識圖片中所有公司名稱，只回傳JSON陣列：[{"name":"公司英文名","name_zh":"中文名（若無填空）","domain":"推測網域如company.com"}]'}]}],1000);
-      const cos=JSON.parse(lt);hideOverlay();renderCompanyCards(cos);
-    }
+  if(!scanImageData)return;if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}
+  showOverlay('AI 辨識中…');const base64=scanImageData.split(',')[1];const mtype=scanImageData.split(';')[0].split(':')[1];const img=[{type:'image',source:{type:'base64',media_type:mtype,data:base64}}];
+  try{const dt=await callAI([{role:'user',content:[...img,{type:'text',text:'Is this a business card? Reply only: {"type":"business_card"} or {"type":"booth"}'}]}],60);let t='booth';try{t=JSON.parse(dt).type;}catch(e){}
+    if(t==='business_card'){showOverlay('辨識名片資料中…');const ct=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識名片所有資訊，只回傳JSON：{"name":"姓名","name_en":"英文姓名","title":"職稱","company":"公司","company_en":"英文公司","email":"email","phone":"電話","mobile":"手機","country":"國家","wechat":"微信"}，找不到填空字串。'}]}],800);const info=JSON.parse(ct);hideOverlay();renderCardResult(info);}
+    else{showOverlay('辨識展商列表中…');const lt=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識圖片中所有公司名稱，只回傳JSON陣列：[{"name":"公司英文名","name_zh":"中文名（若無填空）","domain":"推測網域如company.com"}]'}]}],1000);const cos=JSON.parse(lt);hideOverlay();renderCompanyCards(cos);}
   }catch(e){hideOverlay();if(!['auth_error','rate_limit','no_key'].includes(e.message))toast('辨識失敗，請重試',true);}
 });
 
-function renderCardResult(info){
-  const enc=encodeURIComponent(JSON.stringify(info));
-  document.getElementById('companies-area').innerHTML=`<div class="co-card" style="border-color:var(--forest3)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:15px"><div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#c0392b,#4a1a6b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:19px;color:#f5e6ff">${(info.name||info.name_en||'?')[0]}</div><div><div style="font-size:16px;font-weight:700">${info.name||info.name_en||'（未辨識）'}</div><div style="font-size:13px;color:var(--text-muted)">${[info.title,info.company].filter(Boolean).join(' · ')}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px">${info.email?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border);grid-column:1/-1"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">Email</div><div style="font-size:13px;color:var(--blue)">${info.email}</div></div>`:''} ${info.phone?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">電話</div><div style="font-size:13px">${info.phone}</div></div>`:''} ${info.mobile?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">手機</div><div style="font-size:13px">${info.mobile}</div></div>`:''} ${info.wechat?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">微信</div><div style="font-size:13px">${info.wechat}</div></div>`:''} ${info.country?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">國家</div><div style="font-size:13px">${info.country}</div></div>`:''}</div><button class="btn-primary" onclick="saveCard('${enc}')">＋ 建立客戶檔案</button></div>`;
-}
-
+function renderCardResult(info){const enc=encodeURIComponent(JSON.stringify(info));document.getElementById('companies-area').innerHTML=`<div class="co-card" style="border-color:var(--forest3)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:15px"><div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#c0392b,#4a1a6b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:19px;color:#f5e6ff">${(info.name||info.name_en||'?')[0]}</div><div><div style="font-size:16px;font-weight:700">${info.name||info.name_en||'（未辨識）'}</div><div style="font-size:13px;color:var(--text-muted)">${[info.title,info.company].filter(Boolean).join(' · ')}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px">${info.email?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border);grid-column:1/-1"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">Email</div><div style="font-size:13px;color:var(--blue)">${info.email}</div></div>`:''} ${info.phone?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">電話</div><div style="font-size:13px">${info.phone}</div></div>`:''} ${info.mobile?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">手機</div><div style="font-size:13px">${info.mobile}</div></div>`:''} ${info.wechat?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">微信</div><div style="font-size:13px">${info.wechat}</div></div>`:''} ${info.country?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">國家</div><div style="font-size:13px">${info.country}</div></div>`:''}</div><button class="btn-primary" onclick="saveCard('${enc}')">＋ 建立客戶檔案</button></div>`;}
 function saveCard(enc){const info=JSON.parse(decodeURIComponent(enc));const c={id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||info.name_en||'',title:info.title||'',company:info.company||info.company_en||'',email:info.email||'',phone:info.mobile||info.phone||'',country:info.country||'',product:'',expo:'',notes:info.wechat?'微信：'+info.wechat:'',status:'new',edmSent:false,edmLog:[],created:Date.now()};contacts.unshift(c);save();renderList();toast((c.name||'客戶')+' 已建入 CRM');selectContact(c.id);debouncedSync();}
 
-function renderCompanyCards(cos){
-  const area=document.getElementById('companies-area');
-  if(!cos.length){area.innerHTML='<div style="color:var(--text-muted);font-size:14px;padding:14px 0">未辨識到公司名稱</div>';return;}
-  area.innerHTML=`<div style="font-size:13px;color:var(--text-muted);margin-bottom:13px">辨識到 ${cos.length} 家公司，查詢 Hunter 中…</div>`+cos.map((_,i)=>`<div class="co-card" id="co-${i}"></div>`).join('');
-  cos.forEach((co,i)=>{document.getElementById('co-'+i).innerHTML=`<div style="margin-bottom:10px"><div style="font-size:16px;font-weight:700">${co.name}${co.name_zh?' · '+co.name_zh:''}</div><div style="font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:3px">${co.domain||'—'}</div></div><div class="hunting-row" id="hunt-${i}"><div class="dot-spin"></div>查詢 Hunter…</div><div id="results-${i}"></div>`;huntCompany(co,i);});
-}
-
-async function huntCompany(co,idx){
-  if(!co.domain){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">無法推測網域，跳過</span>';return;}
-  const k=getKeys();if(!k.hunter){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">未設定 Hunter Key，跳過</span>';return;}
-  try{
-    const res=await fetch(`https://api.hunter.io/v2/domain-search?domain=${encodeURIComponent(co.domain)}&limit=5&type=personal&api_key=${k.hunter}`);
-    const data=await res.json();document.getElementById('hunt-'+idx).style.display='none';
-    const emails=data.data&&data.data.emails||[];const el=document.getElementById('results-'+idx);
-    if(!emails.length){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);padding:5px 0">未找到聯絡人</div>';return;}
-    const rel=emails.filter(e=>{const t=(e.position||'').toLowerCase();return t.includes('sales')||t.includes('marketing')||t.includes('business')||t.includes('partner')||t.includes('account');}).slice(0,3);
-    const show=rel.length?rel:emails.slice(0,3);
-    el.innerHTML=show.map((e,i)=>{const enc=encodeURIComponent(JSON.stringify({name:(e.first_name||'')+' '+(e.last_name||''),title:e.position||'',company:co.name,email:e.value,country:data.data.country||''}));return `<div class="contact-row"><div class="cr-info"><div class="cr-name">${e.first_name||''} ${e.last_name||''}</div><div class="cr-title">${e.position||'（職稱不明）'}</div><div class="cr-email">${e.value}</div><div class="cr-score">信心值 ${e.confidence}%</div></div><button class="btn-add" id="ab-${idx}-${i}" onclick="addHunterContact('${idx}','${i}','${enc}')">＋ 建檔</button></div>`;}).join('');
-  }catch(e){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">查詢失敗</span>';}
-}
-
+function renderCompanyCards(cos){const area=document.getElementById('companies-area');if(!cos.length){area.innerHTML='<div style="color:var(--text-muted);font-size:14px;padding:14px 0">未辨識到公司名稱</div>';return;}area.innerHTML=`<div style="font-size:13px;color:var(--text-muted);margin-bottom:13px">辨識到 ${cos.length} 家公司</div>`+cos.map((_,i)=>`<div class="co-card" id="co-${i}"></div>`).join('');cos.forEach((co,i)=>{document.getElementById('co-'+i).innerHTML=`<div style="margin-bottom:10px"><div style="font-size:16px;font-weight:700">${co.name}${co.name_zh?' · '+co.name_zh:''}</div><div style="font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:3px">${co.domain||'—'}</div></div><div class="hunting-row" id="hunt-${i}"><div class="dot-spin"></div>查詢 Hunter…</div><div id="results-${i}"></div>`;huntCompany(co,i);});}
+async function huntCompany(co,idx){if(!co.domain){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">無法推測網域，跳過</span>';return;}const k=getKeys();if(!k.hunter){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">未設定 Hunter Key，跳過</span>';return;}try{const res=await fetch(`https://api.hunter.io/v2/domain-search?domain=${encodeURIComponent(co.domain)}&limit=5&type=personal&api_key=${k.hunter}`);const data=await res.json();document.getElementById('hunt-'+idx).style.display='none';const emails=data.data&&data.data.emails||[];const el=document.getElementById('results-'+idx);if(!emails.length){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);padding:5px 0">未找到聯絡人</div>';return;}const rel=emails.filter(e=>{const t=(e.position||'').toLowerCase();return t.includes('sales')||t.includes('marketing')||t.includes('business')||t.includes('partner')||t.includes('account');}).slice(0,3);const show=rel.length?rel:emails.slice(0,3);el.innerHTML=show.map((e,i)=>{const enc=encodeURIComponent(JSON.stringify({name:(e.first_name||'')+' '+(e.last_name||''),title:e.position||'',company:co.name,email:e.value,country:data.data.country||''}));return `<div class="contact-row"><div class="cr-info"><div class="cr-name">${e.first_name||''} ${e.last_name||''}</div><div class="cr-title">${e.position||'（職稱不明）'}</div><div class="cr-email">${e.value}</div><div class="cr-score">信心值 ${e.confidence}%</div></div><button class="btn-add" id="ab-${idx}-${i}" onclick="addHunterContact('${idx}','${i}','${enc}')">＋ 建檔</button></div>`;}).join('');}catch(e){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">查詢失敗</span>';}}
 function addHunterContact(cI,rI,enc){const info=JSON.parse(decodeURIComponent(enc));const c={id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name.trim(),title:info.title,company:info.company,email:info.email,phone:'',country:info.country,product:'',expo:'',notes:'',status:'new',edmSent:false,edmLog:[],created:Date.now()};contacts.unshift(c);save();renderList();const btn=document.getElementById('ab-'+cI+'-'+rI);btn.textContent='✓ 已建檔';btn.classList.add('added');btn.disabled=true;toast((c.name||'客戶')+' 已建入 CRM');selectContact(c.id);debouncedSync();}
 
-async function analyzeContact(id){
-  const c=contacts.find(x=>x.id===id);if(!c)return;
-  if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}
-  showOverlay('AI 分析中…');
-  try{
-    const text=await callAI([{role:'user',content:`B2B展覽業務顧問。根據展商資訊推測產品類別。展商：${[c.name,c.company,c.title,c.email,c.country].filter(Boolean).join(', ')}。只回傳JSON：{"product":"產品類別繁中30字內","product_en":"English","industry":"產業別","recommended_expos":["展覽1","展覽2"],"notes":"業務備註50字內"}`}],800);
-    const r=JSON.parse(text);hideOverlay();
-    if(r.product){c.product=r.product;save();renderList();}
-    showModal('◈ AI 分析：'+(c.company||c.name||''),`<div style="display:grid;gap:9px"><div style="background:var(--surface2);border-radius:9px;padding:13px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">產品類別</div><div style="font-size:16px;font-weight:600">${r.product||'—'}</div><div style="font-size:12px;color:var(--text-muted)">${r.product_en||''}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">所屬產業</div><div style="font-size:14px;font-weight:600">${r.industry||'—'}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:7px">推薦展覽</div><div style="display:flex;gap:6px;flex-wrap:wrap">${(r.recommended_expos||[]).map(e=>`<span style="background:var(--gold-dim);border:1px solid rgba(240,192,64,.3);color:#8a6000;font-size:12px;padding:2px 9px;border-radius:5px">${e}</span>`).join('')}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">業務備註</div><div style="font-size:13px;color:var(--text-mid);line-height:1.7">${r.notes||'—'}</div></div><div style="font-size:12px;color:var(--text-dim)">✓ 產品類別已自動填入</div></div>`,'確認',()=>renderDetail(contacts.find(x=>x.id===id)));
-  }catch(e){hideOverlay();if(!['auth_error','rate_limit','no_key'].includes(e.message))toast('分析失敗，請重試',true);}
-}
-
-async function batchAnalyze(){
-  if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}
-  const todo=contacts.filter(c=>!c.product&&(c.company||c.name));
-  if(!todo.length){toast('所有客戶已有產品分類');return;}
-  toast('批次分析 '+todo.length+' 位客戶…');
-  for(const c of todo){try{const t=await callAI([{role:'user',content:`根據展商推測產品類別，只回傳JSON：{"product":"繁中30字內","industry":"產業別"}。展商：${[c.name,c.company,c.title].filter(Boolean).join(', ')}`}],150);const r=JSON.parse(t);if(r.product){c.product=r.product;c._dirty=true;}}catch(e){}await new Promise(x=>setTimeout(x,400));}
-  save();renderList();if(activeId)renderDetail(contacts.find(x=>x.id===activeId));toast('批次分析完成 ✓');debouncedSync();
-}
+async function analyzeContact(id){const c=contacts.find(x=>x.id===id);if(!c)return;if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}showOverlay('AI 分析中…');try{const text=await callAI([{role:'user',content:`B2B展覽業務顧問。根據展商資訊推測產品類別。展商：${[c.name,c.company,c.title,c.email,c.country].filter(Boolean).join(', ')}。只回傳JSON：{"product":"產品類別繁中30字內","product_en":"English","industry":"產業別","recommended_expos":["展覽1","展覽2"],"notes":"業務備註50字內"}`}],800);const r=JSON.parse(text);hideOverlay();if(r.product){c.product=r.product;save();renderList();}showModal('◈ AI 分析：'+(c.company||c.name||''),`<div style="display:grid;gap:9px"><div style="background:var(--surface2);border-radius:9px;padding:13px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">產品類別</div><div style="font-size:16px;font-weight:600">${r.product||'—'}</div><div style="font-size:12px;color:var(--text-muted)">${r.product_en||''}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">所屬產業</div><div style="font-size:14px;font-weight:600">${r.industry||'—'}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:7px">推薦展覽</div><div style="display:flex;gap:6px;flex-wrap:wrap">${(r.recommended_expos||[]).map(e=>`<span style="background:var(--gold-dim);border:1px solid rgba(240,192,64,.3);color:#8a6000;font-size:12px;padding:2px 9px;border-radius:5px">${e}</span>`).join('')}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">業務備註</div><div style="font-size:13px;color:var(--text-mid);line-height:1.7">${r.notes||'—'}</div></div><div style="font-size:12px;color:var(--text-dim)">✓ 產品類別已自動填入</div></div>`,'確認',()=>renderDetail(contacts.find(x=>x.id===id)));}catch(e){hideOverlay();if(!['auth_error','rate_limit','no_key'].includes(e.message))toast('分析失敗，請重試',true);}}
+async function batchAnalyze(){if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}const todo=contacts.filter(c=>!c.product&&(c.company||c.name));if(!todo.length){toast('所有客戶已有產品分類');return;}toast('批次分析 '+todo.length+' 位客戶…');for(const c of todo){try{const t=await callAI([{role:'user',content:`根據展商推測產品類別，只回傳JSON：{"product":"繁中30字內","industry":"產業別"}。展商：${[c.name,c.company,c.title].filter(Boolean).join(', ')}`}],150);const r=JSON.parse(t);if(r.product)c.product=r.product;}catch(e){}await new Promise(x=>setTimeout(x,400));}save();renderList();if(activeId)renderDetail(contacts.find(x=>x.id===activeId));toast('批次分析完成 ✓');debouncedSync();}
 
 function triggerImport(){document.getElementById('modal-import').classList.add('show');}
 function closeImportModal(){document.getElementById('modal-import').classList.remove('show');document.getElementById('import-preview').style.display='none';document.getElementById('import-confirm-btn').style.display='none';importPreviewData=[];}
-
-function previewCSV(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const text=ev.target.result;const rows=text.trim().split(/\r?\n/);
-    const parsed=rows.map(r=>{const cols=[];let cur='',q=false;for(const ch of r){if(ch==='"')q=!q;else if(ch===','&&!q){cols.push(cur.trim());cur='';}else cur+=ch;}cols.push(cur.trim());return cols;});
-    if(parsed.length<2){toast('CSV 內容為空');return;}
-    const headers=parsed[0].map(h=>h.toLowerCase());const colMap={};
-    const aliases={name:['姓名','name','名字','contact'],email:['email','e-mail','電子郵件','mail'],title:['職稱','title','position'],company:['公司','company','organization'],phone:['電話','phone','tel','mobile','手機'],country:['國家','country','地區'],product:['產品','product','industry','產業'],expo:['展覽','expo','exhibition'],notes:['備註','notes','remark']};
-    Object.entries(aliases).forEach(([f,al])=>{const idx=headers.findIndex(h=>al.some(a=>h.includes(a)));if(idx>=0)colMap[f]=idx;});
-    const get=(r,f)=>colMap[f]!==undefined?r[colMap[f]]||'':'';
-    importPreviewData=parsed.slice(1).filter(r=>r.some(c=>c)).map(r=>({name:get(r,'name'),email:get(r,'email'),title:get(r,'title'),company:get(r,'company'),phone:get(r,'phone'),country:get(r,'country'),product:get(r,'product'),expo:get(r,'expo'),notes:get(r,'notes')})).filter(r=>r.email||r.name);
-    const prev=document.getElementById('import-preview');prev.style.display='block';
-    prev.innerHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px;max-height:180px;overflow-y:auto"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:7px">預覽：共 ${importPreviewData.length} 筆</div>${importPreviewData.slice(0,5).map(r=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="font-weight:600">${r.name||'（無姓名）'}</span><span style="color:var(--blue);font-family:'DM Mono',monospace;font-size:12px;margin-left:8px">${r.email||''}</span>${r.company?`<span style="color:var(--text-muted);font-size:12px;margin-left:7px">${r.company}</span>`:''}</div>`).join('')}${importPreviewData.length>5?`<div style="font-size:12px;color:var(--text-dim);padding-top:5px">…還有 ${importPreviewData.length-5} 筆</div>`:''}</div>`;
-    document.getElementById('import-confirm-btn').style.display='block';
-  };reader.readAsText(file,'UTF-8');
-}
-
-function confirmImport(){
-  let added=0,skipped=0;
-  importPreviewData.forEach(info=>{if(info.email&&contacts.find(c=>c.email===info.email)){skipped++;return;}contacts.push({id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||'',title:info.title||'',company:info.company||'',email:info.email||'',phone:info.phone||'',country:info.country||'',product:info.product||'',expo:info.expo||'',notes:info.notes||'',status:'new',edmSent:false,edmLog:[],created:Date.now()});if(info.expo)addExpoToList(info.expo);added++;});
-  save();renderList();closeImportModal();toast(`匯入完成：新增 ${added} 筆${skipped?'，跳過重複 '+skipped+' 筆':''}`);debouncedSync();
-}
+function previewCSV(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{const text=ev.target.result;const rows=text.trim().split(/\r?\n/);const parsed=rows.map(r=>{const cols=[];let cur='',q=false;for(const ch of r){if(ch==='"')q=!q;else if(ch===','&&!q){cols.push(cur.trim());cur='';}else cur+=ch;}cols.push(cur.trim());return cols;});if(parsed.length<2){toast('CSV 內容為空');return;}const headers=parsed[0].map(h=>h.toLowerCase());const colMap={};const aliases={name:['姓名','name','名字','contact'],email:['email','e-mail','電子郵件','mail'],title:['職稱','title','position'],company:['公司','company','organization'],phone:['電話','phone','tel','mobile','手機'],country:['國家','country','地區'],product:['產品','product','industry','產業'],expo:['展覽','expo','exhibition'],notes:['備註','notes','remark']};Object.entries(aliases).forEach(([f,al])=>{const idx=headers.findIndex(h=>al.some(a=>h.includes(a)));if(idx>=0)colMap[f]=idx;});const get=(r,f)=>colMap[f]!==undefined?r[colMap[f]]||'':'';importPreviewData=parsed.slice(1).filter(r=>r.some(c=>c)).map(r=>({name:get(r,'name'),email:get(r,'email'),title:get(r,'title'),company:get(r,'company'),phone:get(r,'phone'),country:get(r,'country'),product:get(r,'product'),expo:get(r,'expo'),notes:get(r,'notes')})).filter(r=>r.email||r.name);const prev=document.getElementById('import-preview');prev.style.display='block';prev.innerHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px;max-height:180px;overflow-y:auto"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:7px">預覽：共 ${importPreviewData.length} 筆</div>${importPreviewData.slice(0,5).map(r=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="font-weight:600">${r.name||'（無姓名）'}</span><span style="color:var(--blue);font-family:'DM Mono',monospace;font-size:12px;margin-left:8px">${r.email||''}</span></div>`).join('')}${importPreviewData.length>5?`<div style="font-size:12px;color:var(--text-dim);padding-top:5px">…還有 ${importPreviewData.length-5} 筆</div>`:''}</div>`;document.getElementById('import-confirm-btn').style.display='block';};reader.readAsText(file,'UTF-8');}
+function confirmImport(){let added=0,skipped=0;importPreviewData.forEach(info=>{if(info.email&&contacts.find(c=>c.email===info.email)){skipped++;return;}contacts.push({id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||'',title:info.title||'',company:info.company||'',email:info.email||'',phone:info.phone||'',country:info.country||'',product:info.product||'',expo:info.expo||'',notes:info.notes||'',status:'new',edmSent:false,edmLog:[],created:Date.now()});if(info.expo)addExpoToList(info.expo);added++;});save();renderList();closeImportModal();toast(`匯入完成：新增 ${added} 筆${skipped?'，跳過重複 '+skipped+' 筆':''}`);debouncedSync();}
 
 function updateExpoFilter(){const sel=document.getElementById('expo-filter');const cur=sel.value;const expos=[...new Set(contacts.map(c=>c.expo).filter(Boolean))].sort();sel.innerHTML='<option value="">📍 所有展覽來源</option>'+expos.map(e=>`<option value="${e}" ${e===cur?'selected':''}>${e}</option>`).join('');}
 function filterByExpo(val){currentExpoFilter=val;renderList();}
-
-function showModal(title,body,confirmText,onConfirm,cancelText,onCancel){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal-confirm-btn').textContent=confirmText||'確認';document.getElementById('modal-confirm-btn').onclick=()=>{closeModal();if(onConfirm)onConfirm();};const cb=document.getElementById('modal-cancel-btn');cb.textContent=cancelText||'取消';cb.onclick=()=>{closeModal();if(onCancel)onCancel();};document.getElementById('modal-main').classList.add('show');}
+function showModal(title,body,confirmText,onConfirm){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal-confirm-btn').textContent=confirmText||'確認';document.getElementById('modal-confirm-btn').onclick=()=>{closeModal();if(onConfirm)onConfirm();};document.getElementById('modal-cancel-btn').onclick=closeModal;document.getElementById('modal-main').classList.add('show');}
 function closeModal(){document.getElementById('modal-main').classList.remove('show');}
-
 function openSettings(){const k=getKeys();document.getElementById('input-anthropic-key').value=k.anthropic||'';document.getElementById('input-hunter-key').value=k.hunter||'';document.getElementById('settings-cancel-btn').style.display=keysOK()?'block':'none';document.getElementById('modal-settings').classList.add('show');}
 function closeSettingsModal(){if(!keysOK()){toast('請先儲存 Anthropic API Key',true);return;}document.getElementById('modal-settings').classList.remove('show');}
 function saveKeys(){const a=document.getElementById('input-anthropic-key').value.trim();const h=document.getElementById('input-hunter-key').value.trim();if(!a){toast('請填寫 Anthropic API Key',true);return;}localStorage.setItem('crm_anthropic_key',a);if(h)localStorage.setItem('crm_hunter_key',h);toast('API Key 已儲存 ✓');document.getElementById('modal-settings').classList.remove('show');}
-
 function save(){localStorage.setItem('crm_v4',JSON.stringify(contacts));updateExpoFilter();}
 function showOverlay(m){document.getElementById('overlay-msg').textContent=m;document.getElementById('overlay').classList.add('show');}
 function hideOverlay(){document.getElementById('overlay').classList.remove('show');}
 function toast(m,isError=false){const t=document.getElementById('toast');t.textContent=m;t.className='toast'+(isError?' error':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
-
-function exportCSV(){
-  const q=document.getElementById('search-input').value.toLowerCase();
-  const filtered=contacts.filter(c=>{const mq=!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q);const mf=currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent);const me=!currentExpoFilter||c.expo===currentExpoFilter;return mq&&mf&&me;});
-  const h=['姓名','職稱','公司','Email','電話','國家','產品','展覽','狀態','已發EDM','備註'];
-  const rows=filtered.map(c=>[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(v=>'"'+(v||'').replace(/"/g,'""')+'"'));
-  const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
-  a.download='昇揚CRM_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';a.click();toast('匯出 '+filtered.length+' 筆資料');
-}
-
+function exportCSV(){const q=document.getElementById('search-input').value.toLowerCase();const filtered=contacts.filter(c=>{const mq=!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q);const mf=currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent);const me=!currentExpoFilter||c.expo===currentExpoFilter;return mq&&mf&&me;});const h=['姓名','職稱','公司','Email','電話','國家','產品','展覽','狀態','已發EDM','備註'];const rows=filtered.map(c=>[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(v=>'"'+(v||'').replace(/"/g,'""')+'"'));const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='昇揚CRM_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';a.click();toast('匯出 '+filtered.length+' 筆資料');}
 document.querySelector('.filter-row').addEventListener('click',e=>{if(!e.target.matches('.fbtn'))return;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');currentFilter=e.target.dataset.filter;renderList();});
 document.getElementById('search-input').addEventListener('input',renderList);
-
-handleOAuthCallback();updateSyncBadge();renderList();
+renderList();
 if(!keysOK())setTimeout(()=>openSettings(),600);
 </script>
 </body>
