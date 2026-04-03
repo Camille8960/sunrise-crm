@@ -331,7 +331,7 @@ function closeSyncPanel(){document.getElementById('modal-sync').classList.remove
 
 function googleSignIn(){
   const scope='https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file';
-  const redirect=window.location.href.split('?')[0].split('#')[0];
+  const redirect='https://camille8960.github.io/sunrise-crm/';
   const state=Math.random().toString(36).slice(2);
   localStorage.setItem('oauth_state',state);
   window.location.href=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirect)}&response_type=token&scope=${encodeURIComponent(scope)}&state=${state}`;
