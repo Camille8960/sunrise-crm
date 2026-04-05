@@ -19,8 +19,9 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .sync-badge{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#e8d8ff;font-size:12px;padding:4px 12px;border-radius:20px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;}
 .sync-badge.synced{border-color:rgba(30,200,100,.5);color:#7fffc0;}
 .sync-badge.error{border-color:rgba(255,100,100,.5);color:#ffaaaa;}
-.tabs{background:#3d1259;display:flex;padding:0 24px;}
-.tab{padding:13px 20px;font-size:14px;font-weight:500;color:rgba(220,180,255,0.7);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
+.tabs{background:#3d1259;display:flex;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:13px 16px;font-size:14px;font-weight:500;color:rgba(220,180,255,0.7);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0;}
 .tab:hover{color:#e8d0ff;}.tab.active{color:#fff;border-bottom-color:var(--gold);}
 .app{display:flex;height:calc(100vh - 97px);}
 .sidebar{width:300px;min-width:300px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;}
@@ -34,7 +35,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .fbtn:hover{border-color:var(--forest3);color:var(--forest);}.fbtn.active{background:var(--forest);border-color:var(--forest);color:#fff;}
 .expo-sel{width:100%;margin-top:9px;background:var(--surface);border:1.5px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:13px;font-family:'Noto Sans TC',sans-serif;outline:none;cursor:pointer;}
 .contact-list{overflow-y:auto;flex:1;}
-.citem{padding:13px 14px;border-bottom:1px solid var(--bg2);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:11px;}
+.citem{width:100%;text-align:left;padding:13px 14px;border-bottom:1px solid var(--bg2);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:11px;background:transparent;border-left:none;border-right:none;border-top:none;font-family:'Noto Sans TC',sans-serif;-webkit-tap-highlight-color:rgba(74,26,107,0.15);}
 .citem:hover{background:var(--surface2);}.citem.active{background:#f0e8ff;border-left:3px solid var(--forest2);}
 .avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#c0392b,#4a1a6b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;color:#f5e6ff;flex-shrink:0;}
 .cmeta{flex:1;min-width:0;}.cname{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -62,6 +63,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .btn-act{font-size:13px;padding:7px 14px;border-radius:7px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-muted);cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-weight:500;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
 .btn-act:hover{border-color:var(--forest3);color:var(--forest);}
 .btn-act.primary{background:linear-gradient(135deg,#c0392b,#4a1a6b);color:#fff;border-color:transparent;}.btn-act.primary:hover{opacity:.88;}
+.btn-act.edm-btn{background:linear-gradient(135deg,#1e6b4a,#0f3d28);color:#fff;border-color:transparent;}.btn-act.edm-btn:hover{opacity:.88;}
 .btn-act.danger{color:var(--red);}.btn-act.danger:hover{border-color:var(--red);background:rgba(192,57,43,.06);}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px;}
 .icard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 15px;box-shadow:var(--shadow);}
@@ -84,6 +86,36 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .ntxt:focus{border-color:var(--forest3);}.ntxt::placeholder{color:var(--text-dim);}
 .save-btn{margin-top:9px;float:right;font-size:13px;padding:6px 16px;border-radius:7px;border:1.5px solid var(--forest3);background:transparent;color:var(--forest2);cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-weight:600;transition:all .15s;}
 .save-btn:hover{background:var(--forest);color:#fff;border-color:var(--forest);}
+.edm-wrap{padding:24px;max-width:900px;}
+.edm-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:24px;}
+.edm-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow);position:relative;}
+.edm-card-name{font-size:16px;font-weight:700;color:var(--forest);margin-bottom:4px;}
+.edm-card-desc{font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:10px;}
+.edm-card-meta{font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;}
+.edm-card-actions{display:flex;gap:6px;margin-top:10px;}
+.edm-badge{position:absolute;top:10px;right:10px;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;background:rgba(36,113,163,.12);color:var(--blue);border:1px solid rgba(36,113,163,.2);}
+.edm-empty{text-align:center;padding:40px 20px;color:var(--text-dim);}
+.edm-editor-wrap{display:flex;flex-direction:column;gap:12px;}
+.edm-field-label{font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
+.edm-name-input,.edm-desc-input,.brevo-field{width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:9px 13px;border-radius:9px;font-family:'Noto Sans TC',sans-serif;outline:none;}
+.edm-name-input{font-size:15px;font-weight:600;}
+.edm-desc-input{font-size:13px;resize:none;}
+.brevo-field{font-size:13px;font-family:'DM Mono',monospace;}
+.edm-name-input:focus,.edm-desc-input:focus,.brevo-field:focus{border-color:var(--forest3);}
+.edm-html-textarea{width:100%;background:#1a0025;color:#d0b8f0;padding:12px;border-radius:9px;font-size:12px;font-family:'DM Mono',monospace;border:1.5px solid var(--border2);outline:none;resize:vertical;min-height:200px;line-height:1.7;}
+.edm-html-textarea:focus{border-color:var(--forest3);}
+.edm-preview-frame{width:100%;height:320px;border:1.5px solid var(--border);border-radius:9px;background:#fff;}
+.edm-preview-tabs{display:flex;gap:0;margin-bottom:10px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;}
+.edm-ptab{flex:1;padding:8px;text-align:center;font-size:13px;cursor:pointer;background:var(--surface2);color:var(--text-muted);font-family:'Noto Sans TC',sans-serif;font-weight:500;border:none;}
+.edm-ptab.active{background:var(--forest);color:#fff;}
+.send-edm-wrap{display:flex;flex-direction:column;gap:12px;}
+.send-edm-contact{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.edm-select-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-height:200px;overflow-y:auto;}
+.edm-select-card{border:1.5px solid var(--border);border-radius:9px;padding:12px;cursor:pointer;transition:all .15s;background:var(--surface);}
+.edm-select-card:hover{border-color:var(--forest3);}
+.edm-select-card.chosen{border-color:var(--forest2);background:#f0e8ff;}
+.edm-select-name{font-size:14px;font-weight:700;color:var(--forest);margin-bottom:3px;}
+.edm-select-desc{font-size:11px;color:var(--text-muted);}
 .scan-wrap{padding:28px;max-width:740px;}
 .panel-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:600;color:var(--forest);margin-bottom:5px;}
 .panel-sub{font-size:13px;color:var(--text-muted);margin-bottom:22px;}
@@ -104,7 +136,6 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .contact-row{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:7px;}
 .cr-info{flex:1;}.cr-name{font-size:14px;font-weight:600;}.cr-title{font-size:12px;color:var(--text-muted);margin-top:2px;}
 .cr-email{font-size:12px;color:var(--blue);font-family:'DM Mono',monospace;margin-top:3px;}
-.cr-score{font-size:11px;color:var(--green);font-family:'DM Mono',monospace;margin-top:2px;}
 .btn-add{background:transparent;border:1.5px solid var(--border2);color:var(--text-muted);padding:6px 13px;border-radius:7px;font-size:12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-weight:600;transition:all .15s;white-space:nowrap;}
 .btn-add:hover{border-color:var(--forest3);color:var(--forest);}.btn-add.added{border-color:var(--green);color:var(--green);}
 .overlay{display:none;position:fixed;inset:0;background:rgba(74,26,107,.5);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
@@ -112,7 +143,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .overlay-card{background:var(--surface);border-radius:14px;padding:30px 40px;text-align:center;box-shadow:var(--shadow-md);border:1px solid var(--border);}
 .spin-lg{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--forest3);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 13px;}
 .overlay-msg{color:var(--text-mid);font-size:14px;font-weight:500;}
-.toast{position:fixed;bottom:22px;right:22px;background:var(--forest);color:#e8d8ff;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:500;z-index:300;transform:translateY(70px);opacity:0;transition:all .3s;box-shadow:var(--shadow-md);}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--forest);color:#e8d8ff;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:500;z-index:500;transform:translateY(70px);opacity:0;transition:all .3s;box-shadow:var(--shadow-md);}
 .toast.show{transform:translateY(0);opacity:1;}.toast.error{background:var(--red);}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(74,26,107,.4);z-index:400;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
 .modal-bg.show{display:flex;}
@@ -123,9 +154,12 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 .btn-cancel:hover{border-color:var(--text-muted);color:var(--text);}
 .btn-confirm{background:linear-gradient(135deg,#c0392b,#4a1a6b);color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:600;}
 .btn-confirm:hover{opacity:.88;}
+.btn-green{background:linear-gradient(135deg,#1e6b4a,#0f3d28);color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:600;}
+.btn-green:hover{opacity:.88;}
 @media(max-width:680px){
 .app{flex-direction:column;}.sidebar{width:100%;min-width:unset;border-right:none;border-bottom:1px solid var(--border);max-height:44vh;}
-.info-grid{grid-template-columns:1fr;}.detail-wrap,.scan-wrap{padding:16px;}
+.info-grid{grid-template-columns:1fr;}.detail-wrap,.scan-wrap,.edm-wrap{padding:16px;}
+.edm-select-grid{grid-template-columns:1fr;}.edm-list{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -140,7 +174,8 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 </header>
 <div class="tabs">
   <div class="tab active" data-tab="contacts">客戶列表</div>
-  <div class="tab" data-tab="scan">掃描展位 / 名片</div>
+  <div class="tab" data-tab="scan">掃描名片</div>
+  <div class="tab" data-tab="edm">📧 EDM 版本庫</div>
 </div>
 <div class="app">
   <div class="sidebar">
@@ -164,211 +199,281 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
   </div>
   <div class="main">
     <div id="tab-contacts" class="panel-view show">
-      <div class="empty-state" id="contact-empty"><div class="empty-icon">📋</div><div style="font-size:14px;color:var(--text-muted)">從左側選擇客戶，或前往「掃描展位 / 名片」新增</div></div>
+      <div class="empty-state" id="contact-empty"><div class="empty-icon">📋</div><div style="font-size:14px;color:var(--text-muted)">從左側選擇客戶，或前往「掃描名片」新增</div></div>
       <div id="contact-detail"></div>
     </div>
     <div id="tab-scan" class="panel-view">
       <div class="scan-wrap">
         <div class="panel-title">掃描展位 · 名片</div>
-        <div class="panel-sub">名片直接辨識建檔；展位看板 / 展商列表透過 Hunter 查詢聯絡人</div>
+        <div class="panel-sub">名片直接辨識建檔；展位看板透過 Hunter 查詢聯絡人</div>
         <div class="upload-zone" id="scan-zone">
           <input type="file" id="scan-input" accept="image/*">
           <div class="upload-icon">📇</div>
-          <div class="upload-label">名片 · 展位看板 · 展商列表<br><span>三種均支援，AI 自動判斷辨識類型</span><br><span>點擊選擇圖片或直接拍照</span></div>
+          <div class="upload-label">名片 · 展位看板<br><span>AI 自動判斷辨識類型</span><br><span>點擊選擇圖片或直接拍照</span></div>
         </div>
         <img id="scan-preview" alt="預覽">
-        <button class="btn-primary" id="btn-extract" disabled>AI 辨識 · 名片直接建檔 / 展位查詢聯絡人</button>
+        <button class="btn-primary" id="btn-extract" disabled>AI 辨識 · 建檔</button>
         <div class="companies-area" id="companies-area"></div>
+      </div>
+    </div>
+    <div id="tab-edm" class="panel-view">
+      <div class="edm-wrap">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="panel-title">EDM 版本庫</div>
+            <div class="panel-sub" style="margin-bottom:0">預存 HTML EDM，客戶頁一鍵選版本發送</div>
+          </div>
+          <button class="btn-act primary" onclick="openEdmEditor(null)" style="white-space:nowrap">＋ 新增版本</button>
+        </div>
+        <div style="background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.35);border-radius:9px;padding:11px 14px;font-size:13px;color:#6a4800;margin:16px 0;line-height:1.7">
+          💡 <strong>流程：</strong>新增版本（貼 HTML）→ 客戶詳細頁按「📧 發送 EDM」→ 選版本 → 展開 Brevo 設定填 API Key（首次）→ 發送
+        </div>
+        <div class="edm-list" id="edm-card-list"></div>
+        <div class="edm-empty" id="edm-empty"><div style="font-size:40px;opacity:.3;margin-bottom:12px">📧</div><div style="font-size:14px;color:var(--text-muted)">尚無 EDM 版本，點上方「＋ 新增版本」</div></div>
       </div>
     </div>
   </div>
 </div>
+
 <div class="overlay" id="overlay"><div class="overlay-card"><div class="spin-lg"></div><div class="overlay-msg" id="overlay-msg">處理中…</div></div></div>
 <div class="toast" id="toast"></div>
-<div class="modal-bg" id="modal-main">
-  <div class="modal">
-    <div class="modal-title" id="modal-title">確認</div>
-    <div id="modal-body" style="font-size:14px;color:var(--text-mid);line-height:1.8"></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" id="modal-cancel-btn" onclick="closeModal()">取消</button>
-      <button class="btn-confirm" id="modal-confirm-btn">確認</button>
+
+<div class="modal-bg" id="modal-main"><div class="modal"><div class="modal-title" id="modal-title">確認</div><div id="modal-body" style="font-size:14px;color:var(--text-mid);line-height:1.8"></div><div class="modal-actions"><button class="btn-cancel" id="modal-cancel-btn" onclick="closeModal()">取消</button><button class="btn-confirm" id="modal-confirm-btn">確認</button></div></div></div>
+
+<div class="modal-bg" id="modal-import"><div class="modal" style="width:560px"><div class="modal-title">↑ 匯入客戶名單</div><div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">支援 CSV，必填：Email 或姓名</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text-muted);margin-bottom:14px">姓名,Email,公司,展覽來源,備註</div><div id="import-preview" style="display:none;margin-bottom:14px"></div><label style="display:block;background:linear-gradient(135deg,#c0392b,#4a1a6b);color:#fff;border-radius:9px;padding:12px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;font-family:'Noto Sans TC',sans-serif">選擇 CSV 檔案<input type="file" accept=".csv" style="display:none" onchange="previewCSV(event)"></label><div class="modal-actions"><button class="btn-cancel" onclick="closeImportModal()">取消</button><button class="btn-confirm" id="import-confirm-btn" style="display:none" onclick="confirmImport()">確認匯入</button></div></div></div>
+
+<div class="modal-bg" id="modal-settings"><div class="modal"><div class="modal-title">⚙ API 設定</div><div style="margin-bottom:16px"><label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Anthropic API Key</label><input id="input-anthropic-key" type="password" placeholder="sk-ant-..." style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;"></div><div style="margin-bottom:16px"><label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Hunter.io API Key（可選）</label><input id="input-hunter-key" type="password" placeholder="Hunter API Key" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;"></div><div class="modal-actions"><button class="btn-cancel" id="settings-cancel-btn" onclick="closeSettingsModal()">取消</button><button class="btn-confirm" onclick="saveKeys()">儲存</button></div></div></div>
+
+<div class="modal-bg" id="modal-sync"><div class="modal" style="width:440px"><div class="modal-title">☁ Google Sheets 同步</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">上傳／載入會同時處理<strong style="color:var(--text)">客戶資料＋EDM版本</strong>兩份資料。</div><button class="btn-primary" style="margin-bottom:10px" onclick="syncAll()">🔄 上傳全部到 Google Sheets</button><button class="btn-primary" style="background:linear-gradient(135deg,#1e8449,#145a32);margin-bottom:16px" onclick="loadAll()">⬇ 從 Google Sheets 載入全部</button><div id="sync-status" style="font-size:13px;color:var(--text-muted);text-align:center;min-height:20px"></div><div class="modal-actions"><button class="btn-cancel" onclick="closeSyncPanel()">關閉</button></div></div></div>
+
+<div class="modal-bg" id="modal-edm-editor"><div class="modal" style="width:680px;max-width:96vw;"><div class="modal-title" id="edm-editor-title">新增 EDM 版本</div><div class="edm-editor-wrap"><div><div class="edm-field-label">版本名稱</div><input id="edm-edit-name" class="edm-name-input" placeholder="例：初次接觸版、展後跟進版…"></div><div><div class="edm-field-label">說明（選填）</div><textarea id="edm-edit-desc" class="edm-desc-input" rows="2" placeholder="適用情境說明"></textarea></div><div><div class="edm-preview-tabs"><button class="edm-ptab active" onclick="switchEdmEditorTab('code',this)">HTML 程式碼</button><button class="edm-ptab" onclick="switchEdmEditorTab('preview',this)">預覽</button></div><div id="edm-code-panel"><div class="edm-field-label">EDM HTML 內容</div><textarea id="edm-edit-html" class="edm-html-textarea" rows="12" placeholder="貼上 EDM HTML…"></textarea></div><div id="edm-preview-panel" style="display:none"><iframe id="edm-preview-iframe" class="edm-preview-frame"></iframe></div></div></div><div class="modal-actions"><button class="btn-cancel" onclick="closeEdmEditor()">取消</button><button class="btn-confirm" onclick="saveEdmTemplate()">儲存版本</button></div></div></div>
+
+<div class="modal-bg" id="modal-send-edm">
+  <div class="modal" style="width:600px;max-width:96vw;">
+    <div class="modal-title">✉ 發送 EDM</div>
+    <div class="send-edm-wrap">
+      <div id="send-edm-contact-info"></div>
+      <div><div class="edm-field-label">選擇 EDM 版本</div><div class="edm-select-grid" id="send-edm-select-grid"></div></div>
+      <div><div class="edm-field-label">郵件主旨</div><input id="send-edm-subject" type="text" class="brevo-field" placeholder="昇揚展覽 — 展覽參與機會" style="width:100%"></div>
+      <div style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;">
+        <div onclick="toggleBrevoSection()" style="padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;background:var(--surface2);">
+          <span id="brevo-section-label" style="font-size:13px;font-weight:600;color:var(--forest)">⚙ Brevo 發送設定</span>
+          <span id="brevo-section-arrow" style="font-size:12px;color:var(--text-dim)">▼</span>
+        </div>
+        <div id="brevo-section-body" style="padding:14px;display:none;border-top:1px solid var(--border);">
+          <div style="margin-bottom:9px"><div class="edm-field-label">Brevo API Key <span style="color:var(--red)">*</span></div><input id="send-brevo-key" type="password" class="brevo-field" placeholder="xkeysib-…" style="width:100%"><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Brevo 右上角帳號 → SMTP &amp; API → API Keys</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px"><div><div class="edm-field-label">寄件人姓名</div><input id="send-brevo-name" type="text" class="brevo-field" placeholder="昇揚展覽 Camille" style="width:100%"></div><div><div class="edm-field-label">寄件人 Email</div><input id="send-brevo-email" type="email" class="brevo-field" placeholder="camille@sunriseexpo.com" style="width:100%"></div></div>
+          <button onclick="saveBrevoSettings()" style="width:100%;background:var(--forest);color:#fff;border:none;padding:9px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;">儲存設定（下次自動帶入）</button>
+        </div>
+      </div>
+      <div id="send-edm-status" style="font-size:13px;min-height:18px;text-align:center"></div>
     </div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeSendEdm()">取消</button><button class="btn-green" id="btn-do-send-edm" onclick="doSendEdm()">發送</button></div>
   </div>
 </div>
-<div class="modal-bg" id="modal-import">
-  <div class="modal" style="width:560px">
-    <div class="modal-title">↑ 匯入客戶名單</div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.9">支援 CSV 格式，欄位自動對應。<br><strong style="color:var(--text)">必填：</strong>Email 或姓名　<strong style="color:var(--text)">可選：</strong>姓名、職稱、公司、電話、國家、展覽來源、備註</div>
-    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 13px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text-muted);margin-bottom:14px;line-height:2">範例：姓名,Email,公司,展覽來源,備註<br>王大明,david@co.com,CyberTech,Cybersec Asia 2026,對資安有興趣</div>
-    <div id="import-preview" style="display:none;margin-bottom:14px"></div>
-    <label style="display:block;background:linear-gradient(135deg,#c0392b,#4a1a6b);color:#fff;border-radius:9px;padding:12px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;font-family:'Noto Sans TC',sans-serif">選擇 CSV 檔案<input type="file" accept=".csv" style="display:none" onchange="previewCSV(event)"></label>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeImportModal()">取消</button>
-      <button class="btn-confirm" id="import-confirm-btn" style="display:none" onclick="confirmImport()">確認匯入</button>
-    </div>
-  </div>
-</div>
-<div class="modal-bg" id="modal-settings">
-  <div class="modal">
-    <div class="modal-title">⚙ API 設定</div>
-    <div style="margin-bottom:16px">
-      <label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Anthropic API Key（名片辨識 / AI 分析）</label>
-      <input id="input-anthropic-key" type="password" placeholder="sk-ant-..." style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;">
-      <div style="font-size:11px;color:var(--text-dim);margin-top:5px">console.anthropic.com → API Keys</div>
-    </div>
-    <div style="margin-bottom:16px">
-      <label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Hunter.io API Key（查聯絡人，可選）</label>
-      <input id="input-hunter-key" type="password" placeholder="請輸入 Hunter API Key" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" id="settings-cancel-btn" onclick="closeSettingsModal()">取消</button>
-      <button class="btn-confirm" onclick="saveKeys()">儲存</button>
-    </div>
-  </div>
-</div>
-<div class="modal-bg" id="modal-sync">
-  <div class="modal" style="width:440px">
-    <div class="modal-title">☁ Google Sheets 同步</div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.8">資料同步到你的 Google Sheets，手機電腦都能共用。</div>
-    <button class="btn-primary" style="margin-bottom:10px" onclick="syncToSheet()">🔄 上傳到 Google Sheets</button>
-    <button class="btn-primary" style="background:linear-gradient(135deg,#1e8449,#145a32);margin-bottom:16px" onclick="loadFromSheet()">⬇ 從 Google Sheets 載入</button>
-    <div id="sync-status" style="font-size:13px;color:var(--text-muted);text-align:center;min-height:20px"></div>
-    <div class="modal-actions"><button class="btn-cancel" onclick="closeSyncPanel()">關閉</button></div>
-  </div>
-</div>
+
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycbw5Qim2jJ1k40I8xBd3X1kXmgW_n8APQuX0ihdS4UUVXDABIYHWSFRjj7shA3Xx88d8sA/exec';
-const ANTHROPIC_API='https://api.anthropic.com/v1/messages';
-let contacts=JSON.parse(localStorage.getItem('crm_v4')||'[]');
-let activeId=null,currentFilter='all',currentExpoFilter='',scanImageData=null,importPreviewData=[],syncTimer=null;
+var GAS_URL='https://script.google.com/macros/s/AKfycbw5Qim2jJ1k40I8xBd3X1kXmgW_n8APQuX0ihdS4UUVXDABIYHWSFRjj7shA3Xx88d8sA/exec';
+var ANTHROPIC_API='https://api.anthropic.com/v1/messages';
+var contacts=JSON.parse(localStorage.getItem('crm_v4')||'[]');
+var edmTemplates=JSON.parse(localStorage.getItem('crm_edm_templates')||'[]');
+var activeId=null,currentFilter='all',currentExpoFilter='',scanImageData=null,importPreviewData=[],syncTimer=null;
+var edmEditingId=null,sendEdmContactId=null,sendEdmChosenId=null;
 
-function getExpoList(){const a=contacts.map(c=>c.expo).filter(Boolean);const b=JSON.parse(localStorage.getItem('crm_expo_list')||'[]');const m=[...new Set([...b,...a])].sort();localStorage.setItem('crm_expo_list',JSON.stringify(m));return m;}
-function addExpoToList(e){if(!e)return;const l=getExpoList();if(!l.includes(e)){l.push(e);l.sort();localStorage.setItem('crm_expo_list',JSON.stringify(l));}}
+document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});t.classList.add('active');document.querySelectorAll('.panel-view').forEach(function(p){p.classList.remove('show');});document.getElementById('tab-'+t.dataset.tab).classList.add('show');if(t.dataset.tab==='edm')renderEdmList();});});
 
-document.querySelectorAll('.tab').forEach(t=>{t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.querySelectorAll('.panel-view').forEach(p=>p.classList.remove('show'));document.getElementById('tab-'+t.dataset.tab).classList.add('show');});});
+function getExpoList(){var a=contacts.map(function(c){return c.expo;}).filter(Boolean);var b=JSON.parse(localStorage.getItem('crm_expo_list')||'[]');var m=[...new Set([...b,...a])].sort();localStorage.setItem('crm_expo_list',JSON.stringify(m));return m;}
+function addExpoToList(e){if(!e)return;var l=getExpoList();if(!l.includes(e)){l.push(e);l.sort();localStorage.setItem('crm_expo_list',JSON.stringify(l));}}
 
 function renderList(){
-  const q=document.getElementById('search-input').value.toLowerCase();
-  const filtered=contacts.filter(c=>{const mq=!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q);const mf=currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent);const me=!currentExpoFilter||c.expo===currentExpoFilter;return mq&&mf&&me;});
-  document.getElementById('contact-list').innerHTML=filtered.map(c=>`<div class="citem ${c.id===activeId?'active':''}" onclick="selectContact('${c.id}')"><div class="avatar">${(c.name||'?')[0]}</div><div class="cmeta"><div class="cname">${c.name||'（未知）'}</div><div class="cco">${c.company||'—'}</div><div class="ctags">${c.expo?`<span class="tag tag-expo">${c.expo}</span>`:''} ${c.edmSent?`<span class="tag tag-sent">已發EDM</span>`:''} ${c.status==='follow'?`<span class="tag tag-follow">跟進中</span>`:''} ${c.status==='closed'?`<span class="tag tag-closed">已成交</span>`:''}</div></div></div>`).join('')||'<div style="padding:22px;text-align:center;color:var(--text-dim);font-size:13px">無符合結果</div>';
+  var q=document.getElementById('search-input').value.toLowerCase();
+  var filtered=contacts.filter(function(c){return(!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q))&&(currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent))&&(!currentExpoFilter||c.expo===currentExpoFilter);});
+  document.getElementById('contact-list').innerHTML=filtered.map(function(c){return '<button class="citem'+(c.id===activeId?' active':'')+'" onclick="selectContact(\''+c.id+'\')"><div class="avatar">'+(c.name||'?')[0]+'</div><div class="cmeta"><div class="cname">'+(c.name||'（未知）')+'</div><div class="cco">'+(c.company||'—')+'</div><div class="ctags">'+(c.expo?'<span class="tag tag-expo">'+c.expo+'</span>':'')+(c.edmSent?'<span class="tag tag-sent">已發EDM</span>':'')+(c.status==='follow'?'<span class="tag tag-follow">跟進中</span>':'')+(c.status==='closed'?'<span class="tag tag-closed">已成交</span>':'')+'</div></div></button>';}).join('')||'<div style="padding:22px;text-align:center;color:var(--text-dim);font-size:13px">無符合結果</div>';
   document.getElementById('total-count').textContent=contacts.length+' 位客戶';
   updateExpoFilter();
 }
 
-function selectContact(id){activeId=id;const c=contacts.find(x=>x.id===id);if(!c)return;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelector('[data-tab="contacts"]').classList.add('active');document.querySelectorAll('.panel-view').forEach(p=>p.classList.remove('show'));document.getElementById('tab-contacts').classList.add('show');renderList();renderDetail(c);}
-function esc(v){return(v||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function selectContact(id){activeId=id;var c=contacts.find(function(x){return x.id===id;});if(!c)return;document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});document.querySelector('[data-tab="contacts"]').classList.add('active');document.querySelectorAll('.panel-view').forEach(function(p){p.classList.remove('show');});document.getElementById('tab-contacts').classList.add('show');renderList();renderDetail(c);}
+
+function esc(v){return(v||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
 function renderDetail(c){
   document.getElementById('contact-empty').style.display='none';
-  const expoList=getExpoList();
-  document.getElementById('contact-detail').innerHTML=`<div class="detail-wrap"><div class="detail-header"><div class="avatar-lg">${(c.name||'?')[0]}</div><div style="flex:1"><div class="dname">${c.name||'（未知）'}</div><div class="dtitle">${c.title||''}</div><div class="dcompany">${c.company||''}</div>${c.expo?`<div style="margin-top:7px"><span class="tag tag-expo">📍 ${c.expo}</span></div>`:''}<div class="action-row">${c.email?`<a href="mailto:${c.email}" class="btn-act primary">✉ 寄信</a>`:''} ${c.phone?`<a href="tel:${c.phone}" class="btn-act">📞 致電</a>`:''} <button class="btn-act" onclick="analyzeContact('${c.id}')" style="color:var(--blue);border-color:rgba(36,113,163,.3)">◈ AI 分析</button> <button class="btn-act danger" onclick="deleteContact('${c.id}')">✕ 刪除</button></div></div></div>
-  <div class="info-grid">
-    <div class="icard"><div class="ilabel">姓名</div><input class="efield" value="${esc(c.name)}" onblur="upd('${c.id}','name',this.value)" placeholder="姓名"></div>
-    <div class="icard"><div class="ilabel">職稱</div><input class="efield" value="${esc(c.title)}" onblur="upd('${c.id}','title',this.value)" placeholder="職稱"></div>
-    <div class="icard full"><div class="ilabel">公司</div><input class="efield" value="${esc(c.company)}" onblur="upd('${c.id}','company',this.value)" placeholder="公司名稱"></div>
-    <div class="icard"><div class="ilabel">Email</div><input class="efield" value="${esc(c.email)}" onblur="upd('${c.id}','email',this.value)" placeholder="Email"></div>
-    <div class="icard"><div class="ilabel">電話</div><input class="efield" value="${esc(c.phone)}" onblur="upd('${c.id}','phone',this.value)" placeholder="電話"></div>
-    <div class="icard"><div class="ilabel">展覽來源</div><div class="expo-combo" id="ec-${c.id}"><input value="${esc(c.expo)}" placeholder="例：Cybersec Asia 2026" oninput="filterExpoDd('${c.id}',this.value)" onfocus="showExpoDd('${c.id}',this.value)" onblur="hideExpoDd('${c.id}',this)" autocomplete="off"><div class="expo-dropdown" id="ed-${c.id}">${expoList.map(e=>`<div class="expo-opt" onmousedown="pickExpo('${c.id}','${e.replace(/'/g,"\\'")}')">${e}</div>`).join('')}</div></div></div>
-    <div class="icard"><div class="ilabel">跟進狀態</div><select class="eselect" onchange="upd('${c.id}','status',this.value)"><option value="new" ${c.status==='new'?'selected':''}>新客戶</option><option value="follow" ${c.status==='follow'?'selected':''}>跟進中</option><option value="closed" ${c.status==='closed'?'selected':''}>已成交</option><option value="cold" ${c.status==='cold'?'selected':''}>暫緩</option></select></div>
-    <div class="icard"><div class="ilabel">國家</div><input class="efield" value="${esc(c.country)}" onblur="upd('${c.id}','country',this.value)" placeholder="國家 / 地區"></div>
-    <div class="icard full"><div class="ilabel">產品類別</div><input class="efield" value="${esc(c.product)}" onblur="upd('${c.id}','product',this.value)" placeholder="例：網路安全、AI 解決方案"></div>
-  </div>
-  <div class="notes-card"><label class="nlabel">備註</label><textarea class="ntxt" id="notes-${c.id}" placeholder="對話重點、下次跟進時間…">${c.notes||''}</textarea><button class="save-btn" onclick="saveNote('${c.id}')">儲存備註</button><div style="clear:both"></div></div>
-  <div style="margin-top:13px;font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace">建檔 ${new Date(c.created).toLocaleString('zh-TW')}</div></div>`;
+  var expoList=getExpoList();
+  var edmCount=edmTemplates.length;
+  document.getElementById('contact-detail').innerHTML='<div class="detail-wrap"><div class="detail-header"><div class="avatar-lg">'+(c.name||'?')[0]+'</div><div style="flex:1"><div class="dname">'+(c.name||'（未知）')+'</div><div class="dtitle">'+(c.title||'')+'</div><div class="dcompany">'+(c.company||'')+'</div>'+(c.expo?'<div style="margin-top:7px"><span class="tag tag-expo">📍 '+c.expo+'</span></div>':'')+'<div class="action-row">'+(c.email?'<a href="mailto:'+c.email+'" class="btn-act primary">✉ 寄信</a>':'')+(c.phone?'<a href="tel:'+c.phone+'" class="btn-act">📞 致電</a>':'')+(c.email?'<button class="btn-act edm-btn" onclick="openSendEdm(\''+c.id+'\')">📧 發送 EDM'+(edmCount?' ('+edmCount+'版)':'')+'</button>':'')+'<button class="btn-act" onclick="analyzeContact(\''+c.id+'\')" style="color:var(--blue);border-color:rgba(36,113,163,.3)">◈ AI 分析</button><button class="btn-act danger" onclick="deleteContact(\''+c.id+'\')">✕ 刪除</button></div></div></div>'+
+  '<div class="info-grid">'+
+  '<div class="icard"><div class="ilabel">姓名</div><input class="efield" value="'+esc(c.name)+'" onblur="upd(\''+c.id+'\',\'name\',this.value)" placeholder="姓名"></div>'+
+  '<div class="icard"><div class="ilabel">職稱</div><input class="efield" value="'+esc(c.title)+'" onblur="upd(\''+c.id+'\',\'title\',this.value)" placeholder="職稱"></div>'+
+  '<div class="icard full"><div class="ilabel">公司</div><input class="efield" value="'+esc(c.company)+'" onblur="upd(\''+c.id+'\',\'company\',this.value)" placeholder="公司名稱"></div>'+
+  '<div class="icard"><div class="ilabel">Email</div><input class="efield" value="'+esc(c.email)+'" onblur="upd(\''+c.id+'\',\'email\',this.value)" placeholder="Email"></div>'+
+  '<div class="icard"><div class="ilabel">電話</div><input class="efield" value="'+esc(c.phone)+'" onblur="upd(\''+c.id+'\',\'phone\',this.value)" placeholder="電話"></div>'+
+  '<div class="icard"><div class="ilabel">展覽來源</div><div class="expo-combo" id="ec-'+c.id+'"><input value="'+esc(c.expo)+'" placeholder="Cybersec Asia 2026" oninput="filterExpoDd(\''+c.id+'\',this.value)" onfocus="showExpoDd(\''+c.id+'\',this.value)" onblur="hideExpoDd(\''+c.id+'\',this)" autocomplete="off"><div class="expo-dropdown" id="ed-'+c.id+'">'+expoList.map(function(e){return '<div class="expo-opt" onmousedown="pickExpo(\''+c.id+'\',\''+e.replace(/'/g,"\\'")+'\')">'+e+'</div>';}).join('')+'</div></div></div>'+
+  '<div class="icard"><div class="ilabel">跟進狀態</div><select class="eselect" onchange="upd(\''+c.id+'\',\'status\',this.value)"><option value="new"'+(c.status==='new'?' selected':'')+'>新客戶</option><option value="follow"'+(c.status==='follow'?' selected':'')+'>跟進中</option><option value="closed"'+(c.status==='closed'?' selected':'')+'>已成交</option><option value="cold"'+(c.status==='cold'?' selected':'')+'>暫緩</option></select></div>'+
+  '<div class="icard"><div class="ilabel">國家</div><input class="efield" value="'+esc(c.country)+'" onblur="upd(\''+c.id+'\',\'country\',this.value)" placeholder="國家"></div>'+
+  '<div class="icard full"><div class="ilabel">產品類別</div><input class="efield" value="'+esc(c.product)+'" onblur="upd(\''+c.id+'\',\'product\',this.value)" placeholder="例：網路安全"></div>'+
+  '</div>'+
+  (c.edmSent&&c.edmLog&&c.edmLog.length?'<div class="notes-card" style="border-color:var(--green)"><label class="nlabel" style="color:var(--green)">EDM 發送記錄</label>'+c.edmLog.map(function(l){return '<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--bg2)">'+new Date(l.time).toLocaleString('zh-TW')+' — '+l.template+' → '+l.email+'</div>';}).join('')+'</div>':'')+
+  '<div class="notes-card"><label class="nlabel">備註</label><textarea class="ntxt" id="notes-'+c.id+'" placeholder="對話重點…">'+(c.notes||'')+'</textarea><button class="save-btn" onclick="saveNote(\''+c.id+'\')">儲存備註</button><div style="clear:both"></div></div>'+
+  '<div style="margin-top:13px;font-size:11px;color:var(--text-dim);font-family:\'DM Mono\',monospace">建檔 '+new Date(c.created).toLocaleString('zh-TW')+'</div></div>';
 }
 
-function showExpoDd(id,v){filterExpoDd(id,v);const dd=document.getElementById('ed-'+id);if(dd)dd.classList.add('show');}
-function filterExpoDd(id,v){const dd=document.getElementById('ed-'+id);if(!dd)return;const l=getExpoList();const f=v?l.filter(e=>e.toLowerCase().includes(v.toLowerCase())):l;dd.innerHTML=f.map(e=>`<div class="expo-opt" onmousedown="pickExpo('${id}','${e.replace(/'/g,"\\'")}')">${e}</div>`).join('');dd.classList.toggle('show',f.length>0);}
-function hideExpoDd(id,input){setTimeout(()=>{const dd=document.getElementById('ed-'+id);if(dd)dd.classList.remove('show');upd(id,'expo',input.value);addExpoToList(input.value);},200);}
-function pickExpo(id,v){const c=document.getElementById('ec-'+id);if(c)c.querySelector('input').value=v;const dd=document.getElementById('ed-'+id);if(dd)dd.classList.remove('show');upd(id,'expo',v);addExpoToList(v);}
+function showExpoDd(id,v){filterExpoDd(id,v);var dd=document.getElementById('ed-'+id);if(dd)dd.classList.add('show');}
+function filterExpoDd(id,v){var dd=document.getElementById('ed-'+id);if(!dd)return;var f=v?getExpoList().filter(function(e){return e.toLowerCase().includes(v.toLowerCase());}):getExpoList();dd.innerHTML=f.map(function(e){return '<div class="expo-opt" onmousedown="pickExpo(\''+id+'\',\''+e.replace(/'/g,"\\'")+'\')">'+e+'</div>';}).join('');dd.classList.toggle('show',f.length>0);}
+function hideExpoDd(id,input){setTimeout(function(){var dd=document.getElementById('ed-'+id);if(dd)dd.classList.remove('show');upd(id,'expo',input.value);addExpoToList(input.value);},200);}
+function pickExpo(id,v){var ci=document.getElementById('ec-'+id);if(ci)ci.querySelector('input').value=v;var dd=document.getElementById('ed-'+id);if(dd)dd.classList.remove('show');upd(id,'expo',v);addExpoToList(v);}
+function upd(id,f,v){var c=contacts.find(function(x){return x.id===id;});if(!c)return;c[f]=v;save();renderList();debouncedSync();}
+function saveNote(id){var c=contacts.find(function(x){return x.id===id;});if(!c)return;c.notes=document.getElementById('notes-'+id).value;save();toast('備註已儲存');debouncedSync();}
+function deleteContact(id){if(!confirm('確定刪除？'))return;contacts=contacts.filter(function(x){return x.id!==id;});activeId=null;save();renderList();document.getElementById('contact-empty').style.display='flex';document.getElementById('contact-detail').innerHTML='';debouncedSync();}
+function debouncedSync(){clearTimeout(syncTimer);syncTimer=setTimeout(async function(){try{await syncToSheet();}catch(e){}},3000);}
 
-function upd(id,f,v){const c=contacts.find(x=>x.id===id);if(!c)return;c[f]=v;save();renderList();debouncedSync();}
-function saveNote(id){const c=contacts.find(x=>x.id===id);if(!c)return;c.notes=document.getElementById('notes-'+id).value;save();toast('備註已儲存');debouncedSync();}
-function deleteContact(id){if(!confirm('確定刪除？'))return;contacts=contacts.filter(x=>x.id!==id);activeId=null;save();renderList();document.getElementById('contact-empty').style.display='flex';document.getElementById('contact-detail').innerHTML='';debouncedSync();}
-function debouncedSync(){clearTimeout(syncTimer);syncTimer=setTimeout(()=>syncToSheet(),3000);}
-
-async function syncToSheet(){
-  updateSyncBadge('syncing');
-  try{
-    const res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'sync',contacts})});
-    const data=await res.json();
-    if(data.ok){updateSyncBadge('synced');toast('已同步到 Google Sheets ✓');}
-    else throw new Error();
-  }catch(e){updateSyncBadge('error');toast('同步失敗，請重試',true);}
-}
-
-async function loadFromSheet(){
-  showOverlay('從 Google Sheets 載入…');
-  try{
-    const res=await fetch(GAS_URL);
-    const data=await res.json();
-    if(!data.ok||!data.rows||data.rows.length<2){hideOverlay();toast('試算表無資料');return;}
-    const h=data.rows[0];const idx=n=>h.indexOf(n);
-    const nc=data.rows.slice(1).filter(r=>r.length>1&&r[idx('id')]).map(r=>({id:r[idx('id')]||Date.now().toString()+Math.random().toString(36).slice(2,5),name:r[idx('姓名')]||'',title:r[idx('職稱')]||'',company:r[idx('公司')]||'',email:r[idx('Email')]||'',phone:r[idx('電話')]||'',country:r[idx('國家')]||'',product:r[idx('產品')]||'',expo:r[idx('展覽來源')]||'',status:r[idx('狀態')]||'new',edmSent:r[idx('已發EDM')]==='是',notes:r[idx('備註')]||'',created:Date.now(),edmLog:[]}));
-    const sids=new Set(nc.map(c=>c.id));
-    contacts=[...nc,...contacts.filter(c=>!sids.has(c.id))];
-    save();renderList();hideOverlay();toast('載入完成，共 '+contacts.length+' 位客戶');updateSyncBadge('synced');
-  }catch(e){hideOverlay();toast('載入失敗',true);updateSyncBadge('error');}
-}
-
-function updateSyncBadge(state){const b=document.getElementById('sync-badge');b.className='sync-badge';if(state==='syncing'){b.textContent='↻ 同步中…';return;}if(state==='synced'){b.className='sync-badge synced';b.textContent='✓ 已同步';return;}if(state==='error'){b.className='sync-badge error';b.textContent='✕ 失敗';return;}b.textContent='☁ 同步';}
-function openSyncPanel(){document.getElementById('sync-status').textContent='';document.getElementById('modal-sync').classList.add('show');}
+async function syncToSheet(){updateSyncBadge('syncing');try{var res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'sync',contacts:contacts})});var data=await res.json();if(data.ok){updateSyncBadge('synced');}else throw new Error();}catch(e){updateSyncBadge('error');throw e;}}
+async function syncEdmToSheet(){try{var res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'syncEdm',templates:edmTemplates})});var data=await res.json();if(!data.ok)throw new Error();}catch(e){throw e;}}
+async function syncAll(){updateSyncBadge('syncing');document.getElementById('sync-status').textContent='上傳中…';try{await syncToSheet();await syncEdmToSheet();updateSyncBadge('synced');document.getElementById('sync-status').textContent='✓ 上傳完成（客戶＋EDM版本）';toast('已上傳到 Google Sheets ✓');}catch(e){updateSyncBadge('error');document.getElementById('sync-status').textContent='✕ 上傳失敗';toast('上傳失敗',true);}}
+async function loadAll(){showOverlay('載入中…');try{await loadFromSheet();await loadEdmFromSheet();hideOverlay();document.getElementById('sync-status').textContent='✓ 載入完成（客戶＋EDM版本）';toast('載入完成 ✓');}catch(e){hideOverlay();document.getElementById('sync-status').textContent='✕ 載入失敗';toast('載入失敗',true);}}
+async function loadFromSheet(){var res=await fetch(GAS_URL);var data=await res.json();if(!data.ok||!data.rows||data.rows.length<2){return;}var h=data.rows[0];var idx=function(n){return h.indexOf(n);};var nc=data.rows.slice(1).filter(function(r){return r.length>1&&r[idx('id')];}).map(function(r){return{id:r[idx('id')]||Date.now().toString()+Math.random().toString(36).slice(2,5),name:r[idx('姓名')]||'',title:r[idx('職稱')]||'',company:r[idx('公司')]||'',email:r[idx('Email')]||'',phone:r[idx('電話')]||'',country:r[idx('國家')]||'',product:r[idx('產品')]||'',expo:r[idx('展覽來源')]||'',status:r[idx('狀態')]||'new',edmSent:r[idx('已發EDM')]==='是',notes:r[idx('備註')]||'',created:Date.now(),edmLog:[]};});var sids=new Set(nc.map(function(c){return c.id;}));contacts=[...nc,...contacts.filter(function(c){return !sids.has(c.id);})];save();renderList();updateSyncBadge('synced');}
+async function loadEdmFromSheet(){var res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'loadEdm'})});var data=await res.json();if(!data.ok||!data.templates)return;if(data.templates.length===0)return;edmTemplates=data.templates;saveEdmTemplates();renderEdmList();}
+function updateSyncBadge(state){var b=document.getElementById('sync-badge');b.className='sync-badge';if(state==='syncing'){b.textContent='↻ 同步中…';}else if(state==='synced'){b.className='sync-badge synced';b.textContent='✓ 已同步';}else if(state==='error'){b.className='sync-badge error';b.textContent='✕ 失敗';}else{b.textContent='☁ 同步';}}
+function openSyncPanel(){document.getElementById('modal-sync').classList.add('show');}
 function closeSyncPanel(){document.getElementById('modal-sync').classList.remove('show');}
 
-const scanInput=document.getElementById('scan-input'),scanPreview=document.getElementById('scan-preview'),scanZone=document.getElementById('scan-zone'),btnExtract=document.getElementById('btn-extract');
-scanInput.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{scanImageData=ev.target.result;scanPreview.src=scanImageData;scanPreview.style.display='block';btnExtract.disabled=false;};r.readAsDataURL(f);});
-scanZone.addEventListener('dragover',e=>{e.preventDefault();scanZone.classList.add('drag');});
-scanZone.addEventListener('dragleave',()=>scanZone.classList.remove('drag'));
-scanZone.addEventListener('drop',e=>{e.preventDefault();scanZone.classList.remove('drag');const f=e.dataTransfer.files[0];if(!f||!f.type.startsWith('image/'))return;const r=new FileReader();r.onload=ev=>{scanImageData=ev.target.result;scanPreview.src=scanImageData;scanPreview.style.display='block';btnExtract.disabled=false;};r.readAsDataURL(f);});
+var scanInput=document.getElementById('scan-input'),scanPreview=document.getElementById('scan-preview'),scanZone=document.getElementById('scan-zone'),btnExtract=document.getElementById('btn-extract');
+scanInput.addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){scanImageData=ev.target.result;scanPreview.src=scanImageData;scanPreview.style.display='block';btnExtract.disabled=false;};r.readAsDataURL(f);});
+scanZone.addEventListener('dragover',function(e){e.preventDefault();scanZone.classList.add('drag');});
+scanZone.addEventListener('dragleave',function(){scanZone.classList.remove('drag');});
+scanZone.addEventListener('drop',function(e){e.preventDefault();scanZone.classList.remove('drag');var f=e.dataTransfer.files[0];if(!f||!f.type.startsWith('image/'))return;var r=new FileReader();r.onload=function(ev){scanImageData=ev.target.result;scanPreview.src=scanImageData;scanPreview.style.display='block';btnExtract.disabled=false;};r.readAsDataURL(f);});
 
 function getKeys(){return{hunter:localStorage.getItem('crm_hunter_key')||'',anthropic:localStorage.getItem('crm_anthropic_key')||''};}
 function keysOK(){return!!getKeys().anthropic;}
 
-async function callAI(messages,maxTokens,retries=2){
-  const k=getKeys();if(!k.anthropic){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);throw new Error('no_key');}
-  for(let i=0;i<=retries;i++){try{const res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages})});const data=await res.json();if(data.error){if(data.error.type==='authentication_error'){toast('API Key 無效',true);throw new Error('auth_error');}if(data.error.type==='rate_limit_error'||data.error.type==='overloaded_error'){toast('Anthropic 暫時繁忙',true);throw new Error('rate_limit');}throw new Error(data.error.message);}return data.content.map(x=>x.text||'').join('').replace(/```json|```/g,'').trim();}catch(e){if(['auth_error','rate_limit','no_key'].includes(e.message))throw e;if(i<retries){await new Promise(r=>setTimeout(r,1000*(i+1)));continue;}throw e;}}
+async function callAI(messages,maxTokens){
+  var k=getKeys();if(!k.anthropic){toast('請先設定 Anthropic API Key',true);throw new Error('no_key');}
+  var res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages:messages})});
+  var data=await res.json();
+  if(data.error){if(data.error.type==='authentication_error'){toast('API Key 無效',true);throw new Error('auth_error');}throw new Error(data.error.message);}
+  return data.content.map(function(x){return x.text||'';}).join('').replace(/```json|```/g,'').trim();
 }
 
-btnExtract.addEventListener('click',async()=>{
-  if(!scanImageData)return;if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}
-  showOverlay('AI 辨識中…');const base64=scanImageData.split(',')[1];const mtype=scanImageData.split(';')[0].split(':')[1];const img=[{type:'image',source:{type:'base64',media_type:mtype,data:base64}}];
-  try{const dt=await callAI([{role:'user',content:[...img,{type:'text',text:'Is this a business card? Reply only: {"type":"business_card"} or {"type":"booth"}'}]}],60);let t='booth';try{t=JSON.parse(dt).type;}catch(e){}
-    if(t==='business_card'){showOverlay('辨識名片資料中…');const ct=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識名片所有資訊，只回傳JSON：{"name":"姓名","name_en":"英文姓名","title":"職稱","company":"公司","company_en":"英文公司","email":"email","phone":"電話","mobile":"手機","country":"國家","wechat":"微信"}，找不到填空字串。'}]}],800);const info=JSON.parse(ct);hideOverlay();renderCardResult(info);}
-    else{showOverlay('辨識展商列表中…');const lt=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識圖片中所有公司名稱，只回傳JSON陣列：[{"name":"公司英文名","name_zh":"中文名（若無填空）","domain":"推測網域如company.com"}]'}]}],1000);const cos=JSON.parse(lt);hideOverlay();renderCompanyCards(cos);}
-  }catch(e){hideOverlay();if(!['auth_error','rate_limit','no_key'].includes(e.message))toast('辨識失敗，請重試',true);}
+btnExtract.addEventListener('click',async function(){
+  if(!scanImageData)return;if(!keysOK()){toast('請先設定 Anthropic API Key',true);openSettings();return;}
+  showOverlay('AI 辨識中…');var base64=scanImageData.split(',')[1];var mtype=scanImageData.split(';')[0].split(':')[1];var img=[{type:'image',source:{type:'base64',media_type:mtype,data:base64}}];
+  try{
+    var dt=await callAI([{role:'user',content:[...img,{type:'text',text:'Is this a business card? Reply only: {"type":"business_card"} or {"type":"booth"}'}]}],60);
+    var t='booth';try{t=JSON.parse(dt).type;}catch(ex){}
+    if(t==='business_card'){
+      showOverlay('辨識名片資料中…');
+      var ct=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識名片所有資訊，只回傳JSON：{"name":"姓名","name_en":"英文姓名","title":"職稱","company":"公司","company_en":"英文公司","email":"email","phone":"電話","mobile":"手機","country":"國家","wechat":"微信"}，找不到填空字串。'}]}],800);
+      hideOverlay();renderCardResult(JSON.parse(ct));
+    }else{
+      showOverlay('辨識展商列表中…');
+      var lt=await callAI([{role:'user',content:[...img,{type:'text',text:'辨識圖片中所有公司名稱，只回傳JSON陣列：[{"name":"公司英文名","name_zh":"中文名","domain":"推測網域"}]'}]}],1000);
+      hideOverlay();renderCompanyCards(JSON.parse(lt));
+    }
+  }catch(e){hideOverlay();if(!['auth_error','no_key'].includes(e.message))toast('辨識失敗，請重試',true);}
 });
 
-function renderCardResult(info){const enc=encodeURIComponent(JSON.stringify(info));document.getElementById('companies-area').innerHTML=`<div class="co-card" style="border-color:var(--forest3)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:15px"><div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#c0392b,#4a1a6b);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:19px;color:#f5e6ff">${(info.name||info.name_en||'?')[0]}</div><div><div style="font-size:16px;font-weight:700">${info.name||info.name_en||'（未辨識）'}</div><div style="font-size:13px;color:var(--text-muted)">${[info.title,info.company].filter(Boolean).join(' · ')}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px">${info.email?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border);grid-column:1/-1"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">Email</div><div style="font-size:13px;color:var(--blue)">${info.email}</div></div>`:''} ${info.phone?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">電話</div><div style="font-size:13px">${info.phone}</div></div>`:''} ${info.mobile?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">手機</div><div style="font-size:13px">${info.mobile}</div></div>`:''} ${info.wechat?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">微信</div><div style="font-size:13px">${info.wechat}</div></div>`:''} ${info.country?`<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border)"><div style="font-size:10px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:3px">國家</div><div style="font-size:13px">${info.country}</div></div>`:''}</div><button class="btn-primary" onclick="saveCard('${enc}')">＋ 建立客戶檔案</button></div>`;}
-function saveCard(enc){const info=JSON.parse(decodeURIComponent(enc));const c={id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||info.name_en||'',title:info.title||'',company:info.company||info.company_en||'',email:info.email||'',phone:info.mobile||info.phone||'',country:info.country||'',product:'',expo:'',notes:info.wechat?'微信：'+info.wechat:'',status:'new',edmSent:false,edmLog:[],created:Date.now()};contacts.unshift(c);save();renderList();toast((c.name||'客戶')+' 已建入 CRM');selectContact(c.id);debouncedSync();}
+function renderCardResult(info){var enc=encodeURIComponent(JSON.stringify(info));document.getElementById('companies-area').innerHTML='<div class="co-card" style="border-color:var(--forest3)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:15px"><div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#c0392b,#4a1a6b);display:flex;align-items:center;justify-content:center;font-size:19px;color:#f5e6ff">'+(info.name||info.name_en||'?')[0]+'</div><div><div style="font-size:16px;font-weight:700">'+(info.name||info.name_en||'（未辨識）')+'</div><div style="font-size:13px;color:var(--text-muted)">'+(info.title&&info.company?info.title+' · '+info.company:(info.title||info.company||''))+'</div></div></div>'+(info.email?'<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border);margin-bottom:8px"><div style="font-size:10px;color:var(--text-dim);font-family:\'DM Mono\',monospace;margin-bottom:3px">Email</div><div style="font-size:13px;color:var(--blue)">'+info.email+'</div></div>':'')+
+(info.phone?'<div style="background:var(--surface2);border-radius:8px;padding:10px;border:1px solid var(--border);margin-bottom:8px"><div style="font-size:10px;color:var(--text-dim);font-family:\'DM Mono\',monospace;margin-bottom:3px">電話</div><div style="font-size:13px">'+info.phone+'</div></div>':'')+'<button class="btn-primary" onclick="saveCard(\''+enc+'\')">＋ 建立客戶檔案</button></div>';}
+function saveCard(enc){var info=JSON.parse(decodeURIComponent(enc));var c={id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||info.name_en||'',title:info.title||'',company:info.company||info.company_en||'',email:info.email||'',phone:info.mobile||info.phone||'',country:info.country||'',product:'',expo:'',notes:info.wechat?'微信：'+info.wechat:'',status:'new',edmSent:false,edmLog:[],created:Date.now()};contacts.unshift(c);save();renderList();toast((c.name||'客戶')+' 已建入 CRM');selectContact(c.id);debouncedSync();}
+function renderCompanyCards(cos){var area=document.getElementById('companies-area');if(!cos.length){area.innerHTML='<div style="color:var(--text-muted);font-size:14px;padding:14px 0">未辨識到公司</div>';return;}area.innerHTML='<div style="font-size:13px;color:var(--text-muted);margin-bottom:13px">辨識到 '+cos.length+' 家公司</div>'+cos.map(function(_,i){return '<div class="co-card" id="co-'+i+'"></div>';}).join('');cos.forEach(function(co,i){document.getElementById('co-'+i).innerHTML='<div style="margin-bottom:10px"><div style="font-size:16px;font-weight:700">'+co.name+(co.name_zh?' · '+co.name_zh:'')+'</div><div style="font-size:12px;color:var(--text-dim);font-family:\'DM Mono\',monospace;margin-top:3px">'+(co.domain||'—')+'</div></div><div class="hunting-row" id="hunt-'+i+'"><div class="dot-spin"></div>查詢 Hunter…</div><div id="results-'+i+'"></div>';huntCompany(co,i);});}
+async function huntCompany(co,idx){if(!co.domain){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">無法推測網域</span>';return;}var k=getKeys();if(!k.hunter){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">未設定 Hunter Key</span>';return;}try{var res=await fetch('https://api.hunter.io/v2/domain-search?domain='+encodeURIComponent(co.domain)+'&limit=5&type=personal&api_key='+k.hunter);var data=await res.json();document.getElementById('hunt-'+idx).style.display='none';var emails=data.data&&data.data.emails||[];var el=document.getElementById('results-'+idx);if(!emails.length){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);padding:5px 0">未找到聯絡人</div>';return;}el.innerHTML=emails.slice(0,3).map(function(e,i){var enc=encodeURIComponent(JSON.stringify({name:(e.first_name||'')+' '+(e.last_name||''),title:e.position||'',company:co.name,email:e.value,country:data.data.country||''}));return '<div class="contact-row"><div class="cr-info"><div class="cr-name">'+(e.first_name||'')+' '+(e.last_name||'')+'</div><div class="cr-title">'+(e.position||'（職稱不明）')+'</div><div class="cr-email">'+e.value+'</div></div><button class="btn-add" id="ab-'+idx+'-'+i+'" onclick="addHunterContact(\''+idx+'\',\''+i+'\',\''+enc+'\')">＋ 建檔</button></div>';}).join('');}catch(e){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">查詢失敗</span>';}}
+function addHunterContact(cI,rI,enc){var info=JSON.parse(decodeURIComponent(enc));var c={id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name.trim(),title:info.title,company:info.company,email:info.email,phone:'',country:info.country,product:'',expo:'',notes:'',status:'new',edmSent:false,edmLog:[],created:Date.now()};contacts.unshift(c);save();renderList();document.getElementById('ab-'+cI+'-'+rI).textContent='✓ 已建檔';document.getElementById('ab-'+cI+'-'+rI).disabled=true;toast((c.name||'客戶')+' 已建入');selectContact(c.id);debouncedSync();}
 
-function renderCompanyCards(cos){const area=document.getElementById('companies-area');if(!cos.length){area.innerHTML='<div style="color:var(--text-muted);font-size:14px;padding:14px 0">未辨識到公司名稱</div>';return;}area.innerHTML=`<div style="font-size:13px;color:var(--text-muted);margin-bottom:13px">辨識到 ${cos.length} 家公司</div>`+cos.map((_,i)=>`<div class="co-card" id="co-${i}"></div>`).join('');cos.forEach((co,i)=>{document.getElementById('co-'+i).innerHTML=`<div style="margin-bottom:10px"><div style="font-size:16px;font-weight:700">${co.name}${co.name_zh?' · '+co.name_zh:''}</div><div style="font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:3px">${co.domain||'—'}</div></div><div class="hunting-row" id="hunt-${i}"><div class="dot-spin"></div>查詢 Hunter…</div><div id="results-${i}"></div>`;huntCompany(co,i);});}
-async function huntCompany(co,idx){if(!co.domain){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">無法推測網域，跳過</span>';return;}const k=getKeys();if(!k.hunter){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">未設定 Hunter Key，跳過</span>';return;}try{const res=await fetch(`https://api.hunter.io/v2/domain-search?domain=${encodeURIComponent(co.domain)}&limit=5&type=personal&api_key=${k.hunter}`);const data=await res.json();document.getElementById('hunt-'+idx).style.display='none';const emails=data.data&&data.data.emails||[];const el=document.getElementById('results-'+idx);if(!emails.length){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);padding:5px 0">未找到聯絡人</div>';return;}const rel=emails.filter(e=>{const t=(e.position||'').toLowerCase();return t.includes('sales')||t.includes('marketing')||t.includes('business')||t.includes('partner')||t.includes('account');}).slice(0,3);const show=rel.length?rel:emails.slice(0,3);el.innerHTML=show.map((e,i)=>{const enc=encodeURIComponent(JSON.stringify({name:(e.first_name||'')+' '+(e.last_name||''),title:e.position||'',company:co.name,email:e.value,country:data.data.country||''}));return `<div class="contact-row"><div class="cr-info"><div class="cr-name">${e.first_name||''} ${e.last_name||''}</div><div class="cr-title">${e.position||'（職稱不明）'}</div><div class="cr-email">${e.value}</div><div class="cr-score">信心值 ${e.confidence}%</div></div><button class="btn-add" id="ab-${idx}-${i}" onclick="addHunterContact('${idx}','${i}','${enc}')">＋ 建檔</button></div>`;}).join('');}catch(e){document.getElementById('hunt-'+idx).innerHTML='<span style="font-size:12px;color:var(--text-dim)">查詢失敗</span>';}}
-function addHunterContact(cI,rI,enc){const info=JSON.parse(decodeURIComponent(enc));const c={id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name.trim(),title:info.title,company:info.company,email:info.email,phone:'',country:info.country,product:'',expo:'',notes:'',status:'new',edmSent:false,edmLog:[],created:Date.now()};contacts.unshift(c);save();renderList();const btn=document.getElementById('ab-'+cI+'-'+rI);btn.textContent='✓ 已建檔';btn.classList.add('added');btn.disabled=true;toast((c.name||'客戶')+' 已建入 CRM');selectContact(c.id);debouncedSync();}
-
-async function analyzeContact(id){const c=contacts.find(x=>x.id===id);if(!c)return;if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}showOverlay('AI 分析中…');try{const text=await callAI([{role:'user',content:`B2B展覽業務顧問。根據展商資訊推測產品類別。展商：${[c.name,c.company,c.title,c.email,c.country].filter(Boolean).join(', ')}。只回傳JSON：{"product":"產品類別繁中30字內","product_en":"English","industry":"產業別","recommended_expos":["展覽1","展覽2"],"notes":"業務備註50字內"}`}],800);const r=JSON.parse(text);hideOverlay();if(r.product){c.product=r.product;save();renderList();}showModal('◈ AI 分析：'+(c.company||c.name||''),`<div style="display:grid;gap:9px"><div style="background:var(--surface2);border-radius:9px;padding:13px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">產品類別</div><div style="font-size:16px;font-weight:600">${r.product||'—'}</div><div style="font-size:12px;color:var(--text-muted)">${r.product_en||''}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">所屬產業</div><div style="font-size:14px;font-weight:600">${r.industry||'—'}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:7px">推薦展覽</div><div style="display:flex;gap:6px;flex-wrap:wrap">${(r.recommended_expos||[]).map(e=>`<span style="background:var(--gold-dim);border:1px solid rgba(240,192,64,.3);color:#8a6000;font-size:12px;padding:2px 9px;border-radius:5px">${e}</span>`).join('')}</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px">業務備註</div><div style="font-size:13px;color:var(--text-mid);line-height:1.7">${r.notes||'—'}</div></div><div style="font-size:12px;color:var(--text-dim)">✓ 產品類別已自動填入</div></div>`,'確認',()=>renderDetail(contacts.find(x=>x.id===id)));}catch(e){hideOverlay();if(!['auth_error','rate_limit','no_key'].includes(e.message))toast('分析失敗，請重試',true);}}
-async function batchAnalyze(){if(!keysOK()){toast('請先在 ⚙ 設定 輸入 Anthropic API Key',true);openSettings();return;}const todo=contacts.filter(c=>!c.product&&(c.company||c.name));if(!todo.length){toast('所有客戶已有產品分類');return;}toast('批次分析 '+todo.length+' 位客戶…');for(const c of todo){try{const t=await callAI([{role:'user',content:`根據展商推測產品類別，只回傳JSON：{"product":"繁中30字內","industry":"產業別"}。展商：${[c.name,c.company,c.title].filter(Boolean).join(', ')}`}],150);const r=JSON.parse(t);if(r.product)c.product=r.product;}catch(e){}await new Promise(x=>setTimeout(x,400));}save();renderList();if(activeId)renderDetail(contacts.find(x=>x.id===activeId));toast('批次分析完成 ✓');debouncedSync();}
+async function analyzeContact(id){var c=contacts.find(function(x){return x.id===id;});if(!c)return;if(!keysOK()){toast('請先設定 Anthropic API Key',true);openSettings();return;}showOverlay('AI 分析中…');try{var text=await callAI([{role:'user',content:'B2B展覽業務顧問。展商：'+[c.name,c.company,c.title,c.email,c.country].filter(Boolean).join(', ')+'。只回傳JSON：{"product":"產品類別繁中30字內","industry":"產業別","recommended_expos":["展覽1","展覽2"],"notes":"業務備註50字內"}'}],800);var r=JSON.parse(text);hideOverlay();if(r.product){c.product=r.product;save();renderList();}showModal('◈ AI 分析','<div style="display:grid;gap:9px"><div style="background:var(--surface2);border-radius:9px;padding:13px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:\'DM Mono\',monospace;margin-bottom:4px">產品類別</div><div style="font-size:16px;font-weight:600">'+(r.product||'—')+'</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:\'DM Mono\',monospace;margin-bottom:4px">所屬產業</div><div style="font-size:14px;font-weight:600">'+(r.industry||'—')+'</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:\'DM Mono\',monospace;margin-bottom:7px">推薦展覽</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+(r.recommended_expos||[]).map(function(e){return '<span style="background:var(--gold-dim);border:1px solid rgba(240,192,64,.3);color:#8a6000;font-size:12px;padding:2px 9px;border-radius:5px">'+e+'</span>';}).join('')+'</div></div><div style="background:var(--surface2);border-radius:9px;padding:11px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text-dim);font-family:\'DM Mono\',monospace;margin-bottom:4px">業務備註</div><div style="font-size:13px;line-height:1.7">'+(r.notes||'—')+'</div></div></div>','確認',function(){renderDetail(contacts.find(function(x){return x.id===id;}));});}catch(e){hideOverlay();if(!['auth_error','no_key'].includes(e.message))toast('分析失敗',true);}}
+async function batchAnalyze(){if(!keysOK()){toast('請先設定 Anthropic API Key',true);openSettings();return;}var todo=contacts.filter(function(c){return !c.product&&(c.company||c.name);});if(!todo.length){toast('所有客戶已有產品分類');return;}toast('批次分析 '+todo.length+' 位…');for(var i=0;i<todo.length;i++){try{var t=await callAI([{role:'user',content:'展商：'+[todo[i].name,todo[i].company].filter(Boolean).join(', ')+'。只回傳JSON：{"product":"繁中30字內"}'}],150);var rr=JSON.parse(t);if(rr.product)todo[i].product=rr.product;}catch(e){}await new Promise(function(x){setTimeout(x,400);});}save();renderList();if(activeId)renderDetail(contacts.find(function(x){return x.id===activeId;}));toast('批次分析完成 ✓');debouncedSync();}
 
 function triggerImport(){document.getElementById('modal-import').classList.add('show');}
 function closeImportModal(){document.getElementById('modal-import').classList.remove('show');document.getElementById('import-preview').style.display='none';document.getElementById('import-confirm-btn').style.display='none';importPreviewData=[];}
-function previewCSV(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{const text=ev.target.result;const rows=text.trim().split(/\r?\n/);const parsed=rows.map(r=>{const cols=[];let cur='',q=false;for(const ch of r){if(ch==='"')q=!q;else if(ch===','&&!q){cols.push(cur.trim());cur='';}else cur+=ch;}cols.push(cur.trim());return cols;});if(parsed.length<2){toast('CSV 內容為空');return;}const headers=parsed[0].map(h=>h.toLowerCase());const colMap={};const aliases={name:['姓名','name','名字','contact'],email:['email','e-mail','電子郵件','mail'],title:['職稱','title','position'],company:['公司','company','organization'],phone:['電話','phone','tel','mobile','手機'],country:['國家','country','地區'],product:['產品','product','industry','產業'],expo:['展覽','expo','exhibition'],notes:['備註','notes','remark']};Object.entries(aliases).forEach(([f,al])=>{const idx=headers.findIndex(h=>al.some(a=>h.includes(a)));if(idx>=0)colMap[f]=idx;});const get=(r,f)=>colMap[f]!==undefined?r[colMap[f]]||'':'';importPreviewData=parsed.slice(1).filter(r=>r.some(c=>c)).map(r=>({name:get(r,'name'),email:get(r,'email'),title:get(r,'title'),company:get(r,'company'),phone:get(r,'phone'),country:get(r,'country'),product:get(r,'product'),expo:get(r,'expo'),notes:get(r,'notes')})).filter(r=>r.email||r.name);const prev=document.getElementById('import-preview');prev.style.display='block';prev.innerHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px;max-height:180px;overflow-y:auto"><div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:7px">預覽：共 ${importPreviewData.length} 筆</div>${importPreviewData.slice(0,5).map(r=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="font-weight:600">${r.name||'（無姓名）'}</span><span style="color:var(--blue);font-family:'DM Mono',monospace;font-size:12px;margin-left:8px">${r.email||''}</span></div>`).join('')}${importPreviewData.length>5?`<div style="font-size:12px;color:var(--text-dim);padding-top:5px">…還有 ${importPreviewData.length-5} 筆</div>`:''}</div>`;document.getElementById('import-confirm-btn').style.display='block';};reader.readAsText(file,'UTF-8');}
-function confirmImport(){let added=0,skipped=0;importPreviewData.forEach(info=>{if(info.email&&contacts.find(c=>c.email===info.email)){skipped++;return;}contacts.push({id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||'',title:info.title||'',company:info.company||'',email:info.email||'',phone:info.phone||'',country:info.country||'',product:info.product||'',expo:info.expo||'',notes:info.notes||'',status:'new',edmSent:false,edmLog:[],created:Date.now()});if(info.expo)addExpoToList(info.expo);added++;});save();renderList();closeImportModal();toast(`匯入完成：新增 ${added} 筆${skipped?'，跳過重複 '+skipped+' 筆':''}`);debouncedSync();}
+function previewCSV(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){var text=ev.target.result;var rows=text.trim().split(/\r?\n/);var parsed=rows.map(function(r){var cols=[],cur='',q=false;for(var i=0;i<r.length;i++){var ch=r[i];if(ch==='"')q=!q;else if(ch===','&&!q){cols.push(cur.trim());cur='';}else cur+=ch;}cols.push(cur.trim());return cols;});if(parsed.length<2){toast('CSV 空白');return;}var headers=parsed[0].map(function(h){return h.toLowerCase();});var colMap={};var aliases={name:['姓名','name'],email:['email','e-mail'],title:['職稱','title','position'],company:['公司','company'],phone:['電話','phone','mobile'],country:['國家','country'],product:['產品','product'],expo:['展覽','expo'],notes:['備註','notes']};Object.entries(aliases).forEach(function(entry){var f=entry[0],al=entry[1];var idx=headers.findIndex(function(h){return al.some(function(a){return h.includes(a);});});if(idx>=0)colMap[f]=idx;});var get=function(r,f){return colMap[f]!==undefined?r[colMap[f]]||'':'';};importPreviewData=parsed.slice(1).filter(function(r){return r.some(function(c){return c;});}).map(function(r){return{name:get(r,'name'),email:get(r,'email'),title:get(r,'title'),company:get(r,'company'),phone:get(r,'phone'),country:get(r,'country'),product:get(r,'product'),expo:get(r,'expo'),notes:get(r,'notes')};}).filter(function(r){return r.email||r.name;});var prev=document.getElementById('import-preview');prev.style.display='block';prev.innerHTML='<div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px;max-height:160px;overflow-y:auto"><div style="font-size:11px;color:var(--text-dim);margin-bottom:7px">預覽：共 '+importPreviewData.length+' 筆</div>'+importPreviewData.slice(0,5).map(function(r){return '<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="font-weight:600">'+(r.name||'（無姓名）')+'</span><span style="color:var(--blue);font-size:12px;margin-left:8px">'+(r.email||'')+'</span></div>';}).join('')+'</div>';document.getElementById('import-confirm-btn').style.display='block';};reader.readAsText(file,'UTF-8');}
+function confirmImport(){var added=0,skipped=0;importPreviewData.forEach(function(info){if(info.email&&contacts.find(function(c){return c.email===info.email;})){skipped++;return;}contacts.push({id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:info.name||'',title:info.title||'',company:info.company||'',email:info.email||'',phone:info.phone||'',country:info.country||'',product:info.product||'',expo:info.expo||'',notes:info.notes||'',status:'new',edmSent:false,edmLog:[],created:Date.now()});if(info.expo)addExpoToList(info.expo);added++;});save();renderList();closeImportModal();toast('新增 '+added+' 筆'+(skipped?'，跳過 '+skipped:''));debouncedSync();}
 
-function updateExpoFilter(){const sel=document.getElementById('expo-filter');const cur=sel.value;const expos=[...new Set(contacts.map(c=>c.expo).filter(Boolean))].sort();sel.innerHTML='<option value="">📍 所有展覽來源</option>'+expos.map(e=>`<option value="${e}" ${e===cur?'selected':''}>${e}</option>`).join('');}
+function saveEdmTemplates(){localStorage.setItem('crm_edm_templates',JSON.stringify(edmTemplates));}
+function renderEdmList(){
+  var list=document.getElementById('edm-card-list');
+  var empty=document.getElementById('edm-empty');
+  if(!edmTemplates.length){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=edmTemplates.map(function(t){return '<div class="edm-card"><span class="edm-badge">HTML</span><div class="edm-card-name">'+t.name+'</div><div class="edm-card-desc">'+(t.desc||'（無說明）')+'</div><div class="edm-card-meta">更新：'+new Date(t.updated).toLocaleDateString('zh-TW')+(t.html?' · '+Math.round(t.html.length/1024*10)/10+'KB':' · 空')+'</div><div class="edm-card-actions"><button class="btn-act" onclick="openEdmEditor(\''+t.id+'\')" style="font-size:12px;padding:5px 11px">✏ 編輯</button><button class="btn-act" onclick="previewEdmTemplate(\''+t.id+'\')" style="font-size:12px;padding:5px 11px">👁 預覽</button><button class="btn-act danger" onclick="deleteEdmTemplate(\''+t.id+'\')" style="font-size:12px;padding:5px 11px">✕</button></div></div>';}).join('');
+}
+function openEdmEditor(id){edmEditingId=id;var t=id?edmTemplates.find(function(x){return x.id===id;}):null;document.getElementById('edm-editor-title').textContent=id?'編輯 EDM 版本':'新增 EDM 版本';document.getElementById('edm-edit-name').value=t?t.name:'';document.getElementById('edm-edit-desc').value=t?t.desc||'':'';document.getElementById('edm-edit-html').value=t?t.html||'':'';document.getElementById('edm-code-panel').style.display='block';document.getElementById('edm-preview-panel').style.display='none';document.querySelectorAll('.edm-ptab').forEach(function(b,i){b.classList.toggle('active',i===0);});document.getElementById('modal-edm-editor').classList.add('show');}
+function closeEdmEditor(){document.getElementById('modal-edm-editor').classList.remove('show');edmEditingId=null;}
+function switchEdmEditorTab(tab,btn){document.querySelectorAll('.edm-ptab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');if(tab==='code'){document.getElementById('edm-code-panel').style.display='block';document.getElementById('edm-preview-panel').style.display='none';}else{document.getElementById('edm-code-panel').style.display='none';document.getElementById('edm-preview-panel').style.display='block';document.getElementById('edm-preview-iframe').srcdoc=document.getElementById('edm-edit-html').value||'<p style="font-family:sans-serif;color:#888;padding:20px">（空白）</p>';}}
+function saveEdmTemplate(){var name=document.getElementById('edm-edit-name').value.trim();var desc=document.getElementById('edm-edit-desc').value.trim();var html=document.getElementById('edm-edit-html').value;if(!name){toast('請填寫版本名稱',true);return;}if(edmEditingId){var t=edmTemplates.find(function(x){return x.id===edmEditingId;});if(t){t.name=name;t.desc=desc;t.html=html;t.updated=Date.now();}}else{edmTemplates.push({id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:name,desc:desc,html:html,updated:Date.now()});}saveEdmTemplates();closeEdmEditor();renderEdmList();toast(edmEditingId?'已更新 ✓':'已新增 ✓');}
+function deleteEdmTemplate(id){if(!confirm('確定刪除？'))return;edmTemplates=edmTemplates.filter(function(x){return x.id!==id;});saveEdmTemplates();renderEdmList();toast('已刪除');}
+function previewEdmTemplate(id){var t=edmTemplates.find(function(x){return x.id===id;});if(!t)return;var w=window.open('','_blank','width=700,height=600');w.document.write(t.html||'<p>空白</p>');w.document.close();}
+
+function toggleBrevoSection(){var body=document.getElementById('brevo-section-body');var arrow=document.getElementById('brevo-section-arrow');var isOpen=body.style.display!=='none';body.style.display=isOpen?'none':'block';arrow.textContent=isOpen?'▼':'▲';}
+function saveBrevoSettings(){var apiKey=document.getElementById('send-brevo-key').value.trim();var senderName=document.getElementById('send-brevo-name').value.trim();var senderEmail=document.getElementById('send-brevo-email').value.trim();if(!apiKey){toast('請填寫 Brevo API Key',true);return;}localStorage.setItem('crm_brevo_settings',JSON.stringify({apiKey:apiKey,senderName:senderName,senderEmail:senderEmail}));document.getElementById('brevo-section-body').style.display='none';document.getElementById('brevo-section-arrow').textContent='▼';document.getElementById('brevo-section-label').textContent='✓ Brevo 已設定';document.getElementById('brevo-section-label').style.color='var(--green)';toast('Brevo 設定已儲存 ✓');}
+
+function openSendEdm(contactId){
+  sendEdmContactId=contactId;sendEdmChosenId=null;
+  var c=contacts.find(function(x){return x.id===contactId;});if(!c)return;
+  document.getElementById('send-edm-contact-info').innerHTML='<div class="send-edm-contact"><div class="avatar">'+(c.name||'?')[0]+'</div><div><div style="font-size:15px;font-weight:700">'+(c.name||'（未知）')+'</div><div style="font-size:13px;color:var(--blue);font-family:\'DM Mono\',monospace">'+c.email+'</div><div style="font-size:12px;color:var(--text-muted)">'+(c.company||'')+'</div></div></div>';
+  var grid=document.getElementById('send-edm-select-grid');
+  grid.innerHTML=edmTemplates.length?edmTemplates.map(function(t){return '<div class="edm-select-card" id="esc-'+t.id+'" onclick="chooseSendEdm(\''+t.id+'\')"><div class="edm-select-name">'+t.name+'</div><div class="edm-select-desc">'+(t.desc||'')+'</div></div>';}).join(''):'<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-size:13px;padding:20px">請先至「EDM 版本庫」新增版本</div>';
+  var bs=JSON.parse(localStorage.getItem('crm_brevo_settings')||'{}');
+  document.getElementById('send-edm-subject').value='昇揚展覽 — 展覽參與機會';
+  document.getElementById('send-brevo-key').value=bs.apiKey||'';
+  document.getElementById('send-brevo-name').value=bs.senderName||'';
+  document.getElementById('send-brevo-email').value=bs.senderEmail||'';
+  var hasKey=!!bs.apiKey;
+  document.getElementById('brevo-section-body').style.display=hasKey?'none':'block';
+  document.getElementById('brevo-section-arrow').textContent=hasKey?'▼':'▲';
+  document.getElementById('brevo-section-label').textContent=hasKey?'✓ Brevo 已設定':'⚙ 請先填入 Brevo API Key';
+  document.getElementById('brevo-section-label').style.color=hasKey?'var(--green)':'var(--red)';
+  document.getElementById('send-edm-status').textContent='';
+  document.getElementById('btn-do-send-edm').disabled=false;
+  document.getElementById('btn-do-send-edm').textContent='發送';
+  document.getElementById('modal-send-edm').classList.add('show');
+}
+function chooseSendEdm(templateId){sendEdmChosenId=templateId;document.querySelectorAll('.edm-select-card').forEach(function(el){el.classList.remove('chosen');});var card=document.getElementById('esc-'+templateId);if(card)card.classList.add('chosen');}
+function closeSendEdm(){document.getElementById('modal-send-edm').classList.remove('show');sendEdmContactId=null;sendEdmChosenId=null;}
+
+async function doSendEdm(){
+  if(!sendEdmContactId){toast('聯絡人錯誤',true);return;}
+  if(!sendEdmChosenId){toast('請先選擇 EDM 版本',true);return;}
+  var c=contacts.find(function(x){return x.id===sendEdmContactId;});
+  var t=edmTemplates.find(function(x){return x.id===sendEdmChosenId;});
+  if(!c||!t){toast('資料錯誤',true);return;}
+  var apiKey=document.getElementById('send-brevo-key').value.trim();
+  var senderName=document.getElementById('send-brevo-name').value.trim()||'昇揚展覽';
+  var senderEmail=document.getElementById('send-brevo-email').value.trim()||'camille@sunriseexpo.com';
+  if(!apiKey){toast('請填入 Brevo API Key',true);document.getElementById('brevo-section-body').style.display='block';document.getElementById('brevo-section-arrow').textContent='▲';return;}
+  var subject=document.getElementById('send-edm-subject').value.trim()||'昇揚展覽';
+  var statusEl=document.getElementById('send-edm-status');
+  var btn=document.getElementById('btn-do-send-edm');
+  btn.disabled=true;statusEl.innerHTML='<span style="color:var(--text-muted)">⏳ 發送中…</span>';
+  try{
+    var payload={sender:{name:senderName,email:senderEmail},to:[{email:c.email,name:c.name||''}],subject:subject,htmlContent:t.html};
+    var res=await fetch('https://api.brevo.com/v3/smtp/email',{method:'POST',headers:{'accept':'application/json','api-key':apiKey,'content-type':'application/json'},body:JSON.stringify(payload)});
+    var data=await res.json();
+    if(res.ok&&data.messageId){
+      c.edmSent=true;if(!c.edmLog)c.edmLog=[];c.edmLog.push({time:Date.now(),template:t.name,email:c.email});
+      save();renderList();if(activeId===sendEdmContactId)renderDetail(c);
+      statusEl.innerHTML='<span style="color:var(--green)">✓ 發送成功！</span>';
+      btn.textContent='已發送';toast('EDM 已發送 ✓');debouncedSync();
+      setTimeout(function(){closeSendEdm();},2000);
+    }else{throw new Error(data.message||JSON.stringify(data));}
+  }catch(e){statusEl.innerHTML='<span style="color:var(--red)">✕ 失敗：'+e.message+'</span>';btn.disabled=false;toast('發送失敗：'+e.message,true);}
+}
+
+function updateExpoFilter(){var sel=document.getElementById('expo-filter');var cur=sel.value;var expos=[...new Set(contacts.map(function(c){return c.expo;}).filter(Boolean))].sort();sel.innerHTML='<option value="">📍 所有展覽來源</option>'+expos.map(function(e){return '<option value="'+e+'"'+(e===cur?' selected':'')+'>'+e+'</option>';}).join('');}
 function filterByExpo(val){currentExpoFilter=val;renderList();}
-function showModal(title,body,confirmText,onConfirm){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal-confirm-btn').textContent=confirmText||'確認';document.getElementById('modal-confirm-btn').onclick=()=>{closeModal();if(onConfirm)onConfirm();};document.getElementById('modal-cancel-btn').onclick=closeModal;document.getElementById('modal-main').classList.add('show');}
+function showModal(title,body,confirmText,onConfirm){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal-confirm-btn').textContent=confirmText||'確認';document.getElementById('modal-confirm-btn').onclick=function(){closeModal();if(onConfirm)onConfirm();};document.getElementById('modal-cancel-btn').onclick=closeModal;document.getElementById('modal-main').classList.add('show');}
 function closeModal(){document.getElementById('modal-main').classList.remove('show');}
-function openSettings(){const k=getKeys();document.getElementById('input-anthropic-key').value=k.anthropic||'';document.getElementById('input-hunter-key').value=k.hunter||'';document.getElementById('settings-cancel-btn').style.display=keysOK()?'block':'none';document.getElementById('modal-settings').classList.add('show');}
+function openSettings(){var k=getKeys();document.getElementById('input-anthropic-key').value=k.anthropic||'';document.getElementById('input-hunter-key').value=k.hunter||'';document.getElementById('settings-cancel-btn').style.display=keysOK()?'block':'none';document.getElementById('modal-settings').classList.add('show');}
 function closeSettingsModal(){if(!keysOK()){toast('請先儲存 Anthropic API Key',true);return;}document.getElementById('modal-settings').classList.remove('show');}
-function saveKeys(){const a=document.getElementById('input-anthropic-key').value.trim();const h=document.getElementById('input-hunter-key').value.trim();if(!a){toast('請填寫 Anthropic API Key',true);return;}localStorage.setItem('crm_anthropic_key',a);if(h)localStorage.setItem('crm_hunter_key',h);toast('API Key 已儲存 ✓');document.getElementById('modal-settings').classList.remove('show');}
+function saveKeys(){var a=document.getElementById('input-anthropic-key').value.trim();var h=document.getElementById('input-hunter-key').value.trim();if(!a){toast('請填寫 Anthropic API Key',true);return;}localStorage.setItem('crm_anthropic_key',a);if(h)localStorage.setItem('crm_hunter_key',h);toast('已儲存 ✓');document.getElementById('modal-settings').classList.remove('show');}
 function save(){localStorage.setItem('crm_v4',JSON.stringify(contacts));updateExpoFilter();}
 function showOverlay(m){document.getElementById('overlay-msg').textContent=m;document.getElementById('overlay').classList.add('show');}
 function hideOverlay(){document.getElementById('overlay').classList.remove('show');}
-function toast(m,isError=false){const t=document.getElementById('toast');t.textContent=m;t.className='toast'+(isError?' error':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
-function exportCSV(){const q=document.getElementById('search-input').value.toLowerCase();const filtered=contacts.filter(c=>{const mq=!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q);const mf=currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent);const me=!currentExpoFilter||c.expo===currentExpoFilter;return mq&&mf&&me;});const h=['姓名','職稱','公司','Email','電話','國家','產品','展覽','狀態','已發EDM','備註'];const rows=filtered.map(c=>[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(v=>'"'+(v||'').replace(/"/g,'""')+'"'));const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='昇揚CRM_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';a.click();toast('匯出 '+filtered.length+' 筆資料');}
-document.querySelector('.filter-row').addEventListener('click',e=>{if(!e.target.matches('.fbtn'))return;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');currentFilter=e.target.dataset.filter;renderList();});
+function toast(m,isError){var t=document.getElementById('toast');t.textContent=m;t.className='toast'+(isError?' error':'');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+function exportCSV(){var q=document.getElementById('search-input').value.toLowerCase();var filtered=contacts.filter(function(c){return(!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q))&&(currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent))&&(!currentExpoFilter||c.expo===currentExpoFilter);});var h=['姓名','職稱','公司','Email','電話','國家','產品','展覽','狀態','已發EDM','備註'];var rows=filtered.map(function(c){return[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(function(v){return'"'+(v||'').replace(/"/g,'""')+'"';});});var csv=[h.join(','),...rows.map(function(r){return r.join(',');})].join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='昇揚CRM_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';a.click();toast('匯出 '+filtered.length+' 筆');}
+
+document.querySelector('.filter-row').addEventListener('click',function(e){if(!e.target.matches('.fbtn'))return;document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('active');});e.target.classList.add('active');currentFilter=e.target.dataset.filter;renderList();});
 document.getElementById('search-input').addEventListener('input',renderList);
 renderList();
-if(!keysOK())setTimeout(()=>openSettings(),600);
+if(!keysOK())setTimeout(openSettings,600);
 </script>
 </body>
 </html>
