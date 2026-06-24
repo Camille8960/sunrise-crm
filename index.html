@@ -242,7 +242,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 
 <div class="modal-bg" id="modal-import"><div class="modal" style="width:560px"><div class="modal-title">↑ 匯入客戶名單</div><div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">支援 CSV，必填：Email 或姓名</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text-muted);margin-bottom:14px">姓名,Email,公司,展覽來源,備註</div><div id="import-preview" style="display:none;margin-bottom:14px"></div><label style="display:block;background:linear-gradient(135deg,#c0392b,#4a1a6b);color:#fff;border-radius:9px;padding:12px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;font-family:'Noto Sans TC',sans-serif">選擇 CSV 檔案<input type="file" accept=".csv" style="display:none" onchange="previewCSV(event)"></label><div class="modal-actions"><button class="btn-cancel" onclick="closeImportModal()">取消</button><button class="btn-confirm" id="import-confirm-btn" style="display:none" onclick="confirmImport()">確認匯入</button></div></div></div>
 
-<div class="modal-bg" id="modal-settings"><div class="modal"><div class="modal-title">⚙ API 設定</div><div style="margin-bottom:16px"><label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Anthropic API Key</label><input id="input-anthropic-key" type="password" placeholder="sk-ant-..." style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;"></div><div style="margin-bottom:16px"><label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Hunter.io API Key（可選）</label><input id="input-hunter-key" type="password" placeholder="Hunter API Key" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;"></div><div class="modal-actions"><button class="btn-cancel" id="settings-cancel-btn" onclick="closeSettingsModal()">取消</button><button class="btn-confirm" onclick="saveKeys()">儲存</button></div></div></div>
+<div class="modal-bg" id="modal-settings"><div class="modal"><div class="modal-title">⚙ API 設定</div><div style="margin-bottom:16px"><label style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;font-family:'DM Mono',monospace;font-weight:500;display:block;margin-bottom:7px">Hunter.io API Key（可選）</label><input id="input-hunter-key" type="password" placeholder="Hunter API Key" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:10px 13px;border-radius:9px;font-size:14px;font-family:'DM Mono',monospace;outline:none;"></div><div class="modal-actions"><button class="btn-cancel" id="settings-cancel-btn" onclick="closeSettingsModal()">取消</button><button class="btn-confirm" onclick="saveKeys()">儲存</button></div></div></div>
 
 <div class="modal-bg" id="modal-sync"><div class="modal" style="width:440px"><div class="modal-title">☁ Google Sheets 同步</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">上傳／載入會同時處理<strong style="color:var(--text)">客戶資料＋EDM版本</strong>兩份資料。</div><button class="btn-primary" style="margin-bottom:10px" onclick="syncAll()">🔄 上傳全部到 Google Sheets</button><button class="btn-primary" style="background:linear-gradient(135deg,#1e8449,#145a32);margin-bottom:16px" onclick="loadAll()">⬇ 從 Google Sheets 載入全部</button><div id="sync-status" style="font-size:13px;color:var(--text-muted);text-align:center;min-height:20px"></div><div class="modal-actions"><button class="btn-cancel" onclick="closeSyncPanel()">關閉</button></div></div></div>
 
@@ -274,7 +274,7 @@ header{background:linear-gradient(135deg,#c0392b 0%,#96281b 40%,#4a1a6b 100%);pa
 
 <script>
 var GAS_URL='https://script.google.com/macros/s/AKfycbw5Qim2jJ1k40I8xBd3X1kXmgW_n8APQuX0ihdS4UUVXDABIYHWSFRjj7shA3Xx88d8sA/exec';
-var ANTHROPIC_API='https://api.anthropic.com/v1/messages';
+var ANTHROPIC_API='https://sunrise-proxy.twcchen.workers.dev/v1/messages';
 var contacts=JSON.parse(localStorage.getItem('crm_v4')||'[]');
 var edmTemplates=JSON.parse(localStorage.getItem('crm_edm_templates')||'[]');
 var activeId=null,currentFilter='all',currentExpoFilter='',scanImageData=null,importPreviewData=[],syncTimer=null;
@@ -343,12 +343,12 @@ scanZone.addEventListener('dragover',function(e){e.preventDefault();scanZone.cla
 scanZone.addEventListener('dragleave',function(){scanZone.classList.remove('drag');});
 scanZone.addEventListener('drop',function(e){e.preventDefault();scanZone.classList.remove('drag');var f=e.dataTransfer.files[0];if(!f||!f.type.startsWith('image/'))return;var r=new FileReader();r.onload=function(ev){scanImageData=ev.target.result;scanPreview.src=scanImageData;scanPreview.style.display='block';btnExtract.disabled=false;};r.readAsDataURL(f);});
 
-function getKeys(){return{hunter:localStorage.getItem('crm_hunter_key')||'',anthropic:localStorage.getItem('crm_anthropic_key')||''};}
-function keysOK(){return!!getKeys().anthropic;}
+function getKeys(){return{hunter:localStorage.getItem('crm_hunter_key')||'',anthropic:''};}
+function keysOK(){return true;}
 
 async function callAI(messages,maxTokens){
-  var k=getKeys();if(!k.anthropic){toast('請先設定 Anthropic API Key',true);throw new Error('no_key');}
-  var res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages:messages})});
+  var k=getKeys();
+  var res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:maxTokens||800,messages:messages})});
   var data=await res.json();
   if(data.error){if(data.error.type==='authentication_error'){toast('API Key 無效',true);throw new Error('auth_error');}throw new Error(data.error.message);}
   return data.content.map(function(x){return x.text||'';}).join('').replace(/```json|```/g,'').trim();
@@ -461,9 +461,9 @@ function updateExpoFilter(){var sel=document.getElementById('expo-filter');var c
 function filterByExpo(val){currentExpoFilter=val;renderList();}
 function showModal(title,body,confirmText,onConfirm){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal-confirm-btn').textContent=confirmText||'確認';document.getElementById('modal-confirm-btn').onclick=function(){closeModal();if(onConfirm)onConfirm();};document.getElementById('modal-cancel-btn').onclick=closeModal;document.getElementById('modal-main').classList.add('show');}
 function closeModal(){document.getElementById('modal-main').classList.remove('show');}
-function openSettings(){var k=getKeys();document.getElementById('input-anthropic-key').value=k.anthropic||'';document.getElementById('input-hunter-key').value=k.hunter||'';document.getElementById('settings-cancel-btn').style.display=keysOK()?'block':'none';document.getElementById('modal-settings').classList.add('show');}
+function openSettings(){var k=getKeys();document.getElementById('input-hunter-key').value=k.hunter||'';document.getElementById('settings-cancel-btn').style.display='block';document.getElementById('modal-settings').classList.add('show');}
 function closeSettingsModal(){if(!keysOK()){toast('請先儲存 Anthropic API Key',true);return;}document.getElementById('modal-settings').classList.remove('show');}
-function saveKeys(){var a=document.getElementById('input-anthropic-key').value.trim();var h=document.getElementById('input-hunter-key').value.trim();if(!a){toast('請填寫 Anthropic API Key',true);return;}localStorage.setItem('crm_anthropic_key',a);if(h)localStorage.setItem('crm_hunter_key',h);toast('已儲存 ✓');document.getElementById('modal-settings').classList.remove('show');}
+function saveKeys(){var h=document.getElementById('input-hunter-key').value.trim();if(h)localStorage.setItem('crm_hunter_key',h);toast('已儲存 ✓');document.getElementById('modal-settings').classList.remove('show');}
 function save(){localStorage.setItem('crm_v4',JSON.stringify(contacts));updateExpoFilter();}
 function showOverlay(m){document.getElementById('overlay-msg').textContent=m;document.getElementById('overlay').classList.add('show');}
 function hideOverlay(){document.getElementById('overlay').classList.remove('show');}
@@ -473,7 +473,7 @@ function exportCSV(){var q=document.getElementById('search-input').value.toLower
 document.querySelector('.filter-row').addEventListener('click',function(e){if(!e.target.matches('.fbtn'))return;document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('active');});e.target.classList.add('active');currentFilter=e.target.dataset.filter;renderList();});
 document.getElementById('search-input').addEventListener('input',renderList);
 renderList();
-if(!keysOK())setTimeout(openSettings,600);
+// Worker proxy handles auth - no key needed
 </script>
 </body>
 </html>
