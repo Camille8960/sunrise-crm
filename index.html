@@ -348,7 +348,7 @@ function keysOK(){return!!getKeys().anthropic;}
 
 async function callAI(messages,maxTokens){
   var k=getKeys();if(!k.anthropic){toast('請先設定 Anthropic API Key',true);throw new Error('no_key');}
-  var res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||800,messages:messages})});
+  var res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-5',max_tokens:maxTokens||800,messages:messages})});
   var data=await res.json();
   if(data.error){if(data.error.type==='authentication_error'){toast('API Key 無效',true);throw new Error('auth_error');}throw new Error(data.error.message);}
   return data.content.map(function(x){return x.text||'';}).join('').replace(/```json|```/g,'').trim();
