@@ -301,7 +301,7 @@ function renderDetail(c){
   document.getElementById('contact-empty').style.display='none';
   var expoList=getExpoList();
   var edmCount=edmTemplates.length;
-  document.getElementById('contact-detail').innerHTML='<div class="detail-wrap"><div class="detail-header"><div class="avatar-lg">'+(c.name||'?')[0]+'</div><div style="flex:1"><div class="dname">'+(c.name||'（未知）')+'</div><div class="dtitle">'+(c.title||'')+'</div><div class="dcompany">'+(c.company||'')+'</div>'+(c.expo?'<div style="margin-top:7px"><span class="tag tag-expo">📍 '+c.expo+'</span></div>':'')+'<div class="action-row">'+(c.email?'<a href="mailto:'+c.email+'" class="btn-act primary">✉ 寄信</a>':'')+(c.phone?'<a href="tel:'+c.phone+'" class="btn-act">📞 致電</a>':'')+(c.email?'<button class="btn-act edm-btn" onclick="openSendEdm(\''+c.id+'\')">📧 發送 EDM'+(edmCount?' ('+edmCount+'版)':'')+'</button>':'')+'<button class="btn-act" onclick="analyzeContact(\''+c.id+'\')" style="color:var(--blue);border-color:rgba(36,113,163,.3)">◈ AI 分析</button><button class="btn-act danger" onclick="deleteContact(\''+c.id+'\')">✕ 刪除</button></div></div></div>'+
+  document.getElementById('contact-detail').innerHTML='<div class="detail-wrap"><div class="detail-header"><div class="avatar-lg">'+(c.name||'?')[0]+'</div><div style="flex:1"><div class="dname">'+(c.name||'（未知）')+'</div><div class="dtitle">'+(c.title||'')+'</div><div class="dcompany">'+(c.company||'')+'</div>'+(c.expo?'<div style="margin-top:7px"><span class="tag tag-expo">📍 '+c.expo+'</span></div>':'')+'<div class="action-row">'+(c.email?'<a href="mailto:'+c.email+'" class="btn-act primary">✉ 寄信</a>':'')+(c.phone?'<a href="tel:'+c.phone+'" class="btn-act">📞 致電</a>':'')+(c.email?'<button class="btn-act edm-btn" onclick="openSendEdm(\''+c.id+'\')">📧 發送 EDM'+(edmCount?' ('+edmCount+'版)':'')+'</button>':'')+'<button class="btn-act" onclick="analyzeContact(\''+c.id+'\')" style="color:var(--blue);border-color:rgba(36,113,163,.3)">◈ AI 分析</button><button class="btn-act danger" onclick="deleteContact(\''+c.id+'\')" >✕ 刪除</button></div></div></div>'+
   '<div class="info-grid">'+
   '<div class="icard"><div class="ilabel">姓名</div><input class="efield" value="'+esc(c.name)+'" onblur="upd(\''+c.id+'\',\'name\',this.value)" placeholder="姓名"></div>'+
   '<div class="icard"><div class="ilabel">職稱</div><input class="efield" value="'+esc(c.title)+'" onblur="upd(\''+c.id+'\',\'title\',this.value)" placeholder="職稱"></div>'+
@@ -348,7 +348,7 @@ function keysOK(){return!!getKeys().anthropic;}
 
 async function callAI(messages,maxTokens){
   var k=getKeys();if(!k.anthropic){toast('請先設定 Anthropic API Key',true);throw new Error('no_key');}
-  var res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-5',max_tokens:maxTokens||800,messages:messages})});
+  var res=await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:maxTokens||800,messages:messages})});
   var data=await res.json();
   if(data.error){if(data.error.type==='authentication_error'){toast('API Key 無效',true);throw new Error('auth_error');}throw new Error(data.error.message);}
   return data.content.map(function(x){return x.text||'';}).join('').replace(/```json|```/g,'').trim();
@@ -398,8 +398,31 @@ function renderEdmList(){
 function openEdmEditor(id){edmEditingId=id;var t=id?edmTemplates.find(function(x){return x.id===id;}):null;document.getElementById('edm-editor-title').textContent=id?'編輯 EDM 版本':'新增 EDM 版本';document.getElementById('edm-edit-name').value=t?t.name:'';document.getElementById('edm-edit-desc').value=t?t.desc||'':'';document.getElementById('edm-edit-html').value=t?t.html||'':'';document.getElementById('edm-code-panel').style.display='block';document.getElementById('edm-preview-panel').style.display='none';document.querySelectorAll('.edm-ptab').forEach(function(b,i){b.classList.toggle('active',i===0);});document.getElementById('modal-edm-editor').classList.add('show');}
 function closeEdmEditor(){document.getElementById('modal-edm-editor').classList.remove('show');edmEditingId=null;}
 function switchEdmEditorTab(tab,btn){document.querySelectorAll('.edm-ptab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');if(tab==='code'){document.getElementById('edm-code-panel').style.display='block';document.getElementById('edm-preview-panel').style.display='none';}else{document.getElementById('edm-code-panel').style.display='none';document.getElementById('edm-preview-panel').style.display='block';document.getElementById('edm-preview-iframe').srcdoc=document.getElementById('edm-edit-html').value||'<p style="font-family:sans-serif;color:#888;padding:20px">（空白）</p>';}}
-function saveEdmTemplate(){var name=document.getElementById('edm-edit-name').value.trim();var desc=document.getElementById('edm-edit-desc').value.trim();var html=document.getElementById('edm-edit-html').value;if(!name){toast('請填寫版本名稱',true);return;}if(edmEditingId){var t=edmTemplates.find(function(x){return x.id===edmEditingId;});if(t){t.name=name;t.desc=desc;t.html=html;t.updated=Date.now();}}else{edmTemplates.push({id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:name,desc:desc,html:html,updated:Date.now()});}saveEdmTemplates();closeEdmEditor();renderEdmList();toast(edmEditingId?'已更新 ✓':'已新增 ✓');}
-function deleteEdmTemplate(id){if(!confirm('確定刪除？'))return;edmTemplates=edmTemplates.filter(function(x){return x.id!==id;});saveEdmTemplates();renderEdmList();toast('已刪除');}
+function saveEdmTemplate(){
+  var name=document.getElementById('edm-edit-name').value.trim();
+  var desc=document.getElementById('edm-edit-desc').value.trim();
+  var html=document.getElementById('edm-edit-html').value;
+  if(!name){toast('請填寫版本名稱',true);return;}
+  if(edmEditingId){
+    var t=edmTemplates.find(function(x){return x.id===edmEditingId;});
+    if(t){t.name=name;t.desc=desc;t.html=html;t.updated=Date.now();}
+  }else{
+    edmTemplates.push({id:Date.now().toString()+Math.random().toString(36).slice(2,5),name:name,desc:desc,html:html,updated:Date.now()});
+  }
+  saveEdmTemplates();
+  closeEdmEditor();
+  renderEdmList();
+  toast(edmEditingId?'已更新 ✓':'已新增 ✓');
+  syncEdmToSheet(); // ← 修正：儲存後自動同步到 Google Sheets
+}
+function deleteEdmTemplate(id){
+  if(!confirm('確定刪除？'))return;
+  edmTemplates=edmTemplates.filter(function(x){return x.id!==id;});
+  saveEdmTemplates();
+  renderEdmList();
+  toast('已刪除');
+  syncEdmToSheet(); // ← 修正：刪除後自動同步到 Google Sheets
+}
 function previewEdmTemplate(id){var t=edmTemplates.find(function(x){return x.id===id;});if(!t)return;var w=window.open('','_blank','width=700,height=600');w.document.write(t.html||'<p>空白</p>');w.document.close();}
 
 function toggleBrevoSection(){var body=document.getElementById('brevo-section-body');var arrow=document.getElementById('brevo-section-arrow');var isOpen=body.style.display!=='none';body.style.display=isOpen?'none':'block';arrow.textContent=isOpen?'▼':'▲';}
@@ -426,54 +449,4 @@ function openSendEdm(contactId){
   document.getElementById('btn-do-send-edm').textContent='發送';
   document.getElementById('modal-send-edm').classList.add('show');
 }
-function chooseSendEdm(templateId){sendEdmChosenId=templateId;document.querySelectorAll('.edm-select-card').forEach(function(el){el.classList.remove('chosen');});var card=document.getElementById('esc-'+templateId);if(card)card.classList.add('chosen');var t=edmTemplates.find(function(x){return x.id===templateId;});if(t){var subj=document.getElementById('send-edm-subject');if(!subj.value||subj.dataset.auto==='1'){subj.value='【敬邀參展】'+t.name;subj.dataset.auto='1';}}}
-function closeSendEdm(){document.getElementById('modal-send-edm').classList.remove('show');sendEdmContactId=null;sendEdmChosenId=null;}
-
-async function doSendEdm(){
-  if(!sendEdmContactId){toast('聯絡人錯誤',true);return;}
-  if(!sendEdmChosenId){toast('請先選擇 EDM 版本',true);return;}
-  var c=contacts.find(function(x){return x.id===sendEdmContactId;});
-  var t=edmTemplates.find(function(x){return x.id===sendEdmChosenId;});
-  if(!c||!t){toast('資料錯誤',true);return;}
-  var apiKey=document.getElementById('send-brevo-key').value.trim();
-  var senderName=document.getElementById('send-brevo-name').value.trim()||'昇揚展覽';
-  var senderEmail=document.getElementById('send-brevo-email').value.trim()||'camille@sunriseexpo.com';
-  if(!apiKey){toast('請填入 Brevo API Key',true);document.getElementById('brevo-section-body').style.display='block';document.getElementById('brevo-section-arrow').textContent='▲';return;}
-  var subject=document.getElementById('send-edm-subject').value.trim()||'昇揚展覽';
-  var statusEl=document.getElementById('send-edm-status');
-  var btn=document.getElementById('btn-do-send-edm');
-  btn.disabled=true;statusEl.innerHTML='<span style="color:var(--text-muted)">⏳ 發送中…</span>';
-  try{
-    var payload={sender:{name:senderName,email:senderEmail},to:[{email:c.email,name:c.name||''}],subject:subject,htmlContent:t.html};
-    var res=await fetch('https://api.brevo.com/v3/smtp/email',{method:'POST',headers:{'accept':'application/json','api-key':apiKey,'content-type':'application/json'},body:JSON.stringify(payload)});
-    var data=await res.json();
-    if(res.ok&&data.messageId){
-      c.edmSent=true;if(!c.edmLog)c.edmLog=[];c.edmLog.push({time:Date.now(),template:t.name,email:c.email});
-      save();renderList();if(activeId===sendEdmContactId)renderDetail(c);
-      statusEl.innerHTML='<span style="color:var(--green)">✓ 發送成功！</span>';
-      btn.textContent='已發送';toast('EDM 已發送 ✓');debouncedSync();
-      setTimeout(function(){closeSendEdm();},2000);
-    }else{throw new Error(data.message||JSON.stringify(data));}
-  }catch(e){statusEl.innerHTML='<span style="color:var(--red)">✕ 失敗：'+e.message+'</span>';btn.disabled=false;toast('發送失敗：'+e.message,true);}
-}
-
-function updateExpoFilter(){var sel=document.getElementById('expo-filter');var cur=sel.value;var expos=[...new Set(contacts.map(function(c){return c.expo;}).filter(Boolean))].sort();sel.innerHTML='<option value="">📍 所有展覽來源</option>'+expos.map(function(e){return '<option value="'+e+'"'+(e===cur?' selected':'')+'>'+e+'</option>';}).join('');}
-function filterByExpo(val){currentExpoFilter=val;renderList();}
-function showModal(title,body,confirmText,onConfirm){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal-confirm-btn').textContent=confirmText||'確認';document.getElementById('modal-confirm-btn').onclick=function(){closeModal();if(onConfirm)onConfirm();};document.getElementById('modal-cancel-btn').onclick=closeModal;document.getElementById('modal-main').classList.add('show');}
-function closeModal(){document.getElementById('modal-main').classList.remove('show');}
-function openSettings(){var k=getKeys();document.getElementById('input-anthropic-key').value=k.anthropic||'';document.getElementById('input-hunter-key').value=k.hunter||'';document.getElementById('settings-cancel-btn').style.display=keysOK()?'block':'none';document.getElementById('modal-settings').classList.add('show');}
-function closeSettingsModal(){if(!keysOK()){toast('請先儲存 Anthropic API Key',true);return;}document.getElementById('modal-settings').classList.remove('show');}
-function saveKeys(){var a=document.getElementById('input-anthropic-key').value.trim();var h=document.getElementById('input-hunter-key').value.trim();if(!a){toast('請填寫 Anthropic API Key',true);return;}localStorage.setItem('crm_anthropic_key',a);if(h)localStorage.setItem('crm_hunter_key',h);toast('已儲存 ✓');document.getElementById('modal-settings').classList.remove('show');}
-function save(){localStorage.setItem('crm_v4',JSON.stringify(contacts));updateExpoFilter();}
-function showOverlay(m){document.getElementById('overlay-msg').textContent=m;document.getElementById('overlay').classList.add('show');}
-function hideOverlay(){document.getElementById('overlay').classList.remove('show');}
-function toast(m,isError){var t=document.getElementById('toast');t.textContent=m;t.className='toast'+(isError?' error':'');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
-function exportCSV(){var q=document.getElementById('search-input').value.toLowerCase();var filtered=contacts.filter(function(c){return(!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q))&&(currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent))&&(!currentExpoFilter||c.expo===currentExpoFilter);});var h=['姓名','職稱','公司','Email','電話','國家','產品','展覽','狀態','已發EDM','備註'];var rows=filtered.map(function(c){return[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(function(v){return'"'+(v||'').replace(/"/g,'""')+'"';});});var csv=[h.join(','),...rows.map(function(r){return r.join(',');})].join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='昇揚CRM_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';a.click();toast('匯出 '+filtered.length+' 筆');}
-
-document.querySelector('.filter-row').addEventListener('click',function(e){if(!e.target.matches('.fbtn'))return;document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('active');});e.target.classList.add('active');currentFilter=e.target.dataset.filter;renderList();});
-document.getElementById('search-input').addEventListener('input',renderList);
-renderList();
-if(!keysOK())setTimeout(openSettings,600);
-</script>
-</body>
-</html>
+function chooseSendEdm(templateId){sendEdmChosenId=templateId;document.querySelectorAll('.edm-select-card').forEach(function(el){el.classList.remove('chosen');});var card=document.getElementById('esc-'+templateId);if(card)card.classList.add('chosen');var t=edmTemplates.find(function(x){return x.id===templateId;});if(t){var subj=document.getElementById('send-edm-subject');if(!subj.value||subj.dataset.auto==='1'){subj.value='【敬邀參展】'+t.name;subj.dataset.auto='1'
