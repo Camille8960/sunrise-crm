@@ -449,4 +449,54 @@ function openSendEdm(contactId){
   document.getElementById('btn-do-send-edm').textContent='發送';
   document.getElementById('modal-send-edm').classList.add('show');
 }
-function chooseSendEdm(templateId){sendEdmChosenId=templateId;document.querySelectorAll('.edm-select-card').forEach(function(el){el.classList.remove('chosen');});var card=document.getElementById('esc-'+templateId);if(card)card.classList.add('chosen');var t=edmTemplates.find(function(x){return x.id===templateId;});if(t){var subj=document.getElementById('send-edm-subject');if(!subj.value||subj.dataset.auto==='1'){subj.value='【敬邀參展】'+t.name;subj.dataset.auto='1'
+function chooseSendEdm(templateId){sendEdmChosenId=templateId;document.querySelectorAll('.edm-select-card').forEach(function(el){el.classList.remove('chosen');});var card=document.getElementById('esc-'+templateId);if(card)card.classList.add('chosen');var t=edmTemplates.find(function(x){return x.id===templateId;});if(t){var subj=document.getElementById('send-edm-subject');if(!subj.value||subj.dataset.auto==='1'){subj.value='【敬邀參展】'+t.name;subj.dataset.auto='1';}}}
+function closeSendEdm(){document.getElementById('modal-send-edm').classList.remove('show');sendEdmContactId=null;sendEdmChosenId=null;}
+
+async function doSendEdm(){
+  if(!sendEdmContactId){toast('聯絡人錯誤',true);return;}
+  if(!sendEdmChosenId){toast('請先選擇 EDM 版本',true);return;}
+  var c=contacts.find(function(x){return x.id===sendEdmContactId;});
+  var t=edmTemplates.find(function(x){return x.id===sendEdmChosenId;});
+  if(!c||!t){toast('資料錯誤',true);return;}
+  var apiKey=document.getElementById('send-brevo-key').value.trim();
+  var senderName=document.getElementById('send-brevo-name').value.trim()||'昇揚展覽';
+  var senderEmail=document.getElementById('send-brevo-email').value.trim()||'camille@sunriseexpo.com';
+  if(!apiKey){toast('請填入 Brevo API Key',true);document.getElementById('brevo-section-body').style.display='block';document.getElementById('brevo-section-arrow').textContent='▲';return;}
+  var subject=document.getElementById('send-edm-subject').value.trim()||'昇揚展覽';
+  var statusEl=document.getElementById('send-edm-status');
+  var btn=document.getElementById('btn-do-send-edm');
+  btn.disabled=true;statusEl.innerHTML='<span style="color:var(--text-muted)">⏳ 發送中…</span>';
+  try{
+    var payload={sender:{name:senderName,email:senderEmail},to:[{email:c.email,name:c.name||''}],subject:subject,htmlContent:t.html};
+    var res=await fetch('https://api.brevo.com/v3/smtp/email',{method:'POST',headers:{'accept':'application/json','api-key':apiKey,'content-type':'application/json'},body:JSON.stringify(payload)});
+    var data=await res.json();
+    if(res.ok&&data.messageId){
+      c.edmSent=true;if(!c.edmLog)c.edmLog=[];c.edmLog.push({time:Date.now(),template:t.name,email:c.email});
+      save();renderList();if(activeId===sendEdmContactId)renderDetail(c);
+      statusEl.innerHTML='<span style="color:var(--green)">✓ 發送成功！</span>';
+      btn.textContent='已發送';toast('EDM 已發送 ✓');debouncedSync();
+      setTimeout(function(){closeSendEdm();},2000);
+    }else{throw new Error(data.message||JSON.stringify(data));}
+  }catch(e){statusEl.innerHTML='<span style="color:var(--red)">✕ 失敗：'+e.message+'</span>';btn.disabled=false;toast('發送失敗：'+e.message,true);}
+}
+
+function updateExpoFilter(){var sel=document.getElementById('expo-filter');var cur=sel.value;var expos=[...new Set(contacts.map(function(c){return c.expo;}).filter(Boolean))].sort();sel.innerHTML='<option value="">📍 所有展覽來源</option>'+expos.map(function(e){return '<option value="'+e+'"'+(e===cur?' selected':'')+'>'+e+'</option>';}).join('');}
+function filterByExpo(val){currentExpoFilter=val;renderList();}
+function showModal(title,body,confirmText,onConfirm){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=body;document.getElementById('modal-confirm-btn').textContent=confirmText||'確認';document.getElementById('modal-confirm-btn').onclick=function(){closeModal();if(onConfirm)onConfirm();};document.getElementById('modal-cancel-btn').onclick=closeModal;document.getElementById('modal-main').classList.add('show');}
+function closeModal(){document.getElementById('modal-main').classList.remove('show');}
+function openSettings(){var k=getKeys();document.getElementById('input-anthropic-key').value=k.anthropic||'';document.getElementById('input-hunter-key').value=k.hunter||'';document.getElementById('settings-cancel-btn').style.display=keysOK()?'block':'none';document.getElementById('modal-settings').classList.add('show');}
+function closeSettingsModal(){if(!keysOK()){toast('請先儲存 Anthropic API Key',true);return;}document.getElementById('modal-settings').classList.remove('show');}
+function saveKeys(){var a=document.getElementById('input-anthropic-key').value.trim();var h=document.getElementById('input-hunter-key').value.trim();if(!a){toast('請填寫 Anthropic API Key',true);return;}localStorage.setItem('crm_anthropic_key',a);if(h)localStorage.setItem('crm_hunter_key',h);toast('已儲存 ✓');document.getElementById('modal-settings').classList.remove('show');}
+function save(){localStorage.setItem('crm_v4',JSON.stringify(contacts));updateExpoFilter();}
+function showOverlay(m){document.getElementById('overlay-msg').textContent=m;document.getElementById('overlay').classList.add('show');}
+function hideOverlay(){document.getElementById('overlay').classList.remove('show');}
+function toast(m,isError){var t=document.getElementById('toast');t.textContent=m;t.className='toast'+(isError?' error':'');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+function exportCSV(){var q=document.getElementById('search-input').value.toLowerCase();var filtered=contacts.filter(function(c){return(!q||[c.name,c.company,c.email,c.expo].join(' ').toLowerCase().includes(q))&&(currentFilter==='all'||c.status===currentFilter||(currentFilter==='sent'&&c.edmSent))&&(!currentExpoFilter||c.expo===currentExpoFilter);});var h=['姓名','職稱','公司','Email','電話','國家','產品','展覽','狀態','已發EDM','備註'];var rows=filtered.map(function(c){return[c.name,c.title,c.company,c.email,c.phone,c.country,c.product,c.expo,c.status,c.edmSent?'是':'否',c.notes].map(function(v){return'"'+(v||'').replace(/"/g,'""')+'"';});});var csv=[h.join(','),...rows.map(function(r){return r.join(',');})].join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='昇揚CRM_'+new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')+'.csv';a.click();toast('匯出 '+filtered.length+' 筆');}
+
+document.querySelector('.filter-row').addEventListener('click',function(e){if(!e.target.matches('.fbtn'))return;document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('active');});e.target.classList.add('active');currentFilter=e.target.dataset.filter;renderList();});
+document.getElementById('search-input').addEventListener('input',renderList);
+renderList();
+if(!keysOK())setTimeout(openSettings,600);
+</script>
+</body>
+</html>
