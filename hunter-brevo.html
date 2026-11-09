@@ -856,6 +856,44 @@ function prepareBrevo() {
   document.getElementById('btn-push').disabled = false;
 }
 
+
+// ── 先存進 CRM（→ 總表收件匣 → Brevo 每週同步）──────────────
+const CRM_GAS_URL = 'https://script.google.com/macros/s/AKfycbw5Qim2jJ1k40I8xBd3X1kXmgW_n8APQuX0ihdS4UUVXDABIYHWSFRjj7shA3Xx88d8sA/exec';
+async function saveToCrm(list) {
+  // 讀回現有資料 → 以 Email 去重合併 → 整份寫回；讀取失敗就不寫，避免洗掉名單
+  const res = await fetch(CRM_GAS_URL);
+  const data = await res.json();
+  if (!data.ok || !data.rows || !data.rows.length) throw new Error('讀取 CRM 失敗');
+  const h = data.rows[0];
+  const ix = n => h.indexOf(n);
+  const existing = data.rows.slice(1).filter(r => r.length > 1 && r[ix('id')]).map(r => ({
+    id: r[ix('id')], name: r[ix('姓名')] || '', title: r[ix('職稱')] || '', company: r[ix('公司')] || '',
+    email: r[ix('Email')] || '', phone: r[ix('電話')] || '', country: r[ix('國家')] || '',
+    product: r[ix('產品')] || '', expo: r[ix('展覽來源')] || '', status: r[ix('狀態')] || 'new',
+    edmSent: r[ix('已發EDM')] === '是', notes: r[ix('備註')] || '', created: Date.now(), edmLog: []
+  }));
+  const seen = new Set(existing.map(c => (c.email || '').trim().toLowerCase()).filter(Boolean));
+  let added = 0;
+  list.forEach(c => {
+    const em = (c.email || '').trim().toLowerCase();
+    if (!em || seen.has(em)) return;
+    seen.add(em);
+    existing.push({
+      id: Date.now().toString() + Math.random().toString(36).slice(2, 5) + added,
+      name: ((c.firstName || '') + ' ' + (c.lastName || '')).trim(), title: c.title || '', company: c.company || '',
+      email: c.email, phone: '', country: (c.tags || []).slice(-1)[0] || '', product: '',
+      expo: 'Hunter', status: 'new', edmSent: false, notes: 'Hunter 自動匯入', created: Date.now(), edmLog: []
+    });
+    added++;
+  });
+  if (added) {
+    const r2 = await fetch(CRM_GAS_URL, { method: 'POST', body: JSON.stringify({ action: 'sync', contacts: existing }) });
+    const d2 = await r2.json();
+    if (!d2.ok) throw new Error('寫入 CRM 失敗');
+  }
+  return added;
+}
+
 async function pushToBrevo() {
   const key = localStorage.getItem('hb_brevo_key');
   const listId = localStorage.getItem('hb_brevo_list_id');
@@ -866,6 +904,13 @@ async function pushToBrevo() {
   document.getElementById('brevo-log').style.display = 'block';
 
   let ok = 0, fail = 0;
+
+  try {
+    const n = await saveToCrm(selectedForBrevo);
+    logBrevo(`✓ 已存進 CRM（新增 ${n} 筆，重複的略過）`, 'ok');
+  } catch (e) {
+    logBrevo(`✗ 存進 CRM 失敗：${e.message}（仍繼續推送 Brevo）`, 'err');
+  }
 
   for (let i = 0; i < selectedForBrevo.length; i++) {
     const c = selectedForBrevo[i];
